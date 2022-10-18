@@ -1,4 +1,4 @@
-package no.ntnu.goup13.greenhouse;
+package no.ntnu.goup13.greenhouse.logic;
 
 import java.util.ArrayList;
 import java.util.List;
