@@ -1,4 +1,4 @@
-package no.ntnu.goup13.greenhouse;
+package no.ntnu.group13.greenhouse;
 
 /**
  * Hello world!
