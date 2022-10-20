@@ -1,9 +1,10 @@
 package no.ntnu.group13.greenhouse.client;
 
+import no.ntnu.group13.greenhouse.logic.MQTT;
 import no.ntnu.group13.greenhouse.server.ReceiveData;
 
 public class ClientRunner {
-	private String topic = "group13/greenhouse/sensors/temperature";
+	ReceiveData receiveData;
 
 	public static void main(String[] args) {
 		ClientRunner clientRunner = new ClientRunner();
@@ -11,11 +12,25 @@ public class ClientRunner {
 	}
 
 	/**
-	 *
+	 * Receives a message from an MQTT topic.
 	 */
 	public void start() {
-		ReceiveData recieveData = new ReceiveData(topic);
+		try {
+			receiveData = new ReceiveData(
+					MQTT.TEMPERATURE_TOPIC, MQTT.BROKER, MQTT.CLIENT_ID, MQTT.QOS
+			);
+			receiveData.run();
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+	}
 
-		recieveData.run();
+	/**
+	 * Gets the topic the client subscribes to.
+	 *
+	 * @return The topic the client subscribes to.
+	 */
+	public String getClientTopic() {
+		return receiveData.getTopic();
 	}
 }

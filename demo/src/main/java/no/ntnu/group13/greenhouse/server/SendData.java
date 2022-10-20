@@ -1,26 +1,51 @@
 package no.ntnu.group13.greenhouse.server;
 
-import javax.swing.text.AbstractDocument.BranchElement;
-
+import no.ntnu.group13.greenhouse.logic.RandomNormalDistributionData;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
+import java.util.List;
+
+/**
+ * Sends a collection of numbers to an MQTT broker.
+ */
 public class SendData {
 
-	private String data;
 	private String topic;
+	private final String broker;
+	private final String clientID;
+	private final int qos;
 
-	public SendData(String data, String topic) {
-		this.data = data;
+	private final RandomNormalDistributionData rndData = new RandomNormalDistributionData();
+
+	/**
+	 * Creates a client that sends data to an MQTT broker.
+	 *
+	 * @param topic    The topic to upload to.
+	 * @param broker   The broker to connect to.
+	 * @param clientID The client id.
+	 * @param qos      The "Quality of Service"
+	 */
+	public SendData(String topic, String broker, String clientID, int qos) {
 		this.topic = topic;
+		this.broker = broker;
+		this.clientID = clientID;
+		this.qos = qos;
+
+		// generates fake temperature values.
+		this.rndData.generateRandomTemperatures(30, 3, 5);
 	}
 
+	/**
+	 * Starts the connection between the client and the server,
+	 * and sends data to the MQTT broker.
+	 */
 	public void run() {
 		try {
-			MqttClient client = new MqttClient(mqtt.BROKER, mqtt.CLIENT_ID, new MemoryPersistence());
+			MqttClient client = new MqttClient(broker, clientID, new MemoryPersistence());
 
 			// connect options
 			MqttConnectOptions options = new MqttConnectOptions();
@@ -30,15 +55,18 @@ public class SendData {
 			// connect
 			client.connect(options);
 
-			// create message and setup QoS
-			MqttMessage message = new MqttMessage(data.getBytes());
-			message.setQos(mqtt.QOS);
+			// Sends each temperature value individually.
+			for (Double t : this.rndData.getTemperatures()) {
+				// create message and setup QoS
+				MqttMessage message = new MqttMessage(t.toString().getBytes());
+				message.setQos(this.qos);
 
-			// publish message
-			client.publish(topic, message);
-			System.out.println("Message published");
-			System.out.println("Topic: " + topic);
-			System.out.println("Message content: " + data);
+				// publish message
+				client.publish(topic, message);
+				System.out.println("Message sent to topic: " + topic);
+				System.out.println("Message content: " + new String(message.getPayload()));
+				System.out.println("----------------");
+			}
 
 			// disconnect
 			client.disconnect();

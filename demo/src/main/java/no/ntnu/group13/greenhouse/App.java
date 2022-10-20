@@ -1,25 +1,34 @@
 package no.ntnu.group13.greenhouse;
 
+import no.ntnu.group13.greenhouse.logic.MQTT;
 import no.ntnu.group13.greenhouse.server.ReceiveData;
 import no.ntnu.group13.greenhouse.server.SendData;
 
 /**
- * App
+ * Starts a connection between a Sensor and a Client.
  */
 public class App {
-	private String topic = "group13/greenhouse/sensors/temperature";
 
 	public static void main(String[] args) {
 		App app = new App();
 		app.start();
-		System.out.println("yyo!");
 	}
 
 	public void start() {
-		ReceiveData recieveData = new ReceiveData(topic);
-		SendData sendData = new SendData("test", topic);
+		try {
+			ReceiveData receiveData = new ReceiveData(MQTT.TEMPERATURE_TOPIC, MQTT.BROKER, MQTT.CLIENT_ID, MQTT.QOS);
+			// ClientRunner clientRunner = new ClientRunner();
+			SendData sendData = new SendData(MQTT.TEMPERATURE_TOPIC, MQTT.BROKER, MQTT.SENSOR_ID, MQTT.QOS);
+			// SensorRunner sensorRunner = new SensorRunner();
 
-		recieveData.run();
-		sendData.run();
+			receiveData.run();
+			// clientRunner.start();
+			sendData.run();
+			// sensorRunner.start();
+
+			System.out.println("DataList: " + receiveData.getData());
+		} catch (Exception e) {
+			System.err.println(e);
+		}
 	}
 }
