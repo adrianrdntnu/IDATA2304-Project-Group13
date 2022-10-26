@@ -1,5 +1,6 @@
 package no.ntnu.group13.greenhouse.logic;
 
+import java.security.InvalidParameterException;
 import java.util.List;
 
 /**
@@ -13,15 +14,18 @@ public class DataSearching {
    * @return The highest value
    */
   public double getHighestValue(List<Double> list) {
-    //TODO check if the list contains at least 1 element
-    double currentHighest = list.get(0);
-    for (int i = 1; i < list.size(); i++) {
-      if (list.get(i) > currentHighest) {
-        currentHighest = list.get(i);
+    if (!list.isEmpty()) {
+      double currentHighest = list.get(0);
+      for (int i = 1; i < list.size(); i++) {
+        if (list.get(i) > currentHighest) {
+          currentHighest = list.get(i);
+        }
       }
-    }
 
-    return currentHighest;
+      return currentHighest;
+    } else {
+      throw new InvalidParameterException("List doesn't contain any elements");
+    }
   }
 
   /**
@@ -30,15 +34,19 @@ public class DataSearching {
    * @return The lowest value
    */
   public double getLowestValue(List<Double> list) {
-    //TODO check if the list contains at least 1 element
-    double currentLowest = list.get(0);
-    for (int i = 1; i < list.size(); i++) {
-      if (list.get(i) < currentLowest) {
-        currentLowest = list.get(i);
+    if (!list.isEmpty()) {
+      double currentLowest = list.get(0);
+      for (int i = 1; i < list.size(); i++) {
+        if (list.get(i) < currentLowest) {
+          currentLowest = list.get(i);
+        }
       }
+
+      return currentLowest;
+    } else {
+      throw new InvalidParameterException("List doesn't contain any elements");
     }
 
-    return currentLowest;
   }
 
   /**
@@ -47,12 +55,15 @@ public class DataSearching {
    * @return The average value
    */
   public double getAverageValue(List<Double> list) {
-    //TODO check if the list contains at least 1 element
-    double sum = 0;
-    for (int i = 0; i < list.size(); i++) {
-      sum += list.get(i);
+    if (!list.isEmpty()) {
+      double sum = 0;
+      for (int i = 0; i < list.size(); i++) {
+        sum += list.get(i);
+      }
+      double average = sum/list.size();
+      return average;
+    } else {
+      throw new InvalidParameterException("List doesn't contain any elements");
     }
-    double average = sum/list.size();
-    return average;
   }
 }
