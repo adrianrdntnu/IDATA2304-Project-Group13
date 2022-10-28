@@ -5,7 +5,9 @@ import java.util.List;
 
 /**
  * Class that can perform multiple operations on a list
+ * @deprecated This class has been superseded by the BinarySearchTree class
  */
+@Deprecated
 public class DataSearching {
 
   /**
