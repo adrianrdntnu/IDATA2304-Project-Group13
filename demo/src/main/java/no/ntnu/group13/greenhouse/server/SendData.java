@@ -83,4 +83,9 @@ public class SendData {
       e.printStackTrace();
     }
   }
+
+  // TODO
+  public void sendMessage(String message) {
+    throw new RuntimeException("Not yet implemented!");
+  }
 }
