@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static no.ntnu.group13.greenhouse.logic.LOGIC.round;
+
 /**
  * Keeps a list of random temperatures and humidity values
  */
@@ -26,7 +28,7 @@ public class RandomNormalDistributionData {
    * @return The random value
    */
   public double getRandomGaussian(double mean, double standardDeviation) {
-    return rng.nextGaussian() * standardDeviation + mean;
+    return round((rng.nextGaussian() * standardDeviation + mean), 2);
   }
 
   /**

@@ -1,6 +1,6 @@
 package no.ntnu.group13.greenhouse;
 
-import no.ntnu.group13.greenhouse.logic.MQTT;
+import no.ntnu.group13.greenhouse.logic.LOGIC;
 import no.ntnu.group13.greenhouse.server.ReceiveData;
 import no.ntnu.group13.greenhouse.server.SendData;
 
@@ -16,9 +16,9 @@ public class App {
 
   public void start() {
     try {
-      ReceiveData receiveData = new ReceiveData(MQTT.TEMPERATURE_TOPIC, MQTT.BROKER, MQTT.CLIENT_ID, MQTT.QOS);
+      ReceiveData receiveData = new ReceiveData(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.CLIENT_ID, LOGIC.QOS);
       // ClientRunner clientRunner = new ClientRunner();
-      SendData sendData = new SendData(MQTT.TEMPERATURE_TOPIC, MQTT.BROKER, MQTT.SENSOR_ID, MQTT.QOS);
+      SendData sendData = new SendData(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.SENSOR_ID, LOGIC.QOS);
       // SensorRunner sensorRunner = new SensorRunner();
 
       receiveData.run();

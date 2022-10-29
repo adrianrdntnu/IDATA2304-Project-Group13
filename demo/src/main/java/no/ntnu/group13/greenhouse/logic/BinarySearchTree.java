@@ -1,5 +1,8 @@
 package no.ntnu.group13.greenhouse.logic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Binary search tree to store data.
  * Some code copied from:
@@ -146,6 +149,18 @@ public class BinarySearchTree {
       currentNode = currentNode.left;
     }
     return currentNode.key;
+  }
+
+  public void displaySmallToBig(Node root) {
+    if (root != null) {
+      displaySmallToBig(root.right);
+      // System.out.print(" " + root.key);
+      displaySmallToBig(root.left);
+    }
+  }
+
+  public Node getRootNode() {
+    return root;
   }
 
   /**
