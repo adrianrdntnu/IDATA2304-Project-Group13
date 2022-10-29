@@ -12,12 +12,8 @@ import static no.ntnu.group13.greenhouse.logic.LOGIC.round;
 public class RandomNormalDistributionData {
   private final Random rng = new Random();
 
-  private List<Double> temperatures;
-  private List<Double> humidityValues;
-
   public RandomNormalDistributionData() {
-    this.temperatures = new ArrayList<>();
-    this.humidityValues = new ArrayList<>();
+    // this.values = new ArrayList<>();
   }
 
   /**
@@ -32,49 +28,19 @@ public class RandomNormalDistributionData {
   }
 
   /**
-   * Adds n number of random temperatures from a normal distribution with mean, and
-   * standard deviation values to the list of temperatures.
+   * Generates a list of random values using a normal distribution with mean,
+   * and standard deviation values.
    *
    * @param mean              The mean of the normal distribution
    * @param standardDeviation The standard deviation of the normal distribution
-   * @param n                 Number of temperatures to add
+   * @param n                 Number of values in the list
+   * @return a list of random values from a normal distribution
    */
-  public void generateRandomTemperatures(double mean, double standardDeviation, int n) {
+  public List<Double> generateRandomValues(double mean, double standardDeviation, int n) {
+    List<Double> values = new ArrayList<>();
     for (int i = 0; i < n; i++) {
-      this.temperatures.add(getRandomGaussian(mean, standardDeviation));
+      values.add(getRandomGaussian(mean, standardDeviation));
     }
+    return values;
   }
-
-  /**
-   * Adds n number of random humidity values from a normal distribution with mean, and
-   * standard deviation values to the list of humidity values.
-   *
-   * @param mean              The mean of the normal distribution
-   * @param standardDeviation The standard deviation of the normal distribution
-   * @param n                 Number of humidity values to add
-   */
-  public void generateRandomHumidityValues(double mean, double standardDeviation, int n) {
-    for (int i = 0; i < n; i++) {
-      this.humidityValues.add(getRandomGaussian(mean, standardDeviation));
-    }
-  }
-
-  /**
-   * Returns the list of temperatures stored in the class
-   *
-   * @return The list of temperatures
-   */
-  public List<Double> getTemperatures() {
-    return temperatures;
-  }
-
-  /**
-   * Returns the list of humidity values stored in the class
-   *
-   * @return The list of humidity values
-   */
-  public List<Double> getHumidityValues() {
-    return humidityValues;
-  }
-
 }

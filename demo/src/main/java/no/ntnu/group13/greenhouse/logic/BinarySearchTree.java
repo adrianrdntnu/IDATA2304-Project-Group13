@@ -3,6 +3,8 @@ package no.ntnu.group13.greenhouse.logic;
 import java.util.ArrayList;
 import java.util.List;
 
+import static no.ntnu.group13.greenhouse.logic.LOGIC.round;
+
 /**
  * Binary search tree to store data.
  * Some code copied from:
@@ -122,7 +124,7 @@ public class BinarySearchTree {
 
     } /* End of while */
     double average = sum/count;
-    return average;
+    return round(average, 3);
   }
 
   /**
