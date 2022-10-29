@@ -151,14 +151,63 @@ public class BinarySearchTree {
     return currentNode.key;
   }
 
-  public void displaySmallToBig(Node root) {
+  /**
+   * Returns a list of all values sorted from highest to lowest.
+   *
+   * @return A list of all values sorted from highest to lowest
+   */
+  public List<Double> getListBigToSmall() {
+    List<Double> list = new ArrayList<>();
+    sortBigToSmall(root, list);
+    return list;
+  }
+
+  /**
+   * Returns a list of all values sorted from lowest to highest.
+   *
+   * @return A list of all values sorted from lowest to highest
+   */
+  public List<Double> getListSmallToBig() {
+    List<Double> list = new ArrayList<>();
+    sortSmallToBig(root, list);
+    return list;
+  }
+
+  /**
+   * Uses traversal method to go through the tree from the biggest value to smallest and
+   * adds the value to a list.
+   *
+   * @param root node to start traversal from
+   * @param list list to add the values
+   */
+  private void sortBigToSmall(Node root, List<Double> list) {
     if (root != null) {
-      displaySmallToBig(root.right);
-      // System.out.print(" " + root.key);
-      displaySmallToBig(root.left);
+      sortBigToSmall(root.right, list);
+      list.add(root.key);
+      sortBigToSmall(root.left, list);
     }
   }
 
+  /**
+   * Uses traversal method to go through the tree from the smallest value to biggest and
+   * adds the value to a list.
+   *
+   * @param root node to start traversal from
+   * @param list list to add the values
+   */
+  private void sortSmallToBig(Node root, List<Double> list) {
+    if (root != null) {
+      sortSmallToBig(root.left, list);
+      list.add(root.key);
+      sortSmallToBig(root.right, list);
+    }
+  }
+
+  /**
+   * Returns the root node of the tree.
+   *
+   * @return root node of the tree
+   */
   public Node getRootNode() {
     return root;
   }

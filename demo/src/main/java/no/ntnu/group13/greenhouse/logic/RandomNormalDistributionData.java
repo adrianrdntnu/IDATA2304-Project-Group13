@@ -28,7 +28,7 @@ public class RandomNormalDistributionData {
    * @return The random value
    */
   public double getRandomGaussian(double mean, double standardDeviation) {
-    return round((rng.nextGaussian() * standardDeviation + mean), 2);
+    return round((rng.nextGaussian() * standardDeviation + mean), 3);
   }
 
   /**
