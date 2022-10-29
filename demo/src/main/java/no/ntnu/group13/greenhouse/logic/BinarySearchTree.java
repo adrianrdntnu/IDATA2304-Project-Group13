@@ -24,16 +24,16 @@ public class BinarySearchTree {
   Node root; // Root of BST
 
   // Constructors
-  BinarySearchTree() {
+  public BinarySearchTree() {
     root = null;
   }
 
-  BinarySearchTree(double value) {
+  public BinarySearchTree(double value) {
     root = new Node(value);
   }
 
   // This method mainly calls insertRec()
-  void insert(double key) {
+  public void insert(double key) {
     root = insertRec(root, key);
   }
 
