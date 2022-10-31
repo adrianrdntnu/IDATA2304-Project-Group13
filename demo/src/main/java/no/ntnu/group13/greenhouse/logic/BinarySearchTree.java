@@ -206,6 +206,32 @@ public class BinarySearchTree {
   }
 
   /**
+   * Gets the tree as a list, uses pre-order-traversal.
+   *
+   * @return a list of the BST
+   */
+  public List<Double> getTreeAsList() {
+    List<Double> list = new ArrayList<>();
+    preOrderTraversal(root, list);
+    return list;
+  }
+
+  /**
+   * Adds nodes in the Tree to a list using the pre-order traversal.
+   *
+   * @param node The root node to start traversal from.
+   */
+  public void preOrderTraversal(Node node, List<Double> list) {
+    if (node == null) {
+      return;
+    }
+
+    list.add(node.key);
+    preOrderTraversal(node.left, list);
+    preOrderTraversal(node.right, list);
+  }
+
+  /**
    * Returns the root node of the tree.
    *
    * @return root node of the tree
