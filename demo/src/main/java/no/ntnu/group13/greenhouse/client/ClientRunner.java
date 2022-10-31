@@ -1,6 +1,6 @@
 package no.ntnu.group13.greenhouse.client;
 
-import no.ntnu.group13.greenhouse.logic.MQTT;
+import no.ntnu.group13.greenhouse.logic.LOGIC;
 import no.ntnu.group13.greenhouse.server.ReceiveData;
 
 public class ClientRunner {
@@ -16,8 +16,11 @@ public class ClientRunner {
    */
   public void start() {
     try {
+      //receiveData = new ReceiveData(
+      //    MQTT.TEMPERATURE_TOPIC, MQTT.BROKER, MQTT.CLIENT_ID, MQTT.QOS
+      //);
       receiveData = new ReceiveData(
-          MQTT.TEMPERATURE_TOPIC, MQTT.BROKER, MQTT.CLIENT_ID, MQTT.QOS
+          "#", LOGIC.BROKER, LOGIC.CLIENT_ID, LOGIC.QOS
       );
       receiveData.run();
     } catch (Exception e) {
