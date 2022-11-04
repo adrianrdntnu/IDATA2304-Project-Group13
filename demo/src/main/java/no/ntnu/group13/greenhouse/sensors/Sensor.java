@@ -17,6 +17,7 @@ public abstract class Sensor {
   protected double standardDeviation;
   protected RandomNormalDistributionData rndd = new RandomNormalDistributionData();
   protected DataSearching dataSearching = new DataSearching();
+  protected BinarySearchTree finalTree = new BinarySearchTree();
 
   /**
    * Creates a sensor with a mean value and standard deviation
@@ -76,7 +77,7 @@ public abstract class Sensor {
 
     // Keep whole collection of values as a tree
     // To get smallest & largest values easier.
-    BinarySearchTree finalTree = new BinarySearchTree();
+    this.finalTree = new BinarySearchTree();
 
     splitAmount = LOGIC.splitNumber(amount, split);
 
@@ -92,66 +93,93 @@ public abstract class Sensor {
       if ((i%2) == 0) {
         // Add to complete tree
         for (Double d: tempTree.getListSmallToBig()) {
-          finalTree.insert(d);
+          this.finalTree.insert(d);
         }
 
         values.addAll(tempTree.getListSmallToBig());
       } else {
         // Add to complete tree
         for (Double d: tempTree.getListBigToSmall()) {
-          finalTree.insert(d);
+          this.finalTree.insert(d);
         }
 
         values.addAll(tempTree.getListBigToSmall());
       }
     }
 
-    // For testing
-    System.out.println("Split : " + splitAmount + "\n");
-    printTimers(finalTree);
-
     return values;
   }
 
   /**
-   * For testing, to visualize the time it takes for certain functions.
-   * @param tree
+   * Returns the BinarySearchTree of the sensor
+   * containing observed values.
+   *
+   * @return The BinarySearchTree of the sensor
    */
-  private void printTimers(BinarySearchTree tree) {
+  public BinarySearchTree getTree() {
+    return this.finalTree;
+  }
+
+  /**
+   * Inserts a list of values to the sensor.
+   *
+   * @param values list of values to insert
+   */
+  public void insertValues(List<Double> values) {
+    for (Double value: values) {
+      finalTree.insert(value);
+    }
+  }
+
+  /**
+   * For testing, to visualize the time it takes to execute selected functions.
+   */
+  public void printTestTimers() {
     long startTime = System.nanoTime();
-    System.out.println("Average value: " + tree.getAverageValue());
+    System.out.println("Average value: " + this.finalTree.getAverageValue());
     long endTime = System.nanoTime();
     long duration = (endTime - startTime) / 1000;
     System.out.println("Duration: " + duration + " micro-seconds\n");
 
     startTime = System.nanoTime();
-    System.out.println("Min value: " + tree.getMinValue());
+    System.out.println("Min value: " + this.finalTree.getMinValue());
     endTime = System.nanoTime();
     duration = (endTime - startTime) / 1000;
     System.out.println("Duration: " + duration + " micro-seconds\n");
 
     startTime = System.nanoTime();
-    System.out.println("Max value: " + tree.getMaxValue());
+    System.out.println("Max value: " + this.finalTree.getMaxValue());
     endTime = System.nanoTime();
     duration = (endTime - startTime) / 1000;
     System.out.println("Duration: " + duration + " micro-seconds\n");
 
     startTime = System.nanoTime();
-    System.out.println("Tree in pre-order traversal: " + tree.getTreeAsList());
+    System.out.println("Tree in pre-order traversal: " + this.finalTree.getTreeAsList());
     endTime = System.nanoTime();
     duration = (endTime - startTime) / 1000;
     System.out.println("Duration: " + duration + " micro-seconds\n");
 
     startTime = System.nanoTime();
-    System.out.println("Sorted small to big: " + tree.getListSmallToBig());
+    System.out.println("Sorted small to big: " + this.finalTree.getListSmallToBig());
     endTime = System.nanoTime();
     duration = (endTime - startTime) / 1000;
     System.out.println("Duration: " + duration + " micro-seconds\n");
 
     startTime = System.nanoTime();
-    System.out.println("Sorted big to small: " + tree.getListBigToSmall());
+    System.out.println("Sorted big to small: " + this.finalTree.getListBigToSmall());
     endTime = System.nanoTime();
     duration = (endTime - startTime) / 1000;
     System.out.println("Duration: " + duration + " micro-seconds\n");
+
+//    startTime = System.nanoTime();
+//    System.out.println("Printing tree: ");
+//    printBST();
+//    endTime = System.nanoTime();
+//    duration = (endTime - startTime) / 1000;
+//    System.out.println("Duration: " + duration + " micro-seconds\n");
+  }
+
+  public void printBST() {
+    finalTree.printTree(finalTree.getRootNode());
   }
 }

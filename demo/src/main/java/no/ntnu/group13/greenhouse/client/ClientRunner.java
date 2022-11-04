@@ -16,16 +16,22 @@ public class ClientRunner {
    */
   public void start() {
     try {
-      //receiveData = new ReceiveData(
-      //    MQTT.TEMPERATURE_TOPIC, MQTT.BROKER, MQTT.CLIENT_ID, MQTT.QOS
-      //);
-      receiveData = new ReceiveData(
-          "#", LOGIC.BROKER, LOGIC.CLIENT_ID, LOGIC.QOS
-      );
+      receiveFromTopic(LOGIC.ALL_TOPIC);
       receiveData.run();
     } catch (Exception e) {
       System.err.println(e);
     }
+  }
+
+  /**
+   * Receives data from a specified topic.
+   *
+   * @param topic topic to subscribe to
+   */
+  private void receiveFromTopic(String topic) {
+    receiveData = new ReceiveData(
+        topic, LOGIC.BROKER, LOGIC.CLIENT_ID, LOGIC.QOS
+    );
   }
 
   /**
