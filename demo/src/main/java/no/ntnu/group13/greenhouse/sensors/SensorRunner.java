@@ -17,7 +17,7 @@ public class SensorRunner {
   public void start() {
     try {
       sendToTopic(LOGIC.TEMPERATURE_TOPIC);
-      sendData.run();
+      sendData.sendMessage("1");
     } catch (Exception e) {
       System.err.println(e);
     }

@@ -62,7 +62,7 @@ public abstract class Sensor {
 
   /**
    * Returns a list of fake values.
-   * The amount values goes from low -> high and
+   * The values repeat a low -> high -> low pattern
    *
    * @param amount amount of fake values to generate
    * @param split amount of values until it switches from increasing to decreasing and vice versa

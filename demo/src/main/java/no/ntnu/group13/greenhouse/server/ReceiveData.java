@@ -69,8 +69,8 @@ public class ReceiveData implements MqttCallback {
     System.out.println("Received from topic: " + topic);
     System.out.println("Message: " + message);
     System.out.println("----------------");
-    // **Do something with the message**
 
+    // **Do something with the message**
     this.data.add(Double.parseDouble(message));
   }
 

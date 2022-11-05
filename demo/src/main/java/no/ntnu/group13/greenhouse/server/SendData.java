@@ -32,16 +32,14 @@ public class SendData {
     this.broker = broker;
     this.sensorID = sensorID;
     this.qos = qos;
-
-    // generates fake temperature values.
-    // this.rndData.generateRandomTemperatures(30, 3, 5);
   }
 
   /**
    * Starts the connection between the client and the server,
    * and sends data to the MQTT broker.
+   * TODO: Send custom data.
    */
-  public void run() {
+  public void sendMessage(String data) {
     try {
       MqttClient client = new MqttClient(broker, sensorID, new MemoryPersistence());
 
@@ -53,24 +51,15 @@ public class SendData {
       // connect
       client.connect(options);
 
-//      // Sends one "fake" temperature reading every second.
-//      int counter = 0;
-//      while (counter < this.rndData.getTemperatures().size()) {
-//        // create message and setup QoS
-//        MqttMessage message = new MqttMessage(
-//            this.rndData.getTemperatures().get(counter).toString().getBytes()
-//        );
-//        message.setQos(this.qos);
-//
-//        // publish message
-//        client.publish(topic, message);
-//        System.out.println("Message sent to topic: " + topic);
-//        System.out.println("Message content: " + new String(message.getPayload()));
-//        System.out.println("----------------");
-//
-//        Thread.sleep(1000);
-//        counter++;
-//      }
+      // create message and setup QoS
+      MqttMessage message = new MqttMessage(data.getBytes());
+      message.setQos(this.qos);
+
+      // publish message
+      client.publish(topic, message);
+      System.out.println("Message sent to topic: " + topic);
+      System.out.println("Message content: " + new String(message.getPayload()));
+      System.out.println("----------------");
 
       // disconnect
       client.disconnect();
@@ -80,14 +69,5 @@ public class SendData {
     } catch (MqttException e) {
       throw new RuntimeException(e);
     }
-    // commented out until the class actually sends data again.
-//    catch (InterruptedException e) {
-//      e.printStackTrace();
-//    }
-  }
-
-  // TODO
-  public void sendMessage(String message) {
-    throw new RuntimeException("Not yet implemented!");
   }
 }
