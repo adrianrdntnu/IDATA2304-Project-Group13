@@ -81,7 +81,7 @@ public abstract class Sensor {
 
     splitAmount = LOGIC.splitNumber(amount, split);
 
-    for (int i = 0; i < (splitAmount.size()-1); i++) {
+    for (int i = 0; i < splitAmount.size(); i++) {
       BinarySearchTree tempTree = new BinarySearchTree();
 
       currentValues = rndd.generateRandomValues(mean, standardDeviation, splitAmount.get(i));
