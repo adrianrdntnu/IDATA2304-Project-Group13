@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>no.ntnu.group13.greenhouse</groupId>
-  <artifactId>demo</artifactId>
+  <artifactId>greenhouseAdmin</artifactId>
   <version>1</version>
 
   <name>demo</name>
@@ -22,7 +22,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <version>4.13.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -31,6 +31,7 @@
       <version>1.2.5</version>
     </dependency>
   </dependencies>
+
 
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
@@ -73,6 +74,16 @@
         <plugin>
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
+        </plugin>
+        <!-- Add the JavaFX plugin allowing you to run/execute JavaFX from Maven -->
+        <plugin>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-maven-plugin</artifactId>
+          <version>0.0.8</version>
+          <configuration>
+            <!-- TODO: Set your main class here -->
+            <mainClass>demo/no.ntnu.IDATA1002.gruppe4.volleyBallAdmin.Main</mainClass>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
