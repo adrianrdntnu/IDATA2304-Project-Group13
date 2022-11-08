@@ -1,0 +1,8 @@
+* {
+    -fx-font-family: Monospaced;
+    -fx-font-weight: bold;
+}
+
+#textHeader {
+    -fx-font-size: 32px;
+}

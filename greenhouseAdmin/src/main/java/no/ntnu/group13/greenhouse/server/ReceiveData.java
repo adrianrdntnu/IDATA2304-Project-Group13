@@ -2,6 +2,8 @@ package no.ntnu.group13.greenhouse.server;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import no.ntnu.group13.greenhouse.javafx.controllers.MainWindowController;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
@@ -17,6 +19,7 @@ public class ReceiveData implements MqttCallback {
   private String clientId;
   private int qos;
   private MqttClient client;
+  private MainWindowController mainWindowController;
 
   /**
    * Creates a client that receives data from an MQTT broker.
@@ -56,6 +59,9 @@ public class ReceiveData implements MqttCallback {
     }
   }
 
+  public void setMainWindowController(MainWindowController controller) {
+    this.mainWindowController = controller;
+  }
 
   @Override
   public void connectionLost(Throwable throwable) {
@@ -72,6 +78,8 @@ public class ReceiveData implements MqttCallback {
 
     // **Do something with the message**
     this.data.add(Double.parseDouble(message));
+
+    this.mainWindowController.sendData(Double.parseDouble(message));
   }
 
   @Override
