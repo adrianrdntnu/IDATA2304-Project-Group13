@@ -1,6 +1,7 @@
 package no.ntnu.group13.greenhouse;
 
 import java.util.List;
+import no.ntnu.group13.greenhouse.client.ClientHandler;
 import no.ntnu.group13.greenhouse.logic.LOGIC;
 import no.ntnu.group13.greenhouse.sensors.Sensor;
 import no.ntnu.group13.greenhouse.sensors.TemperatureSensor;
@@ -19,32 +20,32 @@ public class App {
 
   public void start() {
     try {
-      MqttSubscriber receiveData = new MqttSubscriber(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER,
+      ClientHandler clientHandler = new ClientHandler(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER,
           LOGIC.CLIENT_ID, LOGIC.QOS);
-      MqttPublisher mqttPublisher = new MqttPublisher(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER,
+      Sensor temperatureSensor = new TemperatureSensor(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER,
           LOGIC.SENSOR_ID, LOGIC.QOS);
 
-      receiveData.startClient();
-      mqttPublisher.startConnection();
+      clientHandler.startClient();
+      temperatureSensor.startConnection();
 
       // Generate values
-      Sensor temperatureSensor = new TemperatureSensor();
+
       List<Double> temperatures = temperatureSensor.generateValuesAlternateTemps(5, 5);
 
       System.out.println(temperatures);
 
       // sends a value each second
       for (Double t : temperatures) {
-        mqttPublisher.publishMessageToBroker(t.toString());
+        temperatureSensor.publishMessageToBroker(t.toString());
         Thread.sleep(500);
       }
 
-      mqttPublisher.terminateConnection();
+      temperatureSensor.terminateConnection();
 
       // Sleeps so client has time to receive all data before it disconnects.
-      System.out.println("Received messages: " + receiveData.getData());
-      System.out.println("Disconnecting client: " + receiveData.getClientId());
-      receiveData.disconnectClient();
+      System.out.println("Received messages: " + clientHandler.getData());
+      System.out.println("Disconnecting client: " + clientHandler.getClientId());
+      clientHandler.disconnectClient();
 
     } catch (Exception e) {
       System.err.println(e);

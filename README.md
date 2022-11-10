@@ -22,6 +22,9 @@ The application is intened to be used by an administrator over the greenhouse an
 ### 2. Maven
 - Stuff about maven / file structure
 
+### 3. Google checkstyle
+- Why google checkstyle was chosen
+
 ### 3. Storing as a BST
 - Stuff about BST, realising it probably wasn't necessary
 

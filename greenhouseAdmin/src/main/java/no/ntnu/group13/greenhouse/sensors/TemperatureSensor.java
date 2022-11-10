@@ -7,20 +7,30 @@ public class TemperatureSensor extends Sensor {
 
   /**
    * Creates a temperature sensor with the mean value of 38 degrees and standard deviation of 0.1
-   * degrees
+   * degrees.
+   *
+   * @param topic mqtt topic
+   * @param broker mqtt broker
+   * @param sensorId the sensor id
+   * @param qos qos value
    */
-  public TemperatureSensor() {
-    super(27, 0.1);
+  public TemperatureSensor(String topic, String broker, String sensorId, int qos) {
+    super(topic, broker, sensorId, qos, 38, 0.1);
   }
 
   /**
-   * Creates a temperature sensor with a custom standard deviation.
+   * Creates a temperature sensor with a custom mean value of and standard deviation.
    *
-   * @param mean              mean value of the sensor
-   * @param standardDeviation standard deviation of the sensor
+   * @param topic mqtt topic
+   * @param broker mqtt broker
+   * @param sensorId the sensor id
+   * @param qos qos value
+   * @param mean mean value of the temperature
+   * @param standardDeviation standard deviation of the temperature
    */
-  public TemperatureSensor(double mean, double standardDeviation) {
-    super(mean, standardDeviation);
+  public TemperatureSensor(String topic, String broker, String sensorId, int qos, double mean,
+      double standardDeviation) {
+    super(topic, broker, sensorId, qos, mean, standardDeviation);
   }
 
   @Override

@@ -78,11 +78,7 @@ public class MqttSubscriber implements MqttCallback {
     System.out.println("----------------");
 
     // **Do something with the message**
-    this.data.add(Double.parseDouble(message));
-
-    if (this.mainWindowController != null) {
-      this.mainWindowController.receiveMessageFromSensor(Double.parseDouble(message));
-    }
+    // this.data.add(Double.parseDouble(message));
   }
 
   @Override

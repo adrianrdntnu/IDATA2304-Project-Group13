@@ -6,12 +6,13 @@ import no.ntnu.group13.greenhouse.logic.BinarySearchTree;
 import no.ntnu.group13.greenhouse.logic.DataSearching;
 import no.ntnu.group13.greenhouse.logic.LOGIC;
 import no.ntnu.group13.greenhouse.logic.RandomNormalDistributionData;
+import no.ntnu.group13.greenhouse.server.MqttPublisher;
 
 /**
  * Creates a sensor that records fake data.
  * TODO: Generate temperatures based on time of day
  */
-public abstract class Sensor {
+public abstract class Sensor extends MqttPublisher {
 
   protected double mean;
   protected double standardDeviation;
@@ -22,16 +23,18 @@ public abstract class Sensor {
   /**
    * Creates a sensor with a mean value and standard deviation
    *
-   * @param mean              mean value of the sensor
+   * @param topic mqtt topic
+   * @param broker mqtt broker
+   * @param sensorId the sensor id
+   * @param qos qos value
+   * @param mean mean value of the sensor
    * @param standardDeviation standard deviation of the sensor
    */
-  protected Sensor(double mean, double standardDeviation) {
+  protected Sensor(String topic, String broker, String sensorId, int qos, double mean,
+      double standardDeviation) {
+    super(topic, broker, sensorId, qos);
     this.mean = mean;
     this.standardDeviation = standardDeviation;
-
-    // Keep whole collection of values as a tree
-    // To get smallest & largest values easier.
-    this.finalTree = new BinarySearchTree();
   }
 
   /**
@@ -105,6 +108,8 @@ public abstract class Sensor {
         values.addAll(tempTree.getListBigToSmall());
       }
     }
+
+//    printTestTimers();
 
     return values;
   }

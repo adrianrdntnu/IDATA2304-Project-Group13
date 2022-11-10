@@ -1,5 +1,6 @@
 package no.ntnu.group13.greenhouse.javafx.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
@@ -12,17 +13,19 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
+import no.ntnu.group13.greenhouse.client.ClientHandler;
+import no.ntnu.group13.greenhouse.logic.BinarySearchTree;
 import no.ntnu.group13.greenhouse.logic.LOGIC;
 import no.ntnu.group13.greenhouse.sensors.Sensor;
 import no.ntnu.group13.greenhouse.sensors.TemperatureSensor;
-import no.ntnu.group13.greenhouse.server.MqttPublisher;
-import no.ntnu.group13.greenhouse.server.MqttSubscriber;
 
 public class MainWindowController {
 
-  private List<Double> temperatures;
+  private final List<Double> temperatures = new ArrayList<>();
+  private final BinarySearchTree bstTemperatureTree = new BinarySearchTree();
   private Sensor temperatureSensor;
-  private MqttPublisher mqttPublisher;
+  private Sensor humiditySensor;
+  private ClientHandler clientHandler;
   private ExecutorService executor;
   private ConcurrentLinkedQueue<Number> receivedMessages = new ConcurrentLinkedQueue<>();
   private XYChart.Series series = new XYChart.Series();
@@ -30,8 +33,6 @@ public class MainWindowController {
   private static final int GENERATE_VALUES = 10;
   private static final int VALUE_SPLIT = 2;
   private int xSeriesData = 0;
-  private double lowValue = 0;
-  private double highValue = 0;
 
   @FXML
   private LineChart<?, ?> lineChart;
@@ -46,6 +47,9 @@ public class MainWindowController {
   @FXML
   private Button stopButton;
 
+  /**
+   * Initialize Controller.
+   */
   public void initialize() {
     mainHeader.setText("Flowchart");
 
@@ -72,7 +76,7 @@ public class MainWindowController {
   @FXML
   public void startRecordButton(ActionEvent actionEvent) {
     stopButton.setDisable(false);
-    startRecording();
+    startRecording(LOGIC.TEMPERATURE_TOPIC);
   }
 
   @FXML
@@ -81,15 +85,57 @@ public class MainWindowController {
     stopSensor();
   }
 
-  public void startRecording() {
+  /**
+   * Starts connection between client and MQTT broker.
+   *
+   * @param topic topic to subscribe to
+   */
+  private void startClient(String topic) {
+    this.clientHandler = new ClientHandler(topic, LOGIC.BROKER, LOGIC.CLIENT_ID,
+        LOGIC.QOS);
+    this.clientHandler.startClient();
+  }
+
+  /**
+   * Starts connection between the sensor and MQTT broker.
+   *
+   * @param topic topic to publish data to
+   */
+  private void startSensor(String topic) {
+    this.temperatureSensor = new TemperatureSensor(topic, LOGIC.BROKER, LOGIC.SENSOR_ID,
+        LOGIC.QOS, 27.5, 2);
+    this.temperatureSensor.startConnection();
+  }
+
+  /**
+   * Terminates connection to the sensor.
+   */
+  private void stopSensor() {
+    this.temperatureSensor.terminateConnection();
+  }
+
+  /**
+   * Receives and stores message from sensor.
+   */
+  public void receiveMessageFromSensor() {
+    Double d = this.clientHandler.getLastValue();
+    this.bstTemperatureTree.insert(d);
+    this.receivedMessages.add(d);
+  }
+
+  /**
+   * Starts recording data received from the sensor. Code adapted from: <a
+   * href="https://stackoverflow.com/a/22093579">stackoverflow</a>
+   */
+  public void startRecording(String topic) {
     executor = Executors.newCachedThreadPool(r -> {
       Thread thread = new Thread(r);
       thread.setDaemon(true);
       return thread;
     });
 
-    startClient(this);
-    startSensor();
+    startClient(topic);
+    startSensor(topic);
 
     AddToQueue addToQueue = new AddToQueue();
     executor.execute(addToQueue);
@@ -97,24 +143,30 @@ public class MainWindowController {
     prepareTimeline();
   }
 
+  /**
+   * Generates a queue of values to publish from the Sensor. Part of code adapted from: <a
+   * href="https://stackoverflow.com/a/22093579">stackoverflow</a>
+   */
   private class AddToQueue implements Runnable {
 
     public void run() {
       try {
-        // Generates new values to send to the client, created dynamically to prevent overloading at start.
-        if ((xSeriesData % GENERATE_VALUES) == 0 && xSeriesData >= 10) {
+        // Generates new values to send to the client, created dynamically to prevent necessary
+        // overloading at program startup.
+        if ((xSeriesData % GENERATE_VALUES) == 0) {
           temperatures.addAll(
               temperatureSensor.generateValuesAlternateTemps(GENERATE_VALUES, VALUE_SPLIT));
         }
 
-        mqttPublisher.publishMessageToBroker("" + temperatures.get(xSeriesData));
-
-        //textHighValue.setText("" + temperatureSensor.getTree().getMaxValue());
-        textHighValue.setText("" + highValue);
-        //textLowValue.setText("" + temperatureSensor.getTree().getMinValue());
-        textLowValue.setText("" + lowValue);
-
+        temperatureSensor.publishMessageToBroker("" + temperatures.get(xSeriesData));
+        // Waits for 1 second and HOPEFULLY the message has arrived by then.
+        // TODO: continue directly after message is received.
         Thread.sleep(1000);
+        receiveMessageFromSensor();
+
+        textHighValue.setText("" + bstTemperatureTree.getMaxValue());
+        textLowValue.setText("" + bstTemperatureTree.getMinValue());
+
         executor.execute(this);
       } catch (InterruptedException ex) {
         ex.printStackTrace();
@@ -122,6 +174,10 @@ public class MainWindowController {
     }
   }
 
+  /**
+   * Starts recording data received from the sensor. Part of code adapted from: <a
+   * href="https://stackoverflow.com/a/22093579">stackoverflow</a>
+   */
   //-- Timeline gets called in the JavaFX Main thread
   private void prepareTimeline() {
     // Every frame to take any receivedMessages from queue and add to chart
@@ -133,6 +189,10 @@ public class MainWindowController {
     }.start();
   }
 
+  /**
+   * Adds Part of code adapted from: <a
+   * href="https://stackoverflow.com/a/22093579">stackoverflow</a>
+   */
   private void addDataToSeries() {
     for (int i = 0; i < 20; i++) { //-- add 20 numbers to the plot+
       if (receivedMessages.isEmpty()) {
@@ -147,50 +207,5 @@ public class MainWindowController {
     // update
     xAxis.setLowerBound(xSeriesData - MAX_DATA_POINTS);
     xAxis.setUpperBound(xSeriesData - 1);
-  }
-
-  public void receiveMessageFromSensor(Double d) {
-    this.receivedMessages.add(d);
-    if (d > highValue) {
-      this.highValue = d;
-    } else if (d < lowValue) {
-      lowValue = d;
-    }
-
-    if (d != 0 && lowValue == 0) {
-      lowValue = d;
-    }
-  }
-
-  private void startClient(MainWindowController mainWindowController) {
-    try {
-      MqttSubscriber receiveData = new MqttSubscriber(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER,
-          LOGIC.CLIENT_ID, LOGIC.QOS);
-      receiveData.setMainWindowController(mainWindowController);
-      receiveData.startClient();
-    } catch (Exception e) {
-      System.err.println(e);
-    }
-  }
-
-  private void startSensor() {
-    this.mqttPublisher = new MqttPublisher(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.SENSOR_ID,
-        LOGIC.QOS);
-    mqttPublisher.startConnection();
-
-    // Generate initial values at first start.
-    if (temperatures == null) {
-      this.temperatureSensor = new TemperatureSensor(27.5, 2);
-      this.temperatures = this.temperatureSensor.generateValuesAlternateTemps(GENERATE_VALUES,
-          VALUE_SPLIT);
-    }
-  }
-
-  private void stopSensor() {
-    mqttPublisher.terminateConnection();
-  }
-
-  public MqttPublisher getSensor() {
-    return this.mqttPublisher;
   }
 }
