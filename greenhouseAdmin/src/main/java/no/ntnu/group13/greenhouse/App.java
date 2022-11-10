@@ -3,7 +3,7 @@ package no.ntnu.group13.greenhouse;
 import no.ntnu.group13.greenhouse.logic.LOGIC;
 import no.ntnu.group13.greenhouse.sensors.Sensor;
 import no.ntnu.group13.greenhouse.sensors.TemperatureSensor;
-import no.ntnu.group13.greenhouse.server.ReceiveData;
+import no.ntnu.group13.greenhouse.server.PublishData;
 import no.ntnu.group13.greenhouse.server.SendData;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class App {
 
   public void start() {
     try {
-      ReceiveData receiveData = new ReceiveData(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.CLIENT_ID, LOGIC.QOS);
+      PublishData receiveData = new PublishData(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.CLIENT_ID, LOGIC.QOS);
       SendData sendData = new SendData(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.SENSOR_ID, LOGIC.QOS);
 
       receiveData.run();

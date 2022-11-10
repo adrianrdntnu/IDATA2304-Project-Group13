@@ -25,7 +25,7 @@ public abstract class Sensor {
    * @param mean mean value of the sensor
    * @param standardDeviation standard deviation of the sensor
    */
-  public Sensor(double mean, double standardDeviation) {
+  protected Sensor(double mean, double standardDeviation) {
     this.mean = mean;
     this.standardDeviation = standardDeviation;
 
@@ -179,6 +179,10 @@ public abstract class Sensor {
 //    System.out.println("Duration: " + duration + " micro-seconds\n");
   }
 
+  /**
+   * Prints the BST tree, useless for the application, used just for fun.
+   * TODO: Remove
+   */
   public void printBST() {
     finalTree.printTree(finalTree.getRootNode());
   }

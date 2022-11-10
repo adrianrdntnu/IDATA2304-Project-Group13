@@ -10,14 +10,13 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 /**
  * Responsible for receiving data from the MQTT broker.
  */
-public class ReceiveData implements MqttCallback {
+public class PublishData implements MqttCallback {
   // Topic to receive data from
-  private String topic;
-  // Message received.
+  private final String topic;
   private List<Double> data;
-  private String broker;
-  private String clientId;
-  private int qos;
+  private final String broker;
+  private final String clientId;
+  private final int qos;
   private MqttClient client;
   private MainWindowController mainWindowController;
 
@@ -29,7 +28,7 @@ public class ReceiveData implements MqttCallback {
    * @param clientId The id of the client
    * @param qos      The "Quality of Service"
    */
-  public ReceiveData(String topic, String broker, String clientId, int qos) {
+  public PublishData(String topic, String broker, String clientId, int qos) {
     this.broker = broker;
     this.clientId = clientId;
     this.qos = qos;
@@ -59,10 +58,6 @@ public class ReceiveData implements MqttCallback {
     }
   }
 
-  public void setMainWindowController(MainWindowController controller) {
-    this.mainWindowController = controller;
-  }
-
   @Override
   public void connectionLost(Throwable throwable) {
     System.out.println("Connection lost. " + throwable);
@@ -79,7 +74,9 @@ public class ReceiveData implements MqttCallback {
     // **Do something with the message**
     this.data.add(Double.parseDouble(message));
 
-    this.mainWindowController.receiveMessageFromSensor(Double.parseDouble(message));
+    if (this.mainWindowController != null) {
+      this.mainWindowController.receiveMessageFromSensor(Double.parseDouble(message));
+    }
   }
 
   @Override
@@ -89,8 +86,6 @@ public class ReceiveData implements MqttCallback {
 
   /**
    * Disconnects the client from the MQTT broker.
-   *
-   * @throws MqttException
    */
   public void disconnectClient() throws MqttException {
     this.client.disconnect();
@@ -121,6 +116,15 @@ public class ReceiveData implements MqttCallback {
    */
   public String getTopic() {
     return topic;
+  }
+
+  /**
+   * Sets controller to communicate with.
+   *
+   * @param controller controller to communicate with
+   */
+  public void setMainWindowController(MainWindowController controller) {
+    this.mainWindowController = controller;
   }
 }
 

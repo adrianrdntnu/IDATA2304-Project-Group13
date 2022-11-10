@@ -1,10 +1,10 @@
 package no.ntnu.group13.greenhouse.client;
 
 import no.ntnu.group13.greenhouse.logic.LOGIC;
-import no.ntnu.group13.greenhouse.server.ReceiveData;
+import no.ntnu.group13.greenhouse.server.PublishData;
 
 public class ClientRunner {
-  ReceiveData receiveData;
+  PublishData receiveData;
 
   public static void main(String[] args) {
     ClientRunner clientRunner = new ClientRunner();
@@ -16,7 +16,8 @@ public class ClientRunner {
    */
   public void start() {
     try {
-      receiveFromTopic(LOGIC.TEMPERATURE_TOPIC);
+      // receiveFromTopic(LOGIC.TEMPERATURE_TOPIC);
+      receiveFromTopic("#");
       receiveData.run();
     } catch (Exception e) {
       System.err.println(e);
@@ -29,7 +30,7 @@ public class ClientRunner {
    * @param topic topic to subscribe to
    */
   private void receiveFromTopic(String topic) {
-    receiveData = new ReceiveData(
+    receiveData = new PublishData(
         topic, LOGIC.BROKER, LOGIC.CLIENT_ID, LOGIC.QOS
     );
   }

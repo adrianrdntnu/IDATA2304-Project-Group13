@@ -55,22 +55,30 @@ public class SendData {
     }
   }
 
-  public void sendMessage(String m) {
+  /**
+   * Sends an individual message to the MQTT broker.
+   *
+   * @param message message to
+   */
+  public void sendMessage(String message) {
     try {
       // create message and setup QoS
-      MqttMessage message = new MqttMessage(m.getBytes());
-      message.setQos(this.qos);
+      MqttMessage m = new MqttMessage(message.getBytes());
+      m.setQos(this.qos);
 
       // publish message
-      client.publish(topic, message);
+      client.publish(topic, m);
       System.out.println("Message sent to topic: " + topic);
-      System.out.println("Message content: " + new String(message.getPayload()));
+      System.out.println("Message content: " + new String(m.getPayload()));
       System.out.println("----------------");
     } catch (MqttException e) {
       throw new RuntimeException(e);
     }
   }
 
+  /**
+   * Terminates connection with the MQTT broker.
+   */
   public void stop() {
     try {
       // disconnect
@@ -81,6 +89,5 @@ public class SendData {
     } catch (MqttException e) {
       throw new RuntimeException(e);
     }
-
   }
 }

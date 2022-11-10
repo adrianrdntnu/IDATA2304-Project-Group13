@@ -11,13 +11,13 @@ import javafx.scene.text.Text;
 import no.ntnu.group13.greenhouse.logic.LOGIC;
 import no.ntnu.group13.greenhouse.sensors.Sensor;
 import no.ntnu.group13.greenhouse.sensors.TemperatureSensor;
-import no.ntnu.group13.greenhouse.server.ReceiveData;
+import no.ntnu.group13.greenhouse.server.PublishData;
 import no.ntnu.group13.greenhouse.server.SendData;
+
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 
 public class MainWindowController {
 
@@ -73,7 +73,7 @@ public class MainWindowController {
   @FXML
   public void startRecordButton(ActionEvent actionEvent) {
     stopButton.setDisable(false);
-    update();
+    startRecording();
   }
 
   @FXML
@@ -82,49 +82,11 @@ public class MainWindowController {
     stopSensor();
   }
 
-  public void startSendingData() {
-    try {
-      SendData sendData = new SendData(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.SENSOR_ID, LOGIC.QOS);
-      ReceiveData receiveData = new ReceiveData(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.CLIENT_ID, LOGIC.QOS);
-      receiveData.setMainWindowController(this);
-
-      receiveData.run();
-      sendData.start();
-
-      // Generate values
-      Sensor temperatureSensor = new TemperatureSensor();
-      List<Double> temperatures = temperatureSensor.generateValuesAlternateTemps(5, 1);
-
-      System.out.println(temperatures);
-
-      // sends a value each second
-      for (Double t : temperatures) {
-        sendData.sendMessage(t.toString());
-        Thread.sleep(1000);
-
-        // series.getData().add(new XYChart.Data("" + counter, values.get(counter)));
-        // lineChart.getData().addAll(series);
-        // counter++;
-      }
-
-      // Sleeps so client has time to receive all receivedMessages before it disconnects.
-      System.out.println("Received messages: " + receiveData.getData());
-      System.out.println("Disconnecting client: " + receiveData.getClientId());
-      receiveData.disconnectClient();
-
-    } catch (Exception e) {
-      System.err.println(e);
-    }
-  }
-
-  public void update() {
-    executor = Executors.newCachedThreadPool(new ThreadFactory() {
-      @Override
-      public Thread newThread(Runnable r) {
-        Thread thread = new Thread(r);
-        thread.setDaemon(true);
-        return thread;
-      }
+  public void startRecording() {
+    executor = Executors.newCachedThreadPool(r -> {
+      Thread thread = new Thread(r);
+      thread.setDaemon(true);
+      return thread;
     });
 
     startClient(this);
@@ -173,7 +135,7 @@ public class MainWindowController {
   private void addDataToSeries() {
     for (int i = 0; i < 20; i++) { //-- add 20 numbers to the plot+
       if (receivedMessages.isEmpty()) break;
-      series.getData().add(new XYChart.Data<>(""+ xSeriesData++, receivedMessages.remove()));
+      series.getData().add(new XYChart.Data<>("" + xSeriesData++, receivedMessages.remove()));
     }
     // remove points to keep us at no more than MAX_DATA_POINTS
     if (series.getData().size() > MAX_DATA_POINTS) {
@@ -199,7 +161,7 @@ public class MainWindowController {
 
   private void startClient(MainWindowController mainWindowController) {
     try {
-      ReceiveData receiveData = new ReceiveData(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.CLIENT_ID, LOGIC.QOS);
+      PublishData receiveData = new PublishData(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.CLIENT_ID, LOGIC.QOS);
       receiveData.setMainWindowController(mainWindowController);
       receiveData.run();
     } catch (Exception e) {
