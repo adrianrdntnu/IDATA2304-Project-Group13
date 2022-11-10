@@ -24,18 +24,21 @@ public class App {
       SendData sendData = new SendData(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.SENSOR_ID, LOGIC.QOS);
 
       receiveData.run();
+      sendData.start();
 
       // Generate values
       Sensor temperatureSensor = new TemperatureSensor();
-      List<Double> temperatures = temperatureSensor.generateValuesAlternateTemps(20, 5);
+      List<Double> temperatures = temperatureSensor.generateValuesAlternateTemps(5, 5);
 
       System.out.println(temperatures);
 
       // sends a value each second
       for (Double t : temperatures) {
         sendData.sendMessage(t.toString());
-        Thread.sleep(1000);
+        Thread.sleep(500);
       }
+
+      sendData.stop();
 
       // Sleeps so client has time to receive all data before it disconnects.
       System.out.println("Received messages: " + receiveData.getData());

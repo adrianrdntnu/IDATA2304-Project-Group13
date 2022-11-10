@@ -16,7 +16,7 @@ public class ClientRunner {
    */
   public void start() {
     try {
-      receiveFromTopic(LOGIC.SENSORS_TOPIC);
+      receiveFromTopic(LOGIC.TEMPERATURE_TOPIC);
       receiveData.run();
     } catch (Exception e) {
       System.err.println(e);

@@ -28,6 +28,10 @@ public abstract class Sensor {
   public Sensor(double mean, double standardDeviation) {
     this.mean = mean;
     this.standardDeviation = standardDeviation;
+
+    // Keep whole collection of values as a tree
+    // To get smallest & largest values easier.
+    this.finalTree = new BinarySearchTree();
   }
 
   /**
@@ -74,10 +78,6 @@ public abstract class Sensor {
 
     // To keep whole collection of values as a list
     List<Double> values = new ArrayList<>();
-
-    // Keep whole collection of values as a tree
-    // To get smallest & largest values easier.
-    this.finalTree = new BinarySearchTree();
 
     splitAmount = LOGIC.splitNumber(amount, split);
 
@@ -134,7 +134,7 @@ public abstract class Sensor {
   /**
    * For testing, to visualize the time it takes to execute selected functions.
    */
-  public void printTestTimers() {
+  private void printTestTimers() {
     long startTime = System.nanoTime();
     System.out.println("Average value: " + this.finalTree.getAverageValue());
     long endTime = System.nanoTime();

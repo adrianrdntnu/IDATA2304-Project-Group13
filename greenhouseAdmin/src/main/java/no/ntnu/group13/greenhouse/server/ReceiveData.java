@@ -79,7 +79,7 @@ public class ReceiveData implements MqttCallback {
     // **Do something with the message**
     this.data.add(Double.parseDouble(message));
 
-    this.mainWindowController.sendData(Double.parseDouble(message));
+    this.mainWindowController.receiveMessageFromSensor(Double.parseDouble(message));
   }
 
   @Override

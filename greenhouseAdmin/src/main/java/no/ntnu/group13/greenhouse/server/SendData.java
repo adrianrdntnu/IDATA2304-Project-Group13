@@ -17,7 +17,7 @@ public class SendData {
   private final String sensorID;
   private final int qos;
 
-  private final RandomNormalDistributionData rndData = new RandomNormalDistributionData();
+  private MqttClient client;
 
   /**
    * Creates a client that sends data to an MQTT broker.
@@ -39,9 +39,9 @@ public class SendData {
    * and sends data to the MQTT broker.
    * TODO: Send custom data.
    */
-  public void sendMessage(String data) {
+  public void start() {
     try {
-      MqttClient client = new MqttClient(broker, sensorID, new MemoryPersistence());
+      this.client = new MqttClient(broker, sensorID, new MemoryPersistence());
 
       // connect options
       MqttConnectOptions options = new MqttConnectOptions();
@@ -50,9 +50,15 @@ public class SendData {
 
       // connect
       client.connect(options);
+    } catch (MqttException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
+  public void sendMessage(String m) {
+    try {
       // create message and setup QoS
-      MqttMessage message = new MqttMessage(data.getBytes());
+      MqttMessage message = new MqttMessage(m.getBytes());
       message.setQos(this.qos);
 
       // publish message
@@ -60,7 +66,13 @@ public class SendData {
       System.out.println("Message sent to topic: " + topic);
       System.out.println("Message content: " + new String(message.getPayload()));
       System.out.println("----------------");
+    } catch (MqttException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
+  public void stop() {
+    try {
       // disconnect
       client.disconnect();
 
@@ -69,5 +81,6 @@ public class SendData {
     } catch (MqttException e) {
       throw new RuntimeException(e);
     }
+
   }
 }

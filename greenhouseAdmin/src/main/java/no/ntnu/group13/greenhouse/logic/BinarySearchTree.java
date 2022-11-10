@@ -8,7 +8,8 @@ import static no.ntnu.group13.greenhouse.logic.LOGIC.round;
 /**
  * Binary search tree to store data.
  * Some code copied from:
- * https://www.geeksforgeeks.org/binary-search-tree-set-1-search-and-insertion/
+ * <a href="https://www.geeksforgeeks.org/binary-search-tree-set-1-search-and-insertion/">
+ *   geeksforgeeks.org</a>
  */
 public class BinarySearchTree {
 
