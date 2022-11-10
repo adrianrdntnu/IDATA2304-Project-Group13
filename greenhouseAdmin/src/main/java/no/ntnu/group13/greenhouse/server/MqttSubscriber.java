@@ -10,7 +10,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 /**
  * Responsible for receiving data from the MQTT broker.
  */
-public class PublishData implements MqttCallback {
+public class MqttSubscriber implements MqttCallback {
   // Topic to receive data from
   private final String topic;
   private List<Double> data;
@@ -28,7 +28,7 @@ public class PublishData implements MqttCallback {
    * @param clientId The id of the client
    * @param qos      The "Quality of Service"
    */
-  public PublishData(String topic, String broker, String clientId, int qos) {
+  public MqttSubscriber(String topic, String broker, String clientId, int qos) {
     this.broker = broker;
     this.clientId = clientId;
     this.qos = qos;

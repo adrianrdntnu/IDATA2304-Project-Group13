@@ -3,8 +3,8 @@ package no.ntnu.group13.greenhouse;
 import no.ntnu.group13.greenhouse.logic.LOGIC;
 import no.ntnu.group13.greenhouse.sensors.Sensor;
 import no.ntnu.group13.greenhouse.sensors.TemperatureSensor;
-import no.ntnu.group13.greenhouse.server.PublishData;
-import no.ntnu.group13.greenhouse.server.SendData;
+import no.ntnu.group13.greenhouse.server.MqttSubscriber;
+import no.ntnu.group13.greenhouse.server.MqttPublisher;
 
 import java.util.List;
 
@@ -20,11 +20,11 @@ public class App {
 
   public void start() {
     try {
-      PublishData receiveData = new PublishData(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.CLIENT_ID, LOGIC.QOS);
-      SendData sendData = new SendData(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.SENSOR_ID, LOGIC.QOS);
+      MqttSubscriber receiveData = new MqttSubscriber(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.CLIENT_ID, LOGIC.QOS);
+      MqttPublisher mqttPublisher = new MqttPublisher(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.SENSOR_ID, LOGIC.QOS);
 
       receiveData.run();
-      sendData.start();
+      mqttPublisher.start();
 
       // Generate values
       Sensor temperatureSensor = new TemperatureSensor();
@@ -34,11 +34,11 @@ public class App {
 
       // sends a value each second
       for (Double t : temperatures) {
-        sendData.sendMessage(t.toString());
+        mqttPublisher.sendMessage(t.toString());
         Thread.sleep(500);
       }
 
-      sendData.stop();
+      mqttPublisher.stop();
 
       // Sleeps so client has time to receive all data before it disconnects.
       System.out.println("Received messages: " + receiveData.getData());

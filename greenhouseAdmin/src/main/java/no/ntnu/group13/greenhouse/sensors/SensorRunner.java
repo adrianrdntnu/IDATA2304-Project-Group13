@@ -1,10 +1,10 @@
 package no.ntnu.group13.greenhouse.sensors;
 
 import no.ntnu.group13.greenhouse.logic.LOGIC;
-import no.ntnu.group13.greenhouse.server.SendData;
+import no.ntnu.group13.greenhouse.server.MqttPublisher;
 
 public class SensorRunner {
-  private SendData sendData;
+  private MqttPublisher mqttPublisher;
 
   public static void main(String[] args) {
     SensorRunner sensorRunner = new SensorRunner();
@@ -17,8 +17,8 @@ public class SensorRunner {
   public void start() {
     try {
       sendToTopic(LOGIC.TEMPERATURE_TOPIC);
-      sendData.start();
-      sendData.sendMessage("1");
+      mqttPublisher.start();
+      mqttPublisher.sendMessage("1");
     } catch (Exception e) {
       System.err.println(e);
     }
@@ -30,6 +30,6 @@ public class SensorRunner {
    * @param topic topic to send to
    */
   private void sendToTopic(String topic) {
-    sendData = new SendData(topic, LOGIC.BROKER, LOGIC.SENSOR_ID, LOGIC.QOS);
+    mqttPublisher = new MqttPublisher(topic, LOGIC.BROKER, LOGIC.SENSOR_ID, LOGIC.QOS);
   }
 }

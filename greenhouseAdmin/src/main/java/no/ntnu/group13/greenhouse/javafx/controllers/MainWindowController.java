@@ -11,8 +11,8 @@ import javafx.scene.text.Text;
 import no.ntnu.group13.greenhouse.logic.LOGIC;
 import no.ntnu.group13.greenhouse.sensors.Sensor;
 import no.ntnu.group13.greenhouse.sensors.TemperatureSensor;
-import no.ntnu.group13.greenhouse.server.PublishData;
-import no.ntnu.group13.greenhouse.server.SendData;
+import no.ntnu.group13.greenhouse.server.MqttSubscriber;
+import no.ntnu.group13.greenhouse.server.MqttPublisher;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -23,7 +23,7 @@ public class MainWindowController {
 
   private List<Double> temperatures;
   private Sensor temperatureSensor;
-  private SendData sendData;
+  private MqttPublisher mqttPublisher;
   private ExecutorService executor;
   private ConcurrentLinkedQueue<Number> receivedMessages = new ConcurrentLinkedQueue<>();
   private XYChart.Series series = new XYChart.Series();
@@ -106,7 +106,7 @@ public class MainWindowController {
           temperatures.addAll(temperatureSensor.generateValuesAlternateTemps(GENERATE_VALUES, VALUE_SPLIT));
         }
 
-        sendData.sendMessage("" + temperatures.get(xSeriesData));
+        mqttPublisher.sendMessage("" + temperatures.get(xSeriesData));
 
         //textHighValue.setText("" + temperatureSensor.getTree().getMaxValue());
         textHighValue.setText("" + highValue);
@@ -161,7 +161,7 @@ public class MainWindowController {
 
   private void startClient(MainWindowController mainWindowController) {
     try {
-      PublishData receiveData = new PublishData(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.CLIENT_ID, LOGIC.QOS);
+      MqttSubscriber receiveData = new MqttSubscriber(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.CLIENT_ID, LOGIC.QOS);
       receiveData.setMainWindowController(mainWindowController);
       receiveData.run();
     } catch (Exception e) {
@@ -170,8 +170,8 @@ public class MainWindowController {
   }
 
   private void startSensor() {
-    this.sendData = new SendData(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.SENSOR_ID, LOGIC.QOS);
-    sendData.start();
+    this.mqttPublisher = new MqttPublisher(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.SENSOR_ID, LOGIC.QOS);
+    mqttPublisher.start();
 
     // Generate initial values at first start.
     if (temperatures == null) {
@@ -181,10 +181,10 @@ public class MainWindowController {
   }
 
   private void stopSensor() {
-    sendData.stop();
+    mqttPublisher.stop();
   }
 
-  public SendData getSensor() {
-    return this.sendData;
+  public MqttPublisher getSensor() {
+    return this.mqttPublisher;
   }
 }

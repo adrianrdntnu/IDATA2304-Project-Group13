@@ -1,10 +1,10 @@
 package no.ntnu.group13.greenhouse.client;
 
 import no.ntnu.group13.greenhouse.logic.LOGIC;
-import no.ntnu.group13.greenhouse.server.PublishData;
+import no.ntnu.group13.greenhouse.server.MqttSubscriber;
 
 public class ClientRunner {
-  PublishData receiveData;
+  MqttSubscriber receiveData;
 
   public static void main(String[] args) {
     ClientRunner clientRunner = new ClientRunner();
@@ -30,7 +30,7 @@ public class ClientRunner {
    * @param topic topic to subscribe to
    */
   private void receiveFromTopic(String topic) {
-    receiveData = new PublishData(
+    receiveData = new MqttSubscriber(
         topic, LOGIC.BROKER, LOGIC.CLIENT_ID, LOGIC.QOS
     );
   }

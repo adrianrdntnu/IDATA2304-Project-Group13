@@ -1,6 +1,5 @@
 package no.ntnu.group13.greenhouse.server;
 
-import no.ntnu.group13.greenhouse.logic.RandomNormalDistributionData;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -10,7 +9,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 /**
  * Sends a collection of numbers to an MQTT broker.
  */
-public class SendData {
+public class MqttPublisher {
 
   private String topic;
   private final String broker;
@@ -27,7 +26,7 @@ public class SendData {
    * @param sensorID The client id.
    * @param qos      The "Quality of Service"
    */
-  public SendData(String topic, String broker, String sensorID, int qos) {
+  public MqttPublisher(String topic, String broker, String sensorID, int qos) {
     this.topic = topic;
     this.broker = broker;
     this.sensorID = sensorID;
