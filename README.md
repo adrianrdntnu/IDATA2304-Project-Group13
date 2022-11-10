@@ -2,7 +2,9 @@
 Group Project
  
 ## General idea:
-Creating an application that gets temperature inputs from a greenhouse, visualizes the data on a graph/timeline, and gives a response in case the temperature deviates to a harmful value for the plants in the greenhouse.
+Creating an application that gets temperature inputs from a greenhouse, visualizes the data on a graph/timeline, and gives a response in case the temperature deviates to a harmful value for the plants in the greenhouse. 
+
+The application is intened to be used by an administrator over the greenhouse and monitor its values without having to be present at the greenhouse.
 
 ## Methods used:
 ### 1. MQTT broker
@@ -19,6 +21,9 @@ Creating an application that gets temperature inputs from a greenhouse, visualiz
 
 ### 2. Maven
 - Stuff about maven / file structure
+
+### 3. Storing as a BST
+- Stuff about BST, realising it probably wasn't necessary
 
 ## Additional Features:
 ### 1. JavaFx Interface
