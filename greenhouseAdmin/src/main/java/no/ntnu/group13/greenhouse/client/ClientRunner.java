@@ -4,6 +4,7 @@ import no.ntnu.group13.greenhouse.logic.LOGIC;
 import no.ntnu.group13.greenhouse.server.MqttSubscriber;
 
 public class ClientRunner {
+
   MqttSubscriber receiveData;
 
   public static void main(String[] args) {
@@ -18,7 +19,7 @@ public class ClientRunner {
     try {
       // receiveFromTopic(LOGIC.TEMPERATURE_TOPIC);
       receiveFromTopic("#");
-      receiveData.run();
+      receiveData.startClient();
     } catch (Exception e) {
       System.err.println(e);
     }

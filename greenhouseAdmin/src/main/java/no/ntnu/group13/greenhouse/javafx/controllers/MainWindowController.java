@@ -1,5 +1,9 @@
 package no.ntnu.group13.greenhouse.javafx.controllers;
 
+import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,13 +15,8 @@ import javafx.scene.text.Text;
 import no.ntnu.group13.greenhouse.logic.LOGIC;
 import no.ntnu.group13.greenhouse.sensors.Sensor;
 import no.ntnu.group13.greenhouse.sensors.TemperatureSensor;
-import no.ntnu.group13.greenhouse.server.MqttSubscriber;
 import no.ntnu.group13.greenhouse.server.MqttPublisher;
-
-import java.util.List;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import no.ntnu.group13.greenhouse.server.MqttSubscriber;
 
 public class MainWindowController {
 
@@ -99,14 +98,16 @@ public class MainWindowController {
   }
 
   private class AddToQueue implements Runnable {
+
     public void run() {
       try {
         // Generates new values to send to the client, created dynamically to prevent overloading at start.
         if ((xSeriesData % GENERATE_VALUES) == 0 && xSeriesData >= 10) {
-          temperatures.addAll(temperatureSensor.generateValuesAlternateTemps(GENERATE_VALUES, VALUE_SPLIT));
+          temperatures.addAll(
+              temperatureSensor.generateValuesAlternateTemps(GENERATE_VALUES, VALUE_SPLIT));
         }
 
-        mqttPublisher.sendMessage("" + temperatures.get(xSeriesData));
+        mqttPublisher.publishMessageToBroker("" + temperatures.get(xSeriesData));
 
         //textHighValue.setText("" + temperatureSensor.getTree().getMaxValue());
         textHighValue.setText("" + highValue);
@@ -134,7 +135,9 @@ public class MainWindowController {
 
   private void addDataToSeries() {
     for (int i = 0; i < 20; i++) { //-- add 20 numbers to the plot+
-      if (receivedMessages.isEmpty()) break;
+      if (receivedMessages.isEmpty()) {
+        break;
+      }
       series.getData().add(new XYChart.Data<>("" + xSeriesData++, receivedMessages.remove()));
     }
     // remove points to keep us at no more than MAX_DATA_POINTS
@@ -161,27 +164,30 @@ public class MainWindowController {
 
   private void startClient(MainWindowController mainWindowController) {
     try {
-      MqttSubscriber receiveData = new MqttSubscriber(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.CLIENT_ID, LOGIC.QOS);
+      MqttSubscriber receiveData = new MqttSubscriber(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER,
+          LOGIC.CLIENT_ID, LOGIC.QOS);
       receiveData.setMainWindowController(mainWindowController);
-      receiveData.run();
+      receiveData.startClient();
     } catch (Exception e) {
       System.err.println(e);
     }
   }
 
   private void startSensor() {
-    this.mqttPublisher = new MqttPublisher(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.SENSOR_ID, LOGIC.QOS);
-    mqttPublisher.start();
+    this.mqttPublisher = new MqttPublisher(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.SENSOR_ID,
+        LOGIC.QOS);
+    mqttPublisher.startConnection();
 
     // Generate initial values at first start.
     if (temperatures == null) {
       this.temperatureSensor = new TemperatureSensor(27.5, 2);
-      this.temperatures = this.temperatureSensor.generateValuesAlternateTemps(GENERATE_VALUES, VALUE_SPLIT);
+      this.temperatures = this.temperatureSensor.generateValuesAlternateTemps(GENERATE_VALUES,
+          VALUE_SPLIT);
     }
   }
 
   private void stopSensor() {
-    mqttPublisher.stop();
+    mqttPublisher.terminateConnection();
   }
 
   public MqttPublisher getSensor() {

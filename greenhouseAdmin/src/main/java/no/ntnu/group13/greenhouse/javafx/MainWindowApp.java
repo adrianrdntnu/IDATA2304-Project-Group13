@@ -1,5 +1,7 @@
 package no.ntnu.group13.greenhouse.javafx;
 
+import java.util.Optional;
+import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,11 +11,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.application.Application;
 import javafx.stage.WindowEvent;
 import no.ntnu.group13.greenhouse.javafx.controllers.MainWindowController;
-
-import java.util.Optional;
 
 public class MainWindowApp extends Application {
 
@@ -42,8 +41,8 @@ public class MainWindowApp extends Application {
   }
 
   /**
-   * Presents user with an alert box when closing the program.
-   * Saves all tournaments when program is exited.
+   * Presents user with an alert box when closing the program. Saves all tournaments when program is
+   * exited.
    */
   private final EventHandler<WindowEvent> confirmCloseEventHandler = event -> {
     Alert closeWindowAlert = new Alert(
@@ -60,7 +59,7 @@ public class MainWindowApp extends Application {
     // Stops sensor
     // TODO - fix error if already stopped.
     if (this.mainWindowController.getSensor() != null) {
-      this.mainWindowController.getSensor().stop();
+      this.mainWindowController.getSensor().terminateConnection();
     }
 
     Optional<ButtonType> closeResponse = closeWindowAlert.showAndWait();

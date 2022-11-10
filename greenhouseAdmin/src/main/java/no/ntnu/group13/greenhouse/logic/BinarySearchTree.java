@@ -1,15 +1,14 @@
 package no.ntnu.group13.greenhouse.logic;
 
+import static no.ntnu.group13.greenhouse.logic.LOGIC.round;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import static no.ntnu.group13.greenhouse.logic.LOGIC.round;
-
 /**
- * Binary search tree to store data.
- * Some code copied from:
+ * Binary search tree to store data. Some code copied from:
  * <a href="https://www.geeksforgeeks.org/binary-search-tree-set-1-search-and-insertion/">
- *   geeksforgeeks.org</a>
+ * geeksforgeeks.org</a>
  */
 public class BinarySearchTree {
 
@@ -17,6 +16,7 @@ public class BinarySearchTree {
    * Node class holding information about current node's value, left and right children
    */
   class Node {
+
     double key;
     Node left;
     Node right;
@@ -60,18 +60,19 @@ public class BinarySearchTree {
     }
 
     /* Otherwise, recur down the tree */
-    else if (key < root.key)
+    else if (key < root.key) {
       root.left = insertRec(root.left, key);
-    else if (key > root.key)
+    } else if (key > root.key) {
       root.right = insertRec(root.right, key);
+    }
 
     /* return the (unchanged) node pointer */
     return root;
   }
 
   /**
-   * Returns the average value of the binary search tree using morris traversal.
-   * Some code copied from:
+   * Returns the average value of the binary search tree using morris traversal. Some code copied
+   * from:
    * https://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/
    *
    * @return The average value
@@ -82,8 +83,9 @@ public class BinarySearchTree {
     double sum = 0;
     int count = 0;
 
-    if (root == null)
+    if (root == null) {
       return 0;
+    }
 
     current = root;
     while (current != null) {
@@ -96,9 +98,9 @@ public class BinarySearchTree {
                     predecessor of current
                  */
         pre = current.left;
-        while (pre.right != null
-            && pre.right != current)
+        while (pre.right != null && pre.right != current) {
           pre = pre.right;
+        }
 
                 /* Make current as right
                    child of its
@@ -177,8 +179,8 @@ public class BinarySearchTree {
   }
 
   /**
-   * Uses traversal method to go through the tree from the biggest value to smallest and
-   * adds the value to a list.
+   * Uses traversal method to go through the tree from the biggest value to smallest and adds the
+   * value to a list.
    *
    * @param root node to start traversal from
    * @param list list to add the values
@@ -192,8 +194,8 @@ public class BinarySearchTree {
   }
 
   /**
-   * Uses traversal method to go through the tree from the smallest value to biggest and
-   * adds the value to a list.
+   * Uses traversal method to go through the tree from the smallest value to biggest and adds the
+   * value to a list.
    *
    * @param root node to start traversal from
    * @param list list to add the values
@@ -265,8 +267,7 @@ public class BinarySearchTree {
   }
 
   /**
-   * Prints the tree.
-   * Used for testing or fun.
+   * Prints the tree. Used for testing or fun.
    *
    * @param root Node to start printing tree from
    */
@@ -295,17 +296,25 @@ public class BinarySearchTree {
         } else {
           String aa = "" + n.key;
           line.add(aa);
-          if (aa.length() > widest) widest = aa.length();
+          if (aa.length() > widest) {
+            widest = aa.length();
+          }
 
           next.add(n.left);
           next.add(n.right);
 
-          if (n.left != null) nn++;
-          if (n.right != null) nn++;
+          if (n.left != null) {
+            nn++;
+          }
+          if (n.right != null) {
+            nn++;
+          }
         }
       }
 
-      if (widest % 2 == 1) widest++;
+      if (widest % 2 == 1) {
+        widest++;
+      }
 
       lines.add(line);
 
@@ -329,7 +338,9 @@ public class BinarySearchTree {
             if (line.get(j - 1) != null) {
               c = (line.get(j) != null) ? '┴' : '┘';
             } else {
-              if (j < line.size() && line.get(j) != null) c = '└';
+              if (j < line.size() && line.get(j) != null) {
+                c = '└';
+              }
             }
           }
           System.out.print(c);
@@ -357,7 +368,9 @@ public class BinarySearchTree {
       for (int j = 0; j < line.size(); j++) {
 
         String f = line.get(j);
-        if (f == null) f = "";
+        if (f == null) {
+          f = "";
+        }
         int gap1 = (int) Math.ceil(perpiece / 2f - f.length() / 2f);
         int gap2 = (int) Math.floor(perpiece / 2f - f.length() / 2f);
 

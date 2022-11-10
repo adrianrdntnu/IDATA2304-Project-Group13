@@ -4,6 +4,7 @@ import no.ntnu.group13.greenhouse.logic.LOGIC;
 import no.ntnu.group13.greenhouse.server.MqttPublisher;
 
 public class SensorRunner {
+
   private MqttPublisher mqttPublisher;
 
   public static void main(String[] args) {
@@ -17,8 +18,8 @@ public class SensorRunner {
   public void start() {
     try {
       sendToTopic(LOGIC.TEMPERATURE_TOPIC);
-      mqttPublisher.start();
-      mqttPublisher.sendMessage("1");
+      mqttPublisher.startConnection();
+      mqttPublisher.publishMessageToBroker("1");
     } catch (Exception e) {
       System.err.println(e);
     }

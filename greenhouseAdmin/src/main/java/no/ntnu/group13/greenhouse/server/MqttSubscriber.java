@@ -2,15 +2,21 @@ package no.ntnu.group13.greenhouse.server;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import no.ntnu.group13.greenhouse.javafx.controllers.MainWindowController;
-import org.eclipse.paho.client.mqttv3.*;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 /**
- * Responsible for receiving data from the MQTT broker.
+ * Establishes a connection & subscribes to a topic from an MQTT broker. Code adapted from: <a
+ * href="https://www.emqx.com/en/blog/how-to-use-mqtt-in-java">emx.com</a>
  */
 public class MqttSubscriber implements MqttCallback {
+
   // Topic to receive data from
   private final String topic;
   private List<Double> data;
@@ -39,7 +45,7 @@ public class MqttSubscriber implements MqttCallback {
   /**
    * Starts the client and receives data from the MQTT broker.
    */
-  public void run() {
+  public void startClient() {
     try {
       client = new MqttClient(broker, clientId, new MemoryPersistence());
 

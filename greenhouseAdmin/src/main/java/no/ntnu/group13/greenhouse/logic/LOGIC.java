@@ -25,7 +25,9 @@ public class LOGIC {
   // Round decimal
   public static double round(double value, int places) {
     // Code adapted from: https://stackoverflow.com/a/2808648
-    if (places < 0) throw new IllegalArgumentException();
+    if (places < 0) {
+      throw new IllegalArgumentException();
+    }
 
     BigDecimal bd = BigDecimal.valueOf(value);
     bd = bd.setScale(places, RoundingMode.HALF_UP);
@@ -33,13 +35,13 @@ public class LOGIC {
   }
 
   /**
-   * Splits an integer into chunks of smaller integers
-   * Code adapted from:
-   * <a href="https://www.geeksforgeeks.org/split-the-number-into-n-parts-such-that-difference-between-the-smallest-and-the-largest-part-is-minimum/">
-   *   geeksforgeeks.org</a>
+   * Splits an integer into chunks of smaller integers Code adapted from:
+   * <a
+   * href="https://www.geeksforgeeks.org/split-the-number-into-n-parts-such-that-difference-between-the-smallest-and-the-largest-part-is-minimum/">
+   * geeksforgeeks.org</a>
    *
    * @param number number to split into chunks
-   * @param split amount of chunks to split into
+   * @param split  amount of chunks to split into
    * @return a list of the original number split into chunks.
    */
   public static List<Integer> splitNumber(int number, int split) {
@@ -55,7 +57,7 @@ public class LOGIC {
       // numbers are x / n
 
       for (int i = 0; i < split; i++) {
-        splitNumbers.add((number/split));
+        splitNumbers.add((number / split));
       }
 
       return splitNumbers;

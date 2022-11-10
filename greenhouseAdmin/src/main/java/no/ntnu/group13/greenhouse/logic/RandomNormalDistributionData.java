@@ -1,15 +1,16 @@
 package no.ntnu.group13.greenhouse.logic;
 
+import static no.ntnu.group13.greenhouse.logic.LOGIC.round;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import static no.ntnu.group13.greenhouse.logic.LOGIC.round;
 
 /**
  * Keeps a list of random temperatures and humidity values
  */
 public class RandomNormalDistributionData {
+
   private final Random rng = new Random();
 
   public RandomNormalDistributionData() {
@@ -28,8 +29,8 @@ public class RandomNormalDistributionData {
   }
 
   /**
-   * Generates a list of random values using a normal distribution with mean,
-   * and standard deviation values.
+   * Generates a list of random values using a normal distribution with mean, and standard deviation
+   * values.
    *
    * @param mean              The mean of the normal distribution
    * @param standardDeviation The standard deviation of the normal distribution

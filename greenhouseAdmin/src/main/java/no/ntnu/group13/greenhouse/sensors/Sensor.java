@@ -1,18 +1,18 @@
 package no.ntnu.group13.greenhouse.sensors;
 
+import java.util.ArrayList;
+import java.util.List;
 import no.ntnu.group13.greenhouse.logic.BinarySearchTree;
 import no.ntnu.group13.greenhouse.logic.DataSearching;
 import no.ntnu.group13.greenhouse.logic.LOGIC;
 import no.ntnu.group13.greenhouse.logic.RandomNormalDistributionData;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Creates a sensor that records fake data.
  * TODO: Generate temperatures based on time of day
  */
 public abstract class Sensor {
+
   protected double mean;
   protected double standardDeviation;
   protected RandomNormalDistributionData rndd = new RandomNormalDistributionData();
@@ -22,7 +22,7 @@ public abstract class Sensor {
   /**
    * Creates a sensor with a mean value and standard deviation
    *
-   * @param mean mean value of the sensor
+   * @param mean              mean value of the sensor
    * @param standardDeviation standard deviation of the sensor
    */
   protected Sensor(double mean, double standardDeviation) {
@@ -43,8 +43,8 @@ public abstract class Sensor {
   public abstract double realisticNextNumber(double lastValue);
 
   /**
-   * Returns a list of (fake) recordings from the sensor.
-   * The mean value becomes the average of all generated values to prevent .
+   * Returns a list of (fake) recordings from the sensor. The mean value becomes the average of all
+   * generated values to prevent .
    *
    * @param amount amount to record
    * @return a list of recorded values by the sensor
@@ -56,7 +56,7 @@ public abstract class Sensor {
       if (recordings.isEmpty()) {
         recordings.add(realisticNextNumber(this.mean));
       } else {
-        recordings.add(realisticNextNumber(recordings.get(i-1)));
+        recordings.add(realisticNextNumber(recordings.get(i - 1)));
       }
     }
 
@@ -65,11 +65,10 @@ public abstract class Sensor {
   }
 
   /**
-   * Returns a list of fake values.
-   * The values repeat a low -> high -> low pattern
+   * Returns a list of fake values. The values repeat a low -> high -> low pattern
    *
    * @param amount amount of fake values to generate
-   * @param split amount of values until it switches from increasing to decreasing and vice versa
+   * @param split  amount of values until it switches from increasing to decreasing and vice versa
    * @return a List of fake values
    */
   public List<Double> generateValuesAlternateTemps(int amount, int split) {
@@ -85,21 +84,21 @@ public abstract class Sensor {
       BinarySearchTree tempTree = new BinarySearchTree();
 
       currentValues = rndd.generateRandomValues(mean, standardDeviation, splitAmount.get(i));
-      for (Double d: currentValues) {
+      for (Double d : currentValues) {
         tempTree.insert(d);
       }
 
       // Varies between increasing and decreasing values
-      if ((i%2) == 0) {
+      if ((i % 2) == 0) {
         // Add to complete tree
-        for (Double d: tempTree.getListSmallToBig()) {
+        for (Double d : tempTree.getListSmallToBig()) {
           this.finalTree.insert(d);
         }
 
         values.addAll(tempTree.getListSmallToBig());
       } else {
         // Add to complete tree
-        for (Double d: tempTree.getListBigToSmall()) {
+        for (Double d : tempTree.getListBigToSmall()) {
           this.finalTree.insert(d);
         }
 
@@ -111,8 +110,7 @@ public abstract class Sensor {
   }
 
   /**
-   * Returns the BinarySearchTree of the sensor
-   * containing observed values.
+   * Returns the BinarySearchTree of the sensor containing observed values.
    *
    * @return The BinarySearchTree of the sensor
    */
@@ -126,7 +124,7 @@ public abstract class Sensor {
    * @param values list of values to insert
    */
   public void insertValues(List<Double> values) {
-    for (Double value: values) {
+    for (Double value : values) {
       finalTree.insert(value);
     }
   }

@@ -1,6 +1,7 @@
 package no.ntnu.group13.greenhouse.client;
 
 public class ClientHandler {
+
   private String recievedData;
 
   public ClientHandler(String recievedData) {
