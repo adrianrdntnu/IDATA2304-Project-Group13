@@ -1,19 +1,46 @@
 package no.ntnu.group13.greenhouse.client;
 
-public class ClientHandler {
+import no.ntnu.group13.greenhouse.logic.BinarySearchTree;
+import no.ntnu.group13.greenhouse.server.MqttSubscriber;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-  private String recievedData;
-
-  public ClientHandler(String recievedData) {
-    this.recievedData = recievedData;
-  }
+/**
+ * Responsible for establishing a connection to the MQTT broker.
+ */
+public class ClientHandler extends MqttSubscriber {
+  BinarySearchTree tree = new BinarySearchTree();
+  Double lastValue;
 
   /**
-   * Gets the received data from the client.
+   * Creates a client with a connection to an MQTT broker.
    *
-   * @return The received data from the client
+   * @param topic mqtt topic
+   * @param broker mqtt broker
+   * @param clientId the client id
+   * @param qos qos value
    */
-  public String getRecievedData() {
-    return recievedData;
+  public ClientHandler(String topic, String broker, String clientId, int qos) {
+    super(topic, broker, clientId, qos);
+  }
+
+  @Override
+  public void messageArrived(String topic, MqttMessage mqttMessage) {
+    double message = Double.parseDouble(new String(mqttMessage.getPayload()));
+
+    System.out.println("Received from topic: " + topic);
+    System.out.println("Message: " + message);
+    System.out.println("----------------");
+
+    // **Do something with the message**
+    this.lastValue = message;
+    this.tree.insert(message);
+  }
+
+  public Double getLastValue() {
+    return lastValue;
+  }
+
+  public BinarySearchTree getTree() {
+    return tree;
   }
 }
