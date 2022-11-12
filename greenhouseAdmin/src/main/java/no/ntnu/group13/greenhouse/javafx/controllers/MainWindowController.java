@@ -13,6 +13,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.text.Text;
 import no.ntnu.group13.greenhouse.client.ClientHandler;
 import no.ntnu.group13.greenhouse.logic.BinarySearchTree;
 import no.ntnu.group13.greenhouse.logic.LOGIC;
@@ -41,7 +42,8 @@ public class MainWindowController {
 
   // For Linechart
   private int xSeriesData = 0;
-  private static final int MAX_DATA_POINTS = 50;
+  private static final int MAX_DATA_POINTS = 25;
+  private static final int LINECHART_UPDATE_INTERVAL = 1000;
   private final XYChart.Series tempSeries = new XYChart.Series<>();
   private final XYChart.Series humidSeries = new XYChart.Series<>();
   private final XYChart.Series co2Series = new XYChart.Series<>();
@@ -49,9 +51,14 @@ public class MainWindowController {
   private final ConcurrentLinkedQueue<Number> receivedTempMessages = new ConcurrentLinkedQueue<>();
   private final ConcurrentLinkedQueue<Number> receivedHumidMessages = new ConcurrentLinkedQueue<>();
   private final ConcurrentLinkedQueue<Number> receivedCo2Messages = new ConcurrentLinkedQueue<>();
-  private int tempValueCounter = 0;
-  private int humidValueCounter = 0;
-  private int co2ValueCounter = 0;
+
+  // Value trackers
+  private Double lowTemp = 0.0;
+  private Double highTemp = 0.0;
+  private Double lowHumid = 0.0;
+  private Double highHumid = 0.0;
+  private Double lowCo2 = 0.0;
+  private Double highCo2 = 0.0;
 
   @FXML
   private LineChart<?, ?> dashboardLineChart;
@@ -61,6 +68,24 @@ public class MainWindowController {
   private Button stopButton;
   @FXML
   private Button startButton;
+  @FXML
+  private Text textTempCurrent;
+  @FXML
+  private Text textTempHigh;
+  @FXML
+  private Text textTempLow;
+  @FXML
+  private Text textHumidCurrent;
+  @FXML
+  private Text textHumidHigh;
+  @FXML
+  private Text textHumidLow;
+  @FXML
+  private Text textCo2Current;
+  @FXML
+  private Text textCo2High;
+  @FXML
+  private Text textCo2Low;
 
   /**
    * Initialize Controller.
@@ -74,7 +99,7 @@ public class MainWindowController {
     xAxis.setMinorTickVisible(false);
 
     dashboardLineChart.getXAxis().setLabel("Time (seconds)");
-    dashboardLineChart.getYAxis().setLabel("Temperature");
+    dashboardLineChart.getYAxis().setLabel("Value");
     dashboardLineChart.setAnimated(false);
     dashboardLineChart.setTitle("Animated Line Chart");
     dashboardLineChart.setHorizontalGridLinesVisible(true);
@@ -214,17 +239,50 @@ public class MainWindowController {
               co2Sensor.generateValuesAlternateTemps(GENERATE_VALUES, VALUE_SPLIT));
         }
 
-        temperatureSensor.publishMessageToBroker("" + temperatureValues.get(xSeriesData));
-        humiditySensor.publishMessageToBroker("" + humidityValues.get(xSeriesData));
-        co2Sensor.publishMessageToBroker("" + co2Values.get(xSeriesData));
+        Double currentTemp = temperatureValues.get(xSeriesData);
+        Double currentHumid = humidityValues.get(xSeriesData);
+        Double currentCo2 = co2Values.get(xSeriesData);
+
+        temperatureSensor.publishMessageToBroker("" + currentTemp);
+        humiditySensor.publishMessageToBroker("" + currentHumid);
+        co2Sensor.publishMessageToBroker("" + currentCo2);
 
         // Waits for 1 second and HOPEFULLY the message has arrived by then.
-        // TODO: continue directly after message is received.
-        Thread.sleep(1000);
+        Thread.sleep(LINECHART_UPDATE_INTERVAL);
 
         receiveMessageFromSensor(bstTemperatureTree, receivedTempMessages, tempClientHandler);
         receiveMessageFromSensor(bstHumidityTree, receivedHumidMessages, humidClientHandler);
         receiveMessageFromSensor(bstCo2Tree, receivedCo2Messages, co2ClientHandler);
+
+        // TODO: method for updating text
+        textTempCurrent.setText(currentTemp + "°C");
+        textHumidCurrent.setText(currentHumid + "%");
+        textCo2Current.setText(currentCo2 + "ppm");
+
+        if (currentTemp > highTemp) {
+          highTemp = currentTemp;
+          textTempHigh.setText(currentTemp + "°C");
+        }
+        if (currentTemp < lowTemp || lowTemp == 0.0) {
+          lowTemp = currentTemp;
+          textTempLow.setText(currentTemp + "°C");
+        }
+        if (currentHumid > highHumid) {
+          highHumid = currentHumid;
+          textHumidHigh.setText(currentHumid + "%");
+        }
+        if (currentHumid < lowHumid || lowHumid == 0.0) {
+          lowHumid = currentHumid;
+          textHumidLow.setText(currentHumid + "%");
+        }
+        if (currentCo2 > highCo2) {
+          highCo2 = currentCo2;
+          textCo2High.setText(currentCo2 + "ppm");
+        }
+        if (currentCo2 < lowCo2 || lowCo2 == 0.0) {
+          lowCo2 = currentCo2;
+          textCo2Low.setText(currentCo2 + "ppm");
+        }
 
         // update
         xAxis.setLowerBound(xSeriesData - MAX_DATA_POINTS);
