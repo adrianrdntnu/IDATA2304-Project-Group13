@@ -45,7 +45,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../css/GUIstyle.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.group13.greenhouse.javafx.controllers.MainWindowController">
+<BorderPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../css/GUIstyle.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.IDATA1002.gruppe4.volleyBallAdmin.ui.MainPageController">
     <left>
         <BorderPane prefWidth="155.0" BorderPane.alignment="CENTER">
             <center>
@@ -163,11 +163,11 @@
                   </GridPane>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                      <children>
-                        <Button id="startButton" fx:id="startButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#startRecordButton" prefHeight="50.0" prefWidth="150.0" text="START Sensors" />
-                        <Button id="stopButton" fx:id="stopButton" disable="true" layoutX="180.0" layoutY="14.0" mnemonicParsing="false" onAction="#stopRecordButton" prefHeight="50.0" prefWidth="150.0" text="STOP Sensors" />
+                        <Button id="startButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="START Sensors" />
+                        <Button id="stopButton" layoutX="180.0" layoutY="14.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="STOP Sensors" />
                      </children>
                   </AnchorPane>
-                  <LineChart fx:id="dashboardLineChart">
+                  <LineChart>
                     <xAxis>
                       <CategoryAxis side="BOTTOM" />
                     </xAxis>

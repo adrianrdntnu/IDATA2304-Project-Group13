@@ -11,13 +11,21 @@ public class LOGIC {
   public static final String BROKER = "tcp://129.241.152.12:1883";
   public static final String CLIENT_ID = "group13_client";
   public static final String SENSOR_ID = "group13_sensor";
+  public static final String TEMP_CLIENT = "group13_temp_client";
+  public static final String TEMP_SENSOR = "group13_temp_sensor";
+  public static final String HUMID_CLIENT = "group13_humid_client";
+  public static final String HUMID_SENSOR = "group13_humid_sensor";
+  public static final String CO2_CLIENT = "group13_co2_client";
+  public static final String CO2_SENSOR = "group13_co2_sensor";
   public static final int QOS = 0;
 
   // MQTT Static topics
   public static final String TEMPERATURE_TOPIC = "group13/greenhouse/sensors/temperature";
   public static final String HUMIDITY_TOPIC = "group13/greenhouse/sensors/humidity";
+  public static final String CO2_TOPIC = "group13/greenhouse/sensors/co2";
   public static final String SENSORS_TOPIC = "group13/greenhouse/sensors/#";
   public static final String ALL_TOPIC = "group13/#";
+
 
   // Timeout
   public static final int sleepTimeout = Integer.parseInt(System.getProperty("timeout", "10000"));

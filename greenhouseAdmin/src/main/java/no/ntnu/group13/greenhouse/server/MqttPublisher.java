@@ -16,7 +16,7 @@ public class MqttPublisher {
   private final String broker;
   private final String sensorID;
   private final int qos;
-
+  private boolean isOnline;
   private MqttClient client;
 
   /**
@@ -32,6 +32,7 @@ public class MqttPublisher {
     this.broker = broker;
     this.sensorID = sensorID;
     this.qos = qos;
+    this.isOnline = true;
   }
 
   /**
@@ -66,9 +67,9 @@ public class MqttPublisher {
 
       // publish message
       client.publish(topic, m);
-      System.out.println("Message sent to topic: " + topic);
-      System.out.println("Message content: " + new String(m.getPayload()));
-      System.out.println("----------------");
+//      System.out.println("Message sent to topic: " + topic);
+//      System.out.println("Message content: " + new String(m.getPayload()));
+//      System.out.println("----------------");
     } catch (MqttException e) {
       throw new RuntimeException(e);
     }
@@ -81,11 +82,16 @@ public class MqttPublisher {
     try {
       // disconnect
       client.disconnect();
+      isOnline = false;
 
       // close client
       client.close();
     } catch (MqttException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public boolean getOnlineStatus() {
+    return isOnline;
   }
 }

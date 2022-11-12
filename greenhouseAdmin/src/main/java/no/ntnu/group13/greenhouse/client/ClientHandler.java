@@ -27,9 +27,9 @@ public class ClientHandler extends MqttSubscriber {
   public void messageArrived(String topic, MqttMessage mqttMessage) {
     double message = Double.parseDouble(new String(mqttMessage.getPayload()));
 
-    System.out.println("Received from topic: " + topic);
-    System.out.println("Message: " + message);
-    System.out.println("----------------");
+//    System.out.println("Received from topic: " + topic);
+//    System.out.println("Message: " + message);
+//    System.out.println("----------------");
 
     // **Do something with the message**
     this.lastValue = message;

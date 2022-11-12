@@ -3,6 +3,62 @@
     -fx-font-weight: bold;
 }
 
+.button {
+    -fx-font-size: 13px;
+    -fx-padding: 10 15 10 15;
+    -fx-text-fill: white;
+    -fx-background-color: #2B78E4;
+    -fx-background-radius: 0;
+}
+
 #textHeader {
     -fx-font-size: 32px;
+}
+
+#tempPane, #humidPane, #co2Pane {
+    -fx-border-width: 3px;
+    -fx-background-color: #F3F6F9;
+}
+
+#tempPane {
+    -fx-border-color: crimson;
+}
+
+#humidPane {
+    -fx-border-color: #3e3ead;
+}
+
+#co2Pane {
+    -fx-border-color: orange;
+}
+
+#menuButton {
+    -fx-font-size: 20px;
+    -fx-text-fill: #2B78E4;
+    -fx-padding: 0 0 0 15;
+    -fx-border-width: 0 0 0 8;
+    -fx-border-color: #2B78E4;
+    -fx-background-color: transparent;
+}
+
+#menuButton:hover {
+    -fx-text-fill: #21bb2e;
+    -fx-border-color: #21bb2e;
+    -fx-cursor: hand;
+}
+
+#startButton {
+    -fx-background-color: #009E0F;
+}
+
+#startButton:hover {
+    -fx-background-color: #006e0a;
+}
+
+#stopButton {
+    -fx-background-color: #CF2A27;
+}
+
+#stopButton:hover {
+    -fx-background-color: #9b201d;
 }

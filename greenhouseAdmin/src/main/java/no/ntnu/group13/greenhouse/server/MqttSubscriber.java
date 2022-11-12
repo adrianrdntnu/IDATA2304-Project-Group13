@@ -24,7 +24,6 @@ public class MqttSubscriber implements MqttCallback {
   private final String clientId;
   private final int qos;
   private MqttClient client;
-  private MainWindowController mainWindowController;
 
   /**
    * Creates a client that receives data from an MQTT broker.
@@ -73,9 +72,9 @@ public class MqttSubscriber implements MqttCallback {
   public void messageArrived(String topic, MqttMessage mqttMessage) {
     String message = new String(mqttMessage.getPayload());
 
-    System.out.println("Received from topic: " + topic);
-    System.out.println("Message: " + message);
-    System.out.println("----------------");
+//    System.out.println("Received from topic: " + topic);
+//    System.out.println("Message: " + message);
+//    System.out.println("----------------");
 
     // **Do something with the message**
     // this.data.add(Double.parseDouble(message));
@@ -118,15 +117,6 @@ public class MqttSubscriber implements MqttCallback {
    */
   public String getTopic() {
     return topic;
-  }
-
-  /**
-   * Sets controller to communicate with.
-   *
-   * @param controller controller to communicate with
-   */
-  public void setMainWindowController(MainWindowController controller) {
-    this.mainWindowController = controller;
   }
 }
 

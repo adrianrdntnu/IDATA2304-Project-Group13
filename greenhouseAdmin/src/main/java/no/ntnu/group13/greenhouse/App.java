@@ -5,8 +5,6 @@ import no.ntnu.group13.greenhouse.client.ClientHandler;
 import no.ntnu.group13.greenhouse.logic.LOGIC;
 import no.ntnu.group13.greenhouse.sensors.Sensor;
 import no.ntnu.group13.greenhouse.sensors.TemperatureSensor;
-import no.ntnu.group13.greenhouse.server.MqttPublisher;
-import no.ntnu.group13.greenhouse.server.MqttSubscriber;
 
 /**
  * Starts a connection between a Sensor and a Client.
