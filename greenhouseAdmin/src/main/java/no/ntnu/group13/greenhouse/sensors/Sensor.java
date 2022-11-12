@@ -23,11 +23,11 @@ public abstract class Sensor extends MqttPublisher {
   /**
    * Creates a sensor with a mean value and standard deviation
    *
-   * @param topic mqtt topic
-   * @param broker mqtt broker
-   * @param sensorId the sensor id
-   * @param qos qos value
-   * @param mean mean value of the sensor
+   * @param topic             mqtt topic
+   * @param broker            mqtt broker
+   * @param sensorId          the sensor id
+   * @param qos               qos value
+   * @param mean              mean value of the sensor
    * @param standardDeviation standard deviation of the sensor
    */
   protected Sensor(String topic, String broker, String sensorId, int qos, double mean,

@@ -1,6 +1,6 @@
 package no.ntnu.group13.greenhouse.sensors;
 
-public class HumiditySensor extends Sensor {
+public class Co2Sensor extends Sensor {
 
   /**
    * Creates a humidity sensor with the mean value of 100 and standard deviation of 1.
@@ -10,8 +10,8 @@ public class HumiditySensor extends Sensor {
    * @param sensorId the sensor id
    * @param qos      qos value
    */
-  public HumiditySensor(String topic, String broker, String sensorId, int qos) {
-    super(topic, broker, sensorId, qos, 100, 1);
+  public Co2Sensor(String topic, String broker, String sensorId, int qos) {
+    super(topic, broker, sensorId, qos, 300, 5);
   }
 
   /**
@@ -21,10 +21,10 @@ public class HumiditySensor extends Sensor {
    * @param broker            mqtt broker
    * @param sensorId          the sensor id
    * @param qos               qos value
-   * @param mean              mean value of the humidity
-   * @param standardDeviation standard deviation of the humidity
+   * @param mean              mean value of the co2-value
+   * @param standardDeviation standard deviation of the co2-value
    */
-  public HumiditySensor(String topic, String broker, String sensorId, int qos, double mean,
+  public Co2Sensor(String topic, String broker, String sensorId, int qos, double mean,
       double standardDeviation) {
     super(topic, broker, sensorId, qos, mean, standardDeviation);
   }
@@ -33,4 +33,5 @@ public class HumiditySensor extends Sensor {
   public double realisticNextNumber(double lastValue) {
     return rndd.getRandomGaussian(lastValue, 1);
   }
+
 }
