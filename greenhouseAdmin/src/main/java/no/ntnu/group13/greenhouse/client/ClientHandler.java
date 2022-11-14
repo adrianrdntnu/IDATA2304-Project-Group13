@@ -9,7 +9,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
  */
 public class ClientHandler extends MqttSubscriber {
   BinarySearchTree tree = new BinarySearchTree();
-  Double lastValue;
+  Double mostRecentMessage;
 
   /**
    * Creates a client with a connection to an MQTT broker.
@@ -32,12 +32,12 @@ public class ClientHandler extends MqttSubscriber {
 //    System.out.println("----------------");
 
     // **Do something with the message**
-    this.lastValue = message;
+    this.mostRecentMessage = message;
     this.tree.insert(message);
   }
 
-  public Double getLastValue() {
-    return lastValue;
+  public Double getMostRecentMessage() {
+    return mostRecentMessage;
   }
 
   public BinarySearchTree getTree() {

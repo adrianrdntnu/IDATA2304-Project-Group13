@@ -12,11 +12,13 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import no.ntnu.group13.greenhouse.javafx.controllers.MainWindowController;
 
 public class MainWindowApp extends Application {
 
   private Stage primaryStage;
   private Scene mainScene;
+  private MainWindowController mainWindowController;
 
   public static void main(String[] args) {
     launch(args);
@@ -30,6 +32,7 @@ public class MainWindowApp extends Application {
     // Getting loader and pane for the main scene.
     FXMLLoader mainPaneLoader = new FXMLLoader(getClass().getResource("gui/mainWindow.fxml"));
     Parent mainPane = mainPaneLoader.load();
+    this.mainWindowController = mainPaneLoader.getController();
     this.mainScene = new Scene(mainPane, 1000, 730);
 
     primaryStage.setTitle("Greenhouse Administrator");
@@ -53,7 +56,13 @@ public class MainWindowApp extends Application {
     closeWindowAlert.initModality(Modality.APPLICATION_MODAL);
     closeWindowAlert.initOwner(primaryStage);
 
-    // TODO - stop sensor & client.
+    // Stops clients & sensors
+    if (mainWindowController.getClientOnlineStatus()) {
+      this.mainWindowController.disconnectClients();
+    }
+    if (mainWindowController.getSensorOnlineStatus()) {
+      this.mainWindowController.stopSensors();
+    }
 
     Optional<ButtonType> closeResponse = closeWindowAlert.showAndWait();
     if (!ButtonType.OK.equals(closeResponse.get())) {

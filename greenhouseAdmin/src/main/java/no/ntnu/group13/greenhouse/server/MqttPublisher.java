@@ -16,7 +16,6 @@ public class MqttPublisher {
   private final String broker;
   private final String sensorID;
   private final int qos;
-  private boolean isOnline;
   private MqttClient client;
 
   /**
@@ -32,7 +31,6 @@ public class MqttPublisher {
     this.broker = broker;
     this.sensorID = sensorID;
     this.qos = qos;
-    this.isOnline = true;
   }
 
   /**
@@ -82,16 +80,11 @@ public class MqttPublisher {
     try {
       // disconnect
       client.disconnect();
-      isOnline = false;
 
       // close client
       client.close();
     } catch (MqttException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  public boolean getOnlineStatus() {
-    return isOnline;
   }
 }

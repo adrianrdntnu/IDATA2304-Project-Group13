@@ -6,6 +6,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +22,7 @@ import no.ntnu.group13.greenhouse.sensors.Co2Sensor;
 import no.ntnu.group13.greenhouse.sensors.HumiditySensor;
 import no.ntnu.group13.greenhouse.sensors.Sensor;
 import no.ntnu.group13.greenhouse.sensors.TemperatureSensor;
+import org.eclipse.paho.client.mqttv3.MqttException;
 
 public class MainWindowController {
 
@@ -39,11 +41,13 @@ public class MainWindowController {
   private ClientHandler co2ClientHandler;
   private static final int GENERATE_VALUES = 10;
   private static final int VALUE_SPLIT = 2;
+  private boolean clientOnlineStatus = false;
+  private boolean sensorOnlineStatus = false;
 
   // For Linechart
   private int xSeriesData = 0;
   private static final int MAX_DATA_POINTS = 25;
-  private static final int LINECHART_UPDATE_INTERVAL = 1000;
+  private static final int LINECHART_UPDATE_INTERVAL = 3000;
   private final XYChart.Series tempSeries = new XYChart.Series<>();
   private final XYChart.Series humidSeries = new XYChart.Series<>();
   private final XYChart.Series co2Series = new XYChart.Series<>();
@@ -59,6 +63,9 @@ public class MainWindowController {
   private Double highHumid = 0.0;
   private Double lowCo2 = 0.0;
   private Double highCo2 = 0.0;
+  private Double currentTemp;
+  private Double currentHumid;
+  private Double currentCo2;
 
   @FXML
   private LineChart<?, ?> dashboardLineChart;
@@ -129,12 +136,13 @@ public class MainWindowController {
   }
 
   @FXML
-  public void stopRecordButton(ActionEvent actionEvent) {
+  public void stopRecordButton(ActionEvent actionEvent) throws InterruptedException {
+    executor.awaitTermination(LINECHART_UPDATE_INTERVAL, TimeUnit.MILLISECONDS);
+    executor.shutdown();
+    stopSensors();
+
     stopButton.setDisable(true);
     startButton.setDisable(false);
-
-    executor.shutdown();
-    stopSensor();
   }
 
   // Menu buttons
@@ -165,6 +173,7 @@ public class MainWindowController {
     this.tempClientHandler.startClient();
     this.humidClientHandler.startClient();
     this.co2ClientHandler.startClient();
+    this.clientOnlineStatus = true;
   }
 
   /**
@@ -181,13 +190,31 @@ public class MainWindowController {
     this.temperatureSensor.startConnection();
     this.humiditySensor.startConnection();
     this.co2Sensor.startConnection();
+    this.sensorOnlineStatus = true;
   }
 
   /**
-   * Terminates connection to the sensor.
+   * Terminates connection from the sensor to the MQTT broker.
    */
-  private void stopSensor() {
+  public void stopSensors() {
     this.temperatureSensor.terminateConnection();
+    this.humiditySensor.terminateConnection();
+    this.co2Sensor.terminateConnection();
+    this.sensorOnlineStatus = false;
+  }
+
+  /**
+   * Disconnects clients from the MQTT broker.
+   */
+  public void disconnectClients() {
+    try {
+      this.tempClientHandler.disconnectClient();
+      this.humidClientHandler.disconnectClient();
+      this.co2ClientHandler.disconnectClient();
+      this.clientOnlineStatus = false;
+    } catch (MqttException e) {
+      System.out.println("Disconnect failed: " + e);
+    }
   }
 
   /**
@@ -195,7 +222,7 @@ public class MainWindowController {
    */
   public void receiveMessageFromSensor(BinarySearchTree tree, Queue<Number> queue,
       ClientHandler client) {
-    Double d = client.getLastValue();
+    Double d = client.getMostRecentMessage();
     tree.insert(d);
     queue.add(d);
   }
@@ -211,7 +238,9 @@ public class MainWindowController {
       return thread;
     });
 
-    startClients();
+    if (!clientOnlineStatus) {
+      startClients();
+    }
     startSensors();
 
     AddToQueue addToQueue = new AddToQueue();
@@ -239,58 +268,26 @@ public class MainWindowController {
               co2Sensor.generateValuesAlternateTemps(GENERATE_VALUES, VALUE_SPLIT));
         }
 
-        Double currentTemp = temperatureValues.get(xSeriesData);
-        Double currentHumid = humidityValues.get(xSeriesData);
-        Double currentCo2 = co2Values.get(xSeriesData);
+        currentTemp = temperatureValues.get(xSeriesData);
+        currentHumid = humidityValues.get(xSeriesData);
+        currentCo2 = co2Values.get(xSeriesData);
 
         temperatureSensor.publishMessageToBroker("" + currentTemp);
         humiditySensor.publishMessageToBroker("" + currentHumid);
         co2Sensor.publishMessageToBroker("" + currentCo2);
 
-        // Waits for 1 second and HOPEFULLY the message has arrived by then.
+        // Waits for and HOPEFULLY the message has arrived by then.
         Thread.sleep(LINECHART_UPDATE_INTERVAL);
 
         receiveMessageFromSensor(bstTemperatureTree, receivedTempMessages, tempClientHandler);
         receiveMessageFromSensor(bstHumidityTree, receivedHumidMessages, humidClientHandler);
         receiveMessageFromSensor(bstCo2Tree, receivedCo2Messages, co2ClientHandler);
 
-        // TODO: method for updating text
-        textTempCurrent.setText(currentTemp + "°C");
-        textHumidCurrent.setText(currentHumid + "%");
-        textCo2Current.setText(currentCo2 + "ppm");
-
-        if (currentTemp > highTemp) {
-          highTemp = currentTemp;
-          textTempHigh.setText(currentTemp + "°C");
-        }
-        if (currentTemp < lowTemp || lowTemp == 0.0) {
-          lowTemp = currentTemp;
-          textTempLow.setText(currentTemp + "°C");
-        }
-        if (currentHumid > highHumid) {
-          highHumid = currentHumid;
-          textHumidHigh.setText(currentHumid + "%");
-        }
-        if (currentHumid < lowHumid || lowHumid == 0.0) {
-          lowHumid = currentHumid;
-          textHumidLow.setText(currentHumid + "%");
-        }
-        if (currentCo2 > highCo2) {
-          highCo2 = currentCo2;
-          textCo2High.setText(currentCo2 + "ppm");
-        }
-        if (currentCo2 < lowCo2 || lowCo2 == 0.0) {
-          lowCo2 = currentCo2;
-          textCo2Low.setText(currentCo2 + "ppm");
-        }
-
         // update
         xAxis.setLowerBound(xSeriesData - MAX_DATA_POINTS);
         xAxis.setUpperBound(xSeriesData - 1);
 
-        if (temperatureSensor.getOnlineStatus()) {
-          executor.execute(this);
-        }
+        executor.execute(this);
       } catch (InterruptedException ex) {
         ex.printStackTrace();
       }
@@ -307,7 +304,12 @@ public class MainWindowController {
     new AnimationTimer() {
       @Override
       public void handle(long now) {
-        addDataToSeries();
+        if (!executor.isShutdown()) {
+          addDataToSeries();
+          if (xSeriesData >= 1) {
+            updateDetailedValues();
+          }
+        }
       }
     }.start();
   }
@@ -321,10 +323,15 @@ public class MainWindowController {
       if (receivedTempMessages.isEmpty()) {
         break;
       }
-      tempSeries.getData().add(new XYChart.Data<>("" + xSeriesData, receivedTempMessages.remove()));
+      tempSeries.getData().add(
+          new XYChart.Data<>("" + xSeriesData * (LINECHART_UPDATE_INTERVAL / 1000),
+              receivedTempMessages.remove()));
       humidSeries.getData()
-          .add(new XYChart.Data<>("" + xSeriesData, receivedHumidMessages.remove()));
-      co2Series.getData().add(new XYChart.Data<>("" + xSeriesData, receivedCo2Messages.remove()));
+          .add(new XYChart.Data<>("" + xSeriesData * (LINECHART_UPDATE_INTERVAL / 1000),
+              receivedHumidMessages.remove()));
+      co2Series.getData().add(
+          new XYChart.Data<>("" + xSeriesData * (LINECHART_UPDATE_INTERVAL / 1000),
+              receivedCo2Messages.remove()));
       xSeriesData++;
     }
     // remove points to keep us at no more than MAX_DATA_POINTS
@@ -340,5 +347,47 @@ public class MainWindowController {
     // update
     xAxis.setLowerBound(xSeriesData - MAX_DATA_POINTS);
     xAxis.setUpperBound(xSeriesData - 1);
+  }
+
+  /**
+   * Updates detailed values.
+   */
+  private void updateDetailedValues() {
+    textTempCurrent.setText(currentTemp + "°C");
+    textHumidCurrent.setText(currentHumid + "%");
+    textCo2Current.setText(currentCo2 + "ppm");
+
+    if (currentTemp > highTemp) {
+      highTemp = currentTemp;
+      textTempHigh.setText(currentTemp + "°C");
+    }
+    if (currentTemp < lowTemp || lowTemp == 0.0) {
+      lowTemp = currentTemp;
+      textTempLow.setText(currentTemp + "°C");
+    }
+    if (currentHumid > highHumid) {
+      highHumid = currentHumid;
+      textHumidHigh.setText(currentHumid + "%");
+    }
+    if (currentHumid < lowHumid || lowHumid == 0.0) {
+      lowHumid = currentHumid;
+      textHumidLow.setText(currentHumid + "%");
+    }
+    if (currentCo2 > highCo2) {
+      highCo2 = currentCo2;
+      textCo2High.setText(currentCo2 + "ppm");
+    }
+    if (currentCo2 < lowCo2 || lowCo2 == 0.0) {
+      lowCo2 = currentCo2;
+      textCo2Low.setText(currentCo2 + "ppm");
+    }
+  }
+
+  public boolean getSensorOnlineStatus() {
+    return sensorOnlineStatus;
+  }
+
+  public boolean getClientOnlineStatus() {
+    return clientOnlineStatus;
   }
 }
