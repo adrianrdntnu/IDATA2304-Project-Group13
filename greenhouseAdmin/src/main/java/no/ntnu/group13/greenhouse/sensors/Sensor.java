@@ -115,6 +115,35 @@ public abstract class Sensor extends MqttPublisher {
   }
 
   /**
+   * Takes in a value for a new mean, then adds new values to a list leading up to this new mean.
+   *
+   * @param amount Amount of values it's going to take to get to the new mean
+   * @param newMean Value of the new mean
+   * @return The list of values leading up to the new mean
+   */
+  public List<Double> generateValuesToNewMean(int amount, double newMean) {
+    List<Double> values = new ArrayList<>();
+
+    // find how much to increment with
+    double difference = newMean-this.mean;
+    double increment = difference/amount;
+
+    // variables used in for loop
+    double currentMean = this.mean+increment;
+    double currentValue = 0;
+
+    for (int i = 0; i < amount; i++) {
+      currentValue = rndd.getRandomGaussian(currentMean, this.standardDeviation);
+      values.add(currentValue);
+      currentMean += increment;
+    }
+
+    //TODO: set this.mean to newMean?
+
+    return values;
+  }
+
+  /**
    * Returns the BinarySearchTree of the sensor containing observed values.
    *
    * @return The BinarySearchTree of the sensor
