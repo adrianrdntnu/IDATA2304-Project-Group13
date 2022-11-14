@@ -39,15 +39,15 @@ public class MainWindowController {
   private ClientHandler tempClientHandler;
   private ClientHandler humidClientHandler;
   private ClientHandler co2ClientHandler;
-  private static final int GENERATE_VALUES = 10;
+  private static final int GENERATE_VALUES = 20;
   private static final int VALUE_SPLIT = 2;
   private boolean clientOnlineStatus = false;
   private boolean sensorOnlineStatus = false;
 
   // For Linechart
   private int xSeriesData = 0;
-  private static final int MAX_DATA_POINTS = 25;
-  private static final int LINECHART_UPDATE_INTERVAL = 3000;
+  private static final int MAX_DATA_POINTS = 100;
+  private static final int LINECHART_UPDATE_INTERVAL = 1000;
   private final XYChart.Series tempSeries = new XYChart.Series<>();
   private final XYChart.Series humidSeries = new XYChart.Series<>();
   private final XYChart.Series co2Series = new XYChart.Series<>();
@@ -181,10 +181,10 @@ public class MainWindowController {
    */
   private void startSensors() {
     this.temperatureSensor = new TemperatureSensor(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER,
-        LOGIC.TEMP_SENSOR, LOGIC.QOS, 10, 3);
+        LOGIC.TEMP_SENSOR, LOGIC.QOS, 27.5, 1);
     this.humiditySensor = new HumiditySensor(LOGIC.HUMIDITY_TOPIC, LOGIC.BROKER, LOGIC.HUMID_SENSOR,
-        LOGIC.QOS, 10, 3);
-    this.co2Sensor = new Co2Sensor(LOGIC.CO2_TOPIC, LOGIC.BROKER, LOGIC.CO2_SENSOR, LOGIC.QOS, 10,
+        LOGIC.QOS, 50, 3);
+    this.co2Sensor = new Co2Sensor(LOGIC.CO2_TOPIC, LOGIC.BROKER, LOGIC.CO2_SENSOR, LOGIC.QOS, 100,
         3);
 
     this.temperatureSensor.startConnection();
@@ -260,12 +260,14 @@ public class MainWindowController {
         // Generates new values to send to the client, created dynamically to prevent necessary
         // overloading at program startup.
         if ((xSeriesData % GENERATE_VALUES) == 0) {
-          temperatureValues.addAll(
-              temperatureSensor.generateValuesAlternateTemps(GENERATE_VALUES, VALUE_SPLIT));
-          humidityValues.addAll(
-              humiditySensor.generateValuesAlternateTemps(GENERATE_VALUES, VALUE_SPLIT));
-          co2Values.addAll(
-              co2Sensor.generateValuesAlternateTemps(GENERATE_VALUES, VALUE_SPLIT));
+//          temperatureValues.addAll(
+//              temperatureSensor.generateValuesAlternateTemps(GENERATE_VALUES, VALUE_SPLIT));
+//          humidityValues.addAll(
+//              humiditySensor.generateValuesAlternateTemps(GENERATE_VALUES, VALUE_SPLIT));
+//          co2Values.addAll(co2Sensor.generateValuesAlternateTemps(GENERATE_VALUES, VALUE_SPLIT));
+          temperatureValues.addAll(temperatureSensor.generateValuesToNewMean(GENERATE_VALUES, 30));
+          humidityValues.addAll(humiditySensor.generateValuesToNewMean(GENERATE_VALUES, 60));
+          co2Values.addAll(co2Sensor.generateValuesToNewMean(GENERATE_VALUES, 75));
         }
 
         currentTemp = temperatureValues.get(xSeriesData);
@@ -287,7 +289,9 @@ public class MainWindowController {
         xAxis.setLowerBound(xSeriesData - MAX_DATA_POINTS);
         xAxis.setUpperBound(xSeriesData - 1);
 
-        executor.execute(this);
+        if (!executor.isShutdown()) {
+          executor.execute(this);
+        }
       } catch (InterruptedException ex) {
         ex.printStackTrace();
       }
@@ -326,8 +330,8 @@ public class MainWindowController {
       tempSeries.getData().add(
           new XYChart.Data<>("" + xSeriesData * (LINECHART_UPDATE_INTERVAL / 1000),
               receivedTempMessages.remove()));
-      humidSeries.getData()
-          .add(new XYChart.Data<>("" + xSeriesData * (LINECHART_UPDATE_INTERVAL / 1000),
+      humidSeries.getData().add(
+          new XYChart.Data<>("" + xSeriesData * (LINECHART_UPDATE_INTERVAL / 1000),
               receivedHumidMessages.remove()));
       co2Series.getData().add(
           new XYChart.Data<>("" + xSeriesData * (LINECHART_UPDATE_INTERVAL / 1000),
