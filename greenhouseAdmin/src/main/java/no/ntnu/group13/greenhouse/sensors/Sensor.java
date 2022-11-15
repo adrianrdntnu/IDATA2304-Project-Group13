@@ -15,6 +15,8 @@ import no.ntnu.group13.greenhouse.server.MqttPublisher;
 public abstract class Sensor extends MqttPublisher {
 
   protected double mean;
+  protected double newMean;
+  protected double increment;
   protected double standardDeviation;
   protected RandomNormalDistributionData rndd = new RandomNormalDistributionData();
   protected DataSearching dataSearching = new DataSearching();
@@ -141,6 +143,31 @@ public abstract class Sensor extends MqttPublisher {
     //TODO: set this.mean to newMean?
 
     return values;
+  }
+
+  /**
+   * Returns the next value of this sensor.
+   *
+   * @return The next value of this sensor
+   */
+  public double nextValue() {
+    if (this.mean < newMean) { // Check if we have not reached the new mean yet
+      this.mean += increment;
+    }
+    return rndd.getRandomGaussian(this.mean, this.standardDeviation);
+  }
+
+  /**
+   * Sets the new mean of this sensor, changes the increment so that it takes "amount" amount of
+   * values to get to the new mean
+   *
+   * @param newMean New mean of this sensor
+   * @param amount Amount of values before reaching the new mean
+   */
+  public void setNewMean(double newMean, int amount) {
+    this.newMean = newMean;
+    double difference = this.mean - this.newMean;
+    this.increment = difference / amount;
   }
 
   /**
