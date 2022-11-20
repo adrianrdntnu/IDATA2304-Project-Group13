@@ -343,7 +343,7 @@ public class MainWindowController {
               receivedCo2Messages.remove()));
       xSeriesData++;
     }
-//    }
+//    } TODO: Remove this too
     // remove points to keep us at no more than MAX_DATA_POINTS
     if (tempSeries.getData().size() > MAX_DATA_POINTS) {
       tempSeries.getData().remove(0, tempSeries.getData().size() - MAX_DATA_POINTS);
