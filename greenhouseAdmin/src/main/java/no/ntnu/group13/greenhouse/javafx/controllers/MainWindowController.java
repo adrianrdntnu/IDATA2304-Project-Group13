@@ -259,16 +259,20 @@ public class MainWindowController {
       try {
         // Generates new values to send to the client, created dynamically to prevent necessary
         // overloading at program startup.
-        if ((xSeriesData % GENERATE_VALUES) == 0) {
-//          temperatureValues.addAll(
-//              temperatureSensor.generateValuesAlternateTemps(GENERATE_VALUES, VALUE_SPLIT));
-//          humidityValues.addAll(
-//              humiditySensor.generateValuesAlternateTemps(GENERATE_VALUES, VALUE_SPLIT));
-//          co2Values.addAll(co2Sensor.generateValuesAlternateTemps(GENERATE_VALUES, VALUE_SPLIT));
-          temperatureValues.addAll(temperatureSensor.generateValuesToNewMean(GENERATE_VALUES, 30));
-          humidityValues.addAll(humiditySensor.generateValuesToNewMean(GENERATE_VALUES, 60));
-          co2Values.addAll(co2Sensor.generateValuesToNewMean(GENERATE_VALUES, 75));
-        }
+//        if ((xSeriesData % GENERATE_VALUES) == 0) {
+////          temperatureValues.addAll(
+////              temperatureSensor.generateValuesAlternateTemps(GENERATE_VALUES, VALUE_SPLIT));
+////          humidityValues.addAll(
+////              humiditySensor.generateValuesAlternateTemps(GENERATE_VALUES, VALUE_SPLIT));
+////          co2Values.addAll(co2Sensor.generateValuesAlternateTemps(GENERATE_VALUES, VALUE_SPLIT));
+//          temperatureValues.addAll(temperatureSensor.generateValuesToNewMean(GENERATE_VALUES, 30));
+//          humidityValues.addAll(humiditySensor.generateValuesToNewMean(GENERATE_VALUES, 60));
+//          co2Values.addAll(co2Sensor.generateValuesToNewMean(GENERATE_VALUES, 75));
+//        }  TODO: Remove this
+
+        temperatureValues.add(temperatureSensor.nextValue());
+        humidityValues.add(humiditySensor.nextValue());
+        co2Values.add(co2Sensor.nextValue());
 
         currentTemp = temperatureValues.get(xSeriesData);
         currentHumid = humidityValues.get(xSeriesData);
@@ -323,10 +327,11 @@ public class MainWindowController {
    * href="https://stackoverflow.com/a/22093579">stackoverflow</a>
    */
   private void addDataToSeries() {
-    for (int i = 0; i < 20; i++) { //-- add 20 numbers to the plot+
-      if (receivedTempMessages.isEmpty()) {
-        break;
-      }
+//    for (int i = 0; i < 20; i++) { //-- add 20 numbers to the plot+
+//      if (receivedTempMessages.isEmpty()) {
+//        break; TODO: Remove this
+//      }
+    if (!receivedTempMessages.isEmpty()) {
       tempSeries.getData().add(
           new XYChart.Data<>("" + xSeriesData * (LINECHART_UPDATE_INTERVAL / 1000),
               receivedTempMessages.remove()));
@@ -338,6 +343,7 @@ public class MainWindowController {
               receivedCo2Messages.remove()));
       xSeriesData++;
     }
+//    }
     // remove points to keep us at no more than MAX_DATA_POINTS
     if (tempSeries.getData().size() > MAX_DATA_POINTS) {
       tempSeries.getData().remove(0, tempSeries.getData().size() - MAX_DATA_POINTS);
