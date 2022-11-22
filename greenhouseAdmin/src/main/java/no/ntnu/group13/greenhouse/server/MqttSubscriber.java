@@ -1,7 +1,17 @@
 package no.ntnu.group13.greenhouse.server;
 
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import no.ntnu.group13.greenhouse.logic.EncryptAndDecryptMessage;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -24,6 +34,9 @@ public class MqttSubscriber implements MqttCallback {
   private final int qos;
   private MqttClient client;
 
+  // For decrypting
+  private IvParameterSpec ivParameterSpec;
+
   /**
    * Creates a client that receives data from an MQTT broker.
    *
@@ -38,6 +51,26 @@ public class MqttSubscriber implements MqttCallback {
     this.qos = qos;
     this.topic = topic;
     this.data = new ArrayList<>();
+  }
+
+  /**
+   * Creates a client that receives data from an MQTT broker with an IvParameterSpec for
+   * decryption.
+   *
+   * @param topic           The topic to subscribe from.
+   * @param broker          The broker to receive data from.
+   * @param clientId        The id of the client
+   * @param qos             The "Quality of Service"
+   * @param ivParameterSpec Initialization vector of the subscriber
+   */
+  public MqttSubscriber(String topic, String broker, String clientId, int qos,
+      IvParameterSpec ivParameterSpec) {
+    this.broker = broker;
+    this.clientId = clientId;
+    this.qos = qos;
+    this.topic = topic;
+    this.data = new ArrayList<>();
+    this.ivParameterSpec = ivParameterSpec;
   }
 
   /**
@@ -67,16 +100,29 @@ public class MqttSubscriber implements MqttCallback {
     System.out.println("Connection lost. " + throwable);
   }
 
+  public void setIvParameterSpec(IvParameterSpec ivParameterSpec) {
+    this.ivParameterSpec = ivParameterSpec;
+  }
+
   @Override
-  public void messageArrived(String topic, MqttMessage mqttMessage) {
+  public void messageArrived(String topic, MqttMessage mqttMessage)
+      throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidAlgorithmParameterException,
+      NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
     String message = new String(mqttMessage.getPayload());
 
-//    System.out.println("Received from topic: " + topic);
-//    System.out.println("Message: " + message);
-//    System.out.println("----------------");
+    SecretKey key = EncryptAndDecryptMessage.getKeyFromPassword("group13", "12345678");
+    String algorithm = EncryptAndDecryptMessage.algorithm;
+
+    String plainText = EncryptAndDecryptMessage.decrypt(algorithm, message, key,
+        ivParameterSpec);
+
+    System.out.println("Received from topic: " + topic);
+    System.out.println("Message: " + message);
+    System.out.println("Message decrypted: " + plainText);
+    System.out.println("----------------");
 
     // **Do something with the message**
-    // this.data.add(Double.parseDouble(message));
+    this.data.add(Double.parseDouble(plainText));
   }
 
   @Override

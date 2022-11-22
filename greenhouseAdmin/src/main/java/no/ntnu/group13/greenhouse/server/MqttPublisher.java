@@ -1,5 +1,15 @@
 package no.ntnu.group13.greenhouse.server;
 
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import no.ntnu.group13.greenhouse.logic.EncryptAndDecryptMessage;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -18,6 +28,9 @@ public class MqttPublisher {
   private final int qos;
   private MqttClient client;
 
+  // For encrypting
+  private IvParameterSpec ivParameterSpec;
+
   /**
    * Creates a client that sends data to an MQTT broker.
    *
@@ -31,6 +44,24 @@ public class MqttPublisher {
     this.broker = broker;
     this.sensorID = sensorID;
     this.qos = qos;
+  }
+
+  /**
+   * Creates a client that sends data to an MQTT broker with an IvParameterSpec for encryption.
+   *
+   * @param topic           The topic to upload to.
+   * @param broker          The broker to connect to.
+   * @param sensorID        The client id.
+   * @param qos             The "Quality of Service"
+   * @param ivParameterSpec Initialization vector of the publisher
+   */
+  public MqttPublisher(String topic, String broker, String sensorID, int qos,
+      IvParameterSpec ivParameterSpec) {
+    this.topic = topic;
+    this.broker = broker;
+    this.sensorID = sensorID;
+    this.qos = qos;
+    this.ivParameterSpec = ivParameterSpec;
   }
 
   /**
@@ -52,6 +83,10 @@ public class MqttPublisher {
     }
   }
 
+  public void setIvParameterSpec(IvParameterSpec ivParameterSpec) {
+    this.ivParameterSpec = ivParameterSpec;
+  }
+
   /**
    * Sends a message to the MQTT broker.
    *
@@ -59,16 +94,38 @@ public class MqttPublisher {
    */
   public void publishMessageToBroker(String message) {
     try {
+      // Encrypt message
+      SecretKey key = EncryptAndDecryptMessage.getKeyFromPassword("group13", "12345678");
+      String algorithm = EncryptAndDecryptMessage.algorithm;
+
+      String cipherText = EncryptAndDecryptMessage.encrypt(algorithm, message, key,
+          ivParameterSpec);
+
       // create message and setup QoS
-      MqttMessage m = new MqttMessage(message.getBytes());
+      MqttMessage m = new MqttMessage(cipherText.getBytes());
       m.setQos(this.qos);
 
       // publish message
       client.publish(topic, m);
-//      System.out.println("Message sent to topic: " + topic);
-//      System.out.println("Message content: " + new String(m.getPayload()));
-//      System.out.println("----------------");
+      System.out.println("Message sent to topic: " + topic);
+      System.out.println("Message content: " + new String(m.getPayload()));
+      System.out.println("Original message: " + message);
+      System.out.println("----------------");
     } catch (MqttException e) {
+      throw new RuntimeException(e);
+    } catch (InvalidAlgorithmParameterException e) {
+      throw new RuntimeException(e);
+    } catch (NoSuchPaddingException e) {
+      throw new RuntimeException(e);
+    } catch (IllegalBlockSizeException e) {
+      throw new RuntimeException(e);
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException(e);
+    } catch (BadPaddingException e) {
+      throw new RuntimeException(e);
+    } catch (InvalidKeyException e) {
+      throw new RuntimeException(e);
+    } catch (InvalidKeySpecException e) {
       throw new RuntimeException(e);
     }
   }

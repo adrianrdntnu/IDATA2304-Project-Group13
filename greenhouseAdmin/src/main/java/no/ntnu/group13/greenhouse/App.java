@@ -1,10 +1,12 @@
 package no.ntnu.group13.greenhouse;
 
 import java.util.List;
-import no.ntnu.group13.greenhouse.client.ClientHandler;
+import javax.crypto.spec.IvParameterSpec;
+import no.ntnu.group13.greenhouse.logic.EncryptAndDecryptMessage;
 import no.ntnu.group13.greenhouse.logic.LOGIC;
 import no.ntnu.group13.greenhouse.sensors.Sensor;
 import no.ntnu.group13.greenhouse.sensors.TemperatureSensor;
+import no.ntnu.group13.greenhouse.server.MqttSubscriber;
 
 /**
  * Starts a connection between a Sensor and a Client.
@@ -18,17 +20,26 @@ public class App {
 
   public void start() {
     try {
-      ClientHandler clientHandler = new ClientHandler(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER,
-          LOGIC.CLIENT_ID, LOGIC.QOS);
+//      ClientHandler clientHandler = new ClientHandler(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.CLIENT_ID, LOGIC.QOS);
       Sensor temperatureSensor = new TemperatureSensor(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER,
           LOGIC.SENSOR_ID, LOGIC.QOS);
 
-      clientHandler.startClient();
+      MqttSubscriber mqttSubscriber = new MqttSubscriber(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER,
+          LOGIC.CLIENT_ID, LOGIC.QOS);
+
+//      clientHandler.startClient();
+      mqttSubscriber.startClient();
       temperatureSensor.startConnection();
 
-      // Generate values
+      // Generates initialization vector
+      IvParameterSpec ivParameterSpec = EncryptAndDecryptMessage.generateIv();
 
-      List<Double> temperatures = temperatureSensor.generateValuesAlternateTemps(5, 5);
+      // Applies initialization vector
+      mqttSubscriber.setIvParameterSpec(ivParameterSpec);
+      temperatureSensor.setIvParameterSpec(ivParameterSpec);
+
+      // Generate values
+      List<Double> temperatures = temperatureSensor.generateValuesAlternateTemps(10, 5);
 
       System.out.println(temperatures);
 
@@ -41,9 +52,9 @@ public class App {
       temperatureSensor.terminateConnection();
 
       // Sleeps so client has time to receive all data before it disconnects.
-      System.out.println("Received messages: " + clientHandler.getData());
-      System.out.println("Disconnecting client: " + clientHandler.getClientId());
-      clientHandler.disconnectClient();
+      System.out.println("Received messages: " + mqttSubscriber.getData());
+      System.out.println("Disconnecting client: " + mqttSubscriber.getClientId());
+//      clientHandler.disconnectClient(); // <-- Not necessary?
 
     } catch (Exception e) {
       System.err.println(e);
