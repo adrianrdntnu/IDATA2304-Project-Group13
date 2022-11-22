@@ -54,7 +54,7 @@ public class App {
       // Sleeps so client has time to receive all data before it disconnects.
       System.out.println("Received messages: " + mqttSubscriber.getData());
       System.out.println("Disconnecting client: " + mqttSubscriber.getClientId());
-//      clientHandler.disconnectClient(); // <-- Not necessary?
+      mqttSubscriber.disconnectClient(); // <-- Not necessary?
 
     } catch (Exception e) {
       System.err.println(e);
