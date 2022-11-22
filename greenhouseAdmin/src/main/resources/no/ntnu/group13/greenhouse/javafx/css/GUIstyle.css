@@ -81,15 +81,28 @@
 
 .default-color0.chart-line-symbol {
   -fx-background-color: crimson, #ffffff;
-
 }
 
 .default-color1.chart-line-symbol {
   -fx-background-color: #3e3ead, #ffffff;
-
 }
 
 .default-color2.chart-line-symbol {
   -fx-background-color: orange, #ffffff;
+}
 
+#humidLineChart .default-color0.chart-series-line {
+  -fx-stroke: #3e3ead;
+}
+
+#humidLineChart .default-color0.chart-line-symbol {
+  -fx-background-color: #3e3ead, #ffffff;
+}
+
+#cp2LineChart .default-color0.chart-series-line {
+  -fx-stroke: orange;
+}
+
+#co2LineChart .default-color0.chart-line-symbol {
+  -fx-background-color: orange, #ffffff;
 }

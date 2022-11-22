@@ -32,142 +32,76 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../css/GUIstyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.group13.greenhouse.javafx.controllers.MainWindowController">
-    <left>
-        <BorderPane prefWidth="155.0" BorderPane.alignment="CENTER">
-            <center>
-                <GridPane maxHeight="300.0" minHeight="200.0" minWidth="140.0" prefHeight="300.0" prefWidth="140.0" BorderPane.alignment="CENTER">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                    <children>
-                        <Button id="menuButton" mnemonicParsing="false" onAction="#dashboardMenuButton" text="Dashboard&#10;" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
-                            <font>
-                                <Font size="20.0" />
-                            </font>
-                            <GridPane.margin>
-                                <Insets left="10.0" />
-                            </GridPane.margin>
-                        </Button>
-                        <Button id="menuButton" mnemonicParsing="false" onAction="#tempMenuButton" text="Temp" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                            <font>
-                                <Font size="20.0" />
-                            </font>
-                            <GridPane.margin>
-                                <Insets left="10.0" />
-                            </GridPane.margin>
-                        </Button>
-                        <Button id="menuButton" mnemonicParsing="false" onAction="#humidityMenuButton" text="Humidity" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-                            <font>
-                                <Font size="20.0" />
-                            </font>
-                            <GridPane.margin>
-                                <Insets left="10.0" />
-                            </GridPane.margin>
-                        </Button>
-                  <Button id="menuButton" mnemonicParsing="false" onAction="#co2MenuButton" text="Co2" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                  </Button>
-                    </children>
-                </GridPane>
-            </center>
-        </BorderPane>
-    </left>
-    <center>
-        <BorderPane fx:id="mainBorderPane" minHeight="270.0" minWidth="600.0" prefWidth="560.0" style="-fx-background-color: #e0e0e0;" BorderPane.alignment="CENTER">
-         <center>
-            <GridPane BorderPane.alignment="CENTER">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="180.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="408.0" minHeight="10.0" prefHeight="342.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="215.0" minHeight="10.0" prefHeight="148.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <AnchorPane prefHeight="200.0" prefWidth="640.0" GridPane.rowIndex="1">
-                     <children>
-                        <Button id="startButton" fx:id="startButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#startRecordButton" prefHeight="50.0" prefWidth="150.0" text="START Sensor" />
-                        <Button id="stopButton" fx:id="stopButton" disable="true" layoutX="180.0" layoutY="14.0" mnemonicParsing="false" onAction="#stopRecordButton" prefHeight="50.0" prefWidth="150.0" text="STOP Sensor" />
-                        <AnchorPane id="co2Pane" layoutX="426.0" layoutY="17.0" prefHeight="120.0" prefWidth="200.0">
-                           <children>
-                              <Text layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Co2">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Text>
-                              <Text fx:id="textCo2Current" layoutX="120.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Text>
-                              <Text layoutX="14.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="High:">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Text>
-                              <Text layoutX="14.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Low:">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Text>
-                              <Text fx:id="textCo2High" layoutX="120.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Text>
-                              <Text fx:id="textCo2Low" layoutX="120.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Text>
-                              <Text layoutX="14.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </AnchorPane>
-                     </children>
-                  </AnchorPane>
-                  <LineChart fx:id="co2LineChart" prefWidth="640.0">
-                    <xAxis>
-                      <CategoryAxis side="BOTTOM" />
-                    </xAxis>
-                    <yAxis>
-                      <NumberAxis side="LEFT" />
-                    </yAxis>
-                  </LineChart>
-               </children>
-            </GridPane>
-         </center>
-         <BorderPane.margin>
-            <Insets bottom="5.0" right="5.0" top="5.0" />
-         </BorderPane.margin>
-        </BorderPane>
-    </center>
+<BorderPane minHeight="270.0" minWidth="600.0" prefWidth="560.0" style="-fx-background-color: #e0e0e0;" stylesheets="@../css/GUIstyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.group13.greenhouse.javafx.controllers.Co2WindowController">
+   <center>
+  <GridPane BorderPane.alignment="CENTER">
+    <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="180.0" prefWidth="100.0" />
+    </columnConstraints>
+    <rowConstraints>
+      <RowConstraints maxHeight="408.0" minHeight="10.0" prefHeight="342.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="215.0" minHeight="10.0" prefHeight="148.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+      <AnchorPane prefHeight="200.0" prefWidth="640.0" GridPane.rowIndex="1">
+        <children>
+          <Button id="startButton" fx:id="startButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#startRecordButton" prefHeight="50.0" prefWidth="150.0" text="START Sensor" />
+          <Button id="stopButton" fx:id="stopButton" disable="true" layoutX="180.0" layoutY="14.0" mnemonicParsing="false" onAction="#stopRecordButton" prefHeight="50.0" prefWidth="150.0" text="STOP Sensor" />
+          <AnchorPane id="co2Pane" layoutX="360.0" layoutY="17.0" prefHeight="120.0" prefWidth="200.0">
+            <children>
+              <Text layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Co2">
+                <font>
+                  <Font size="24.0" />
+                </font>
+              </Text>
+              <Text fx:id="textCo2Current" layoutX="120.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                <font>
+                  <Font size="18.0" />
+                </font>
+              </Text>
+              <Text layoutX="14.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="High:">
+                <font>
+                  <Font size="18.0" />
+                </font>
+              </Text>
+              <Text layoutX="14.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Low:">
+                <font>
+                  <Font size="18.0" />
+                </font>
+              </Text>
+              <Text fx:id="textCo2High" layoutX="120.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                <font>
+                  <Font size="18.0" />
+                </font>
+              </Text>
+              <Text fx:id="textCo2Low" layoutX="120.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                <font>
+                  <Font size="18.0" />
+                </font>
+              </Text>
+              <Text layoutX="14.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current">
+                <font>
+                  <Font size="18.0" />
+                </font>
+              </Text>
+            </children>
+          </AnchorPane>
+        </children>
+      </AnchorPane>
+      <LineChart id="co2LineChart" fx:id="co2LineChart" prefWidth="640.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
+    </children>
+  </GridPane>
+   </center>
 </BorderPane>

@@ -6,15 +6,13 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.chart.LineChart;
+import javafx.scene.Parent;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.text.Text;
+import javafx.scene.layout.BorderPane;
 import no.ntnu.group13.greenhouse.client.ClientHandler;
 import no.ntnu.group13.greenhouse.logic.BinarySearchTree;
 import no.ntnu.group13.greenhouse.logic.LOGIC;
@@ -24,152 +22,105 @@ import no.ntnu.group13.greenhouse.sensors.Sensor;
 import no.ntnu.group13.greenhouse.sensors.TemperatureSensor;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
-public class MainWindowController {
+public class WindowController {
 
-  // Sensor-client communication
-  private final List<Double> temperatureValues = new ArrayList<>();
-  private final List<Double> humidityValues = new ArrayList<>();
-  private final List<Double> co2Values = new ArrayList<>();
-  private final BinarySearchTree bstTemperatureTree = new BinarySearchTree();
-  private final BinarySearchTree bstHumidityTree = new BinarySearchTree();
-  private final BinarySearchTree bstCo2Tree = new BinarySearchTree();
-  private Sensor temperatureSensor;
-  private Sensor humiditySensor;
-  private Sensor co2Sensor;
-  private ClientHandler tempClientHandler;
-  private ClientHandler humidClientHandler;
-  private ClientHandler co2ClientHandler;
-  private static final int GENERATE_VALUES = 20;
-  private static final int VALUE_SPLIT = 2;
-  private boolean clientOnlineStatus = false;
-  private boolean sensorOnlineStatus = false;
+  protected ExecutorService executor;
 
   // For Linechart
-  private int xSeriesData = 0;
-  private static final int MAX_DATA_POINTS = 100;
-  private static final int LINECHART_UPDATE_INTERVAL = 1000;
-  private final XYChart.Series tempSeries = new XYChart.Series<>();
-  private final XYChart.Series humidSeries = new XYChart.Series<>();
-  private final XYChart.Series co2Series = new XYChart.Series<>();
-  private ExecutorService executor;
-  private final ConcurrentLinkedQueue<Number> receivedTempMessages = new ConcurrentLinkedQueue<>();
-  private final ConcurrentLinkedQueue<Number> receivedHumidMessages = new ConcurrentLinkedQueue<>();
-  private final ConcurrentLinkedQueue<Number> receivedCo2Messages = new ConcurrentLinkedQueue<>();
+  protected int xSeriesData = 0;
+  protected static final int MAX_DATA_POINTS = 100;
+  protected static final int LINECHART_UPDATE_INTERVAL = 3000;
+
+  // Sensor-client communication
+  protected final List<Double> temperatureValues = new ArrayList<>();
+  protected final List<Double> humidityValues = new ArrayList<>();
+  protected final List<Double> co2Values = new ArrayList<>();
+  protected final BinarySearchTree bstTemperatureTree = new BinarySearchTree();
+  protected final BinarySearchTree bstHumidityTree = new BinarySearchTree();
+  protected final BinarySearchTree bstCo2Tree = new BinarySearchTree();
 
   // Value trackers
-  private Double lowTemp = 0.0;
-  private Double highTemp = 0.0;
-  private Double lowHumid = 0.0;
-  private Double highHumid = 0.0;
-  private Double lowCo2 = 0.0;
-  private Double highCo2 = 0.0;
-  private Double currentTemp;
-  private Double currentHumid;
-  private Double currentCo2;
+  protected Double lowTemp = 0.0;
+  protected Double highTemp = 0.0;
+  protected Double lowHumid = 0.0;
+  protected Double highHumid = 0.0;
+  protected Double lowCo2 = 0.0;
+  protected Double highCo2 = 0.0;
+  protected Double currentTemp;
+  protected Double currentHumid;
+  protected Double currentCo2;
 
-  @FXML
-  private LineChart<?, ?> dashboardLineChart;
-  @FXML
-  private NumberAxis xAxis;
-  @FXML
-  private Button stopButton;
-  @FXML
-  private Button startButton;
-  @FXML
-  private Text textTempCurrent;
-  @FXML
-  private Text textTempHigh;
-  @FXML
-  private Text textTempLow;
-  @FXML
-  private Text textHumidCurrent;
-  @FXML
-  private Text textHumidHigh;
-  @FXML
-  private Text textHumidLow;
-  @FXML
-  private Text textCo2Current;
-  @FXML
-  private Text textCo2High;
-  @FXML
-  private Text textCo2Low;
+  protected boolean clientOnlineStatus = false;
+  protected boolean sensorOnlineStatus = false;
 
-  /**
-   * Initialize Controller.
-   */
-  public void initialize() {
-    xAxis = new NumberAxis(0, MAX_DATA_POINTS, MAX_DATA_POINTS / 10);
-    xAxis.setForceZeroInRange(false);
-    xAxis.setAutoRanging(false);
-    xAxis.setTickLabelsVisible(false);
-    xAxis.setTickMarkVisible(false);
-    xAxis.setMinorTickVisible(false);
+  protected Sensor temperatureSensor;
+  protected Sensor humiditySensor;
+  protected Sensor co2Sensor;
+  protected ClientHandler tempClientHandler;
+  protected ClientHandler humidClientHandler;
+  protected ClientHandler co2ClientHandler;
 
-    dashboardLineChart.getXAxis().setLabel("Time (seconds)");
-    dashboardLineChart.getYAxis().setLabel("Value");
-    dashboardLineChart.setAnimated(false);
-    dashboardLineChart.setTitle("Animated Line Chart");
-    dashboardLineChart.setHorizontalGridLinesVisible(true);
+  protected final XYChart.Series tempSeries = new XYChart.Series<>();
+  protected final XYChart.Series humidSeries = new XYChart.Series<>();
+  protected final XYChart.Series co2Series = new XYChart.Series<>();
+  protected final ConcurrentLinkedQueue<Number> receivedTempMessages = new ConcurrentLinkedQueue<>();
+  protected final ConcurrentLinkedQueue<Number> receivedHumidMessages = new ConcurrentLinkedQueue<>();
+  protected final ConcurrentLinkedQueue<Number> receivedCo2Messages = new ConcurrentLinkedQueue<>();
 
-    // Set Name for Series
-    tempSeries.setName("Temperature");
-    humidSeries.setName("Humidity");
-    co2Series.setName("Co2");
-
-    // Add Chart Series
-    dashboardLineChart.getData().addAll(tempSeries, humidSeries, co2Series);
-
-    this.tempClientHandler = new ClientHandler(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER,
-        LOGIC.TEMP_CLIENT, LOGIC.QOS);
-    this.humidClientHandler = new ClientHandler(LOGIC.HUMIDITY_TOPIC, LOGIC.BROKER,
-        LOGIC.HUMID_CLIENT, LOGIC.QOS);
-    this.co2ClientHandler = new ClientHandler(LOGIC.CO2_TOPIC, LOGIC.BROKER, LOGIC.CO2_CLIENT,
-        LOGIC.QOS);
-  }
-
+  protected Parent overviewPage;
+  protected Parent tempPane;
+  protected Parent humidityPane;
+  protected Parent co2Pane;
   @FXML
-  public void startRecordButton(ActionEvent actionEvent) {
-    stopButton.setDisable(false);
-    startButton.setDisable(true);
-
-    startRecording();
-  }
-
-  @FXML
-  public void stopRecordButton(ActionEvent actionEvent) throws InterruptedException {
-    executor.awaitTermination(LINECHART_UPDATE_INTERVAL, TimeUnit.MILLISECONDS);
-    executor.shutdown();
-    stopSensors();
-
-    stopButton.setDisable(true);
-    startButton.setDisable(false);
-  }
+  private BorderPane centerBorderPane;
+  protected NumberAxis xAxis;
 
   // Menu buttons
   @FXML
   public void dashboardMenuButton(ActionEvent actionEvent) {
-    System.out.println("Dashboard");
+    this.centerBorderPane.setCenter(overviewPage);
   }
 
   @FXML
   public void tempMenuButton(ActionEvent actionEvent) {
-    System.out.println("Temperature");
+    this.centerBorderPane.setCenter(tempPane);
   }
 
   @FXML
   public void humidityMenuButton(ActionEvent actionEvent) {
-    System.out.println("Humidity");
+    this.centerBorderPane.setCenter(humidityPane);
   }
 
   @FXML
   public void co2MenuButton(ActionEvent actionEvent) {
-    System.out.println("Co2");
+    this.centerBorderPane.setCenter(co2Pane);
+  }
+
+  @FXML
+  public void startProgram(ActionEvent actionEvent) {
+    this.centerBorderPane.setCenter(overviewPage);
+  }
+
+  public void setOverviewPage(Parent overviewPage) {
+    this.overviewPage = overviewPage;
+  }
+
+  public void setTemperaturePage(Parent tempPane) {
+    this.tempPane = tempPane;
+  }
+
+  public void setHumidityPage(Parent humidityPane) {
+    this.humidityPane = humidityPane;
+  }
+
+  public void setCo2Page(Parent co2Pane) {
+    this.co2Pane = co2Pane;
   }
 
   /**
    * Starts connection between clients and MQTT broker
    */
-  private void startClients() {
+  protected void startClients() {
     this.tempClientHandler.startClient();
     this.humidClientHandler.startClient();
     this.co2ClientHandler.startClient();
@@ -179,7 +130,7 @@ public class MainWindowController {
   /**
    * Starts connection between the sensor and MQTT broker.
    */
-  private void startSensors() {
+  protected void startSensors() {
     this.temperatureSensor = new TemperatureSensor(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER,
         LOGIC.TEMP_SENSOR, LOGIC.QOS, 27.5, 1);
     this.humiditySensor = new HumiditySensor(LOGIC.HUMIDITY_TOPIC, LOGIC.BROKER, LOGIC.HUMID_SENSOR,
@@ -216,6 +167,16 @@ public class MainWindowController {
       System.out.println("Disconnect failed: " + e);
     }
   }
+
+  public boolean getSensorOnlineStatus() {
+    return sensorOnlineStatus;
+  }
+
+  public boolean getClientOnlineStatus() {
+    return clientOnlineStatus;
+  }
+
+  // Updating linechart
 
   /**
    * Receives and stores message from sensor.
@@ -257,7 +218,7 @@ public class MainWindowController {
 
     public void run() {
       try {
-        // Generates new values to send to the client, created dynamically to prevent necessary
+        // Generates new values to send to the client, created dynamically to prevent unnecessary
         // overloading at program startup.
 //        if ((xSeriesData % GENERATE_VALUES) == 0) {
 ////          temperatureValues.addAll(
@@ -315,7 +276,8 @@ public class MainWindowController {
         if (!executor.isShutdown()) {
           addDataToSeries();
           if (xSeriesData >= 1) {
-            updateDetailedValues();
+            // updateDetailedValues();
+            // TODO: abstract?
           }
         }
       }
@@ -357,47 +319,5 @@ public class MainWindowController {
     // update
     xAxis.setLowerBound(xSeriesData - MAX_DATA_POINTS);
     xAxis.setUpperBound(xSeriesData - 1);
-  }
-
-  /**
-   * Updates detailed values.
-   */
-  private void updateDetailedValues() {
-    textTempCurrent.setText(currentTemp + "°C");
-    textHumidCurrent.setText(currentHumid + "%");
-    textCo2Current.setText(currentCo2 + "ppm");
-
-    if (currentTemp > highTemp) {
-      highTemp = currentTemp;
-      textTempHigh.setText(currentTemp + "°C");
-    }
-    if (currentTemp < lowTemp || lowTemp == 0.0) {
-      lowTemp = currentTemp;
-      textTempLow.setText(currentTemp + "°C");
-    }
-    if (currentHumid > highHumid) {
-      highHumid = currentHumid;
-      textHumidHigh.setText(currentHumid + "%");
-    }
-    if (currentHumid < lowHumid || lowHumid == 0.0) {
-      lowHumid = currentHumid;
-      textHumidLow.setText(currentHumid + "%");
-    }
-    if (currentCo2 > highCo2) {
-      highCo2 = currentCo2;
-      textCo2High.setText(currentCo2 + "ppm");
-    }
-    if (currentCo2 < lowCo2 || lowCo2 == 0.0) {
-      lowCo2 = currentCo2;
-      textCo2Low.setText(currentCo2 + "ppm");
-    }
-  }
-
-  public boolean getSensorOnlineStatus() {
-    return sensorOnlineStatus;
-  }
-
-  public boolean getClientOnlineStatus() {
-    return clientOnlineStatus;
   }
 }

@@ -2,7 +2,6 @@ package no.ntnu.group13.greenhouse.server;
 
 import java.util.ArrayList;
 import java.util.List;
-import no.ntnu.group13.greenhouse.javafx.controllers.MainWindowController;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
