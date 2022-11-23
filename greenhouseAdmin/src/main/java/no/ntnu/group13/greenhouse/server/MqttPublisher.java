@@ -29,7 +29,7 @@ public class MqttPublisher {
   private MqttClient client;
 
   // For encrypting
-  private IvParameterSpec ivParameterSpec;
+  protected IvParameterSpec ivParameterSpec;
 
   /**
    * Creates a client that sends data to an MQTT broker.

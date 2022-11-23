@@ -35,7 +35,7 @@ public class MqttSubscriber implements MqttCallback {
   private MqttClient client;
 
   // For decrypting
-  private IvParameterSpec ivParameterSpec;
+  protected IvParameterSpec ivParameterSpec;
 
   /**
    * Creates a client that receives data from an MQTT broker.

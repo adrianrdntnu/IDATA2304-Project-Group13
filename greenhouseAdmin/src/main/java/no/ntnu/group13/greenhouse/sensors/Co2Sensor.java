@@ -1,5 +1,7 @@
 package no.ntnu.group13.greenhouse.sensors;
 
+import javax.crypto.spec.IvParameterSpec;
+
 public class Co2Sensor extends Sensor {
 
   /**
@@ -10,8 +12,8 @@ public class Co2Sensor extends Sensor {
    * @param sensorId the sensor id
    * @param qos      qos value
    */
-  public Co2Sensor(String topic, String broker, String sensorId, int qos) {
-    super(topic, broker, sensorId, qos, 300, 5);
+  public Co2Sensor(String topic, String broker, String sensorId, int qos, IvParameterSpec ivParameterSpec) {
+    super(topic, broker, sensorId, qos, 300, 5, ivParameterSpec);
   }
 
   /**
@@ -25,8 +27,8 @@ public class Co2Sensor extends Sensor {
    * @param standardDeviation standard deviation of the co2-value
    */
   public Co2Sensor(String topic, String broker, String sensorId, int qos, double mean,
-      double standardDeviation) {
-    super(topic, broker, sensorId, qos, mean, standardDeviation);
+      double standardDeviation, IvParameterSpec ivParameterSpec) {
+    super(topic, broker, sensorId, qos, mean, standardDeviation, ivParameterSpec);
   }
 
   @Override

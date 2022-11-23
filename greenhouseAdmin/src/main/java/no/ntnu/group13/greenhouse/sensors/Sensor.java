@@ -2,6 +2,7 @@ package no.ntnu.group13.greenhouse.sensors;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.crypto.spec.IvParameterSpec;
 import no.ntnu.group13.greenhouse.logic.BinarySearchTree;
 import no.ntnu.group13.greenhouse.logic.DataSearching;
 import no.ntnu.group13.greenhouse.logic.LOGIC;
@@ -33,8 +34,8 @@ public abstract class Sensor extends MqttPublisher {
    * @param standardDeviation standard deviation of the sensor
    */
   protected Sensor(String topic, String broker, String sensorId, int qos, double mean,
-      double standardDeviation) {
-    super(topic, broker, sensorId, qos);
+      double standardDeviation, IvParameterSpec ivParameterSpec) {
+    super(topic, broker, sensorId, qos, ivParameterSpec);
     this.mean = mean;
     this.standardDeviation = standardDeviation;
   }

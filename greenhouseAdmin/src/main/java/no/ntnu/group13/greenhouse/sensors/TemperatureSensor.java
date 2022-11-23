@@ -1,5 +1,7 @@
 package no.ntnu.group13.greenhouse.sensors;
 
+import javax.crypto.spec.IvParameterSpec;
+
 /**
  * Represents a temperature sensor that records temperature each interval.
  */
@@ -14,8 +16,8 @@ public class TemperatureSensor extends Sensor {
    * @param sensorId the sensor id
    * @param qos      qos value
    */
-  public TemperatureSensor(String topic, String broker, String sensorId, int qos) {
-    super(topic, broker, sensorId, qos, 38, 0.1);
+  public TemperatureSensor(String topic, String broker, String sensorId, int qos, IvParameterSpec ivParameterSpec) {
+    super(topic, broker, sensorId, qos, 38, 0.1, ivParameterSpec);
   }
 
   /**
@@ -29,8 +31,8 @@ public class TemperatureSensor extends Sensor {
    * @param standardDeviation standard deviation of the temperature
    */
   public TemperatureSensor(String topic, String broker, String sensorId, int qos, double mean,
-      double standardDeviation) {
-    super(topic, broker, sensorId, qos, mean, standardDeviation);
+      double standardDeviation, IvParameterSpec ivParameterSpec) {
+    super(topic, broker, sensorId, qos, mean, standardDeviation, ivParameterSpec);
   }
 
   @Override

@@ -20,9 +20,12 @@ public class App {
 
   public void start() {
     try {
+      // Generates initialization vector
+      IvParameterSpec ivParameterSpec = EncryptAndDecryptMessage.generateIv();
+
 //      ClientHandler clientHandler = new ClientHandler(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.CLIENT_ID, LOGIC.QOS);
       Sensor temperatureSensor = new TemperatureSensor(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER,
-          LOGIC.SENSOR_ID, LOGIC.QOS);
+          LOGIC.SENSOR_ID, LOGIC.QOS, ivParameterSpec);
 
       MqttSubscriber mqttSubscriber = new MqttSubscriber(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER,
           LOGIC.CLIENT_ID, LOGIC.QOS);
@@ -31,8 +34,6 @@ public class App {
       mqttSubscriber.startClient();
       temperatureSensor.startConnection();
 
-      // Generates initialization vector
-      IvParameterSpec ivParameterSpec = EncryptAndDecryptMessage.generateIv();
 
       // Applies initialization vector
       mqttSubscriber.setIvParameterSpec(ivParameterSpec);
@@ -54,7 +55,7 @@ public class App {
       // Sleeps so client has time to receive all data before it disconnects.
       System.out.println("Received messages: " + mqttSubscriber.getData());
       System.out.println("Disconnecting client: " + mqttSubscriber.getClientId());
-      mqttSubscriber.disconnectClient(); // <-- Not necessary?
+      mqttSubscriber.disconnectClient();
 
     } catch (Exception e) {
       System.err.println(e);
