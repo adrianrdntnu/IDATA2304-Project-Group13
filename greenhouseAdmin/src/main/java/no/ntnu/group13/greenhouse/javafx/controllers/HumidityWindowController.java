@@ -20,8 +20,6 @@ public class HumidityWindowController extends WindowController {
   private Button startButton;
   @FXML
   private Button stopButton;
-  @FXML
-  private LineChart<?, ?> humidityLineChart;
 
   public void initialize() {
     xAxis = new NumberAxis(0, MAX_DATA_POINTS, MAX_DATA_POINTS / 10);
@@ -41,7 +39,7 @@ public class HumidityWindowController extends WindowController {
     humidSeries.setName("Humidity");
 
     // Add Chart Series
-    humidityLineChart.getData().addAll(humidSeries);
+    // humidityLineChart.getData().addAll(humidSeries);
   }
 
   @FXML
@@ -76,5 +74,9 @@ public class HumidityWindowController extends WindowController {
       lowHumid = currentHumid;
       textHumidLow.setText(currentHumid + "%");
     }
+  }
+
+  public LineChart<?, ?> getHumidityLineChart() {
+    return humidityLineChart;
   }
 }

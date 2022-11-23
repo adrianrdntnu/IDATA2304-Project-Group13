@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Button;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 
 public class TemperatureWindowController extends WindowController {
@@ -20,8 +21,6 @@ public class TemperatureWindowController extends WindowController {
   private Button startButton;
   @FXML
   private Button stopButton;
-  @FXML
-  private LineChart<?, ?> tempLineChart;
 
 
   public void initialize() {
@@ -42,7 +41,7 @@ public class TemperatureWindowController extends WindowController {
     tempSeries.setName("Temperature");
 
     // Add Chart Series
-    tempLineChart.getData().addAll(tempSeries);
+    // tempLineChart.getData().addAll(tempSeries);
 
     // this.tempClientHandler = new ClientHandler(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER, LOGIC.TEMP_CLIENT, LOGIC.QOS);
   }
@@ -79,5 +78,9 @@ public class TemperatureWindowController extends WindowController {
       lowTemp = currentTemp;
       textTempLow.setText(currentTemp + "°C");
     }
+  }
+
+  public LineChart<?, ?> getTempLineChart() {
+    return tempLineChart;
   }
 }

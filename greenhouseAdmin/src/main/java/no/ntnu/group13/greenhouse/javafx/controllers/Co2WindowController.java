@@ -20,8 +20,6 @@ public class Co2WindowController extends WindowController {
   private Text textCo2High;
   @FXML
   private Text textCo2Low;
-  @FXML
-  private LineChart<?, ?> co2LineChart;
 
   public void initialize() {
     xAxis = new NumberAxis(0, MAX_DATA_POINTS, MAX_DATA_POINTS / 10);
@@ -41,7 +39,7 @@ public class Co2WindowController extends WindowController {
     co2Series.setName("co2");
 
     // Add Chart Series
-    co2LineChart.getData().addAll(co2Series);
+    // co2LineChart.getData().addAll(co2Series);
   }
 
   @FXML
@@ -76,5 +74,9 @@ public class Co2WindowController extends WindowController {
       lowCo2 = currentCo2;
       textCo2Low.setText(currentCo2 + "ppm");
     }
+  }
+
+  public LineChart<?, ?> getCo2LineChart() {
+    return co2LineChart;
   }
 }

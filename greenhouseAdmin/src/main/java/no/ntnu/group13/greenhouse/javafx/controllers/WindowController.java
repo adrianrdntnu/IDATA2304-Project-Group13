@@ -10,9 +10,12 @@ import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.layout.BorderPane;
+import javax.crypto.spec.IvParameterSpec;
 import no.ntnu.group13.greenhouse.client.ClientHandler;
 import no.ntnu.group13.greenhouse.logic.BinarySearchTree;
 import no.ntnu.group13.greenhouse.logic.LOGIC;
@@ -60,9 +63,15 @@ public class WindowController {
   protected ClientHandler humidClientHandler;
   protected ClientHandler co2ClientHandler;
 
-  protected final XYChart.Series tempSeries = new XYChart.Series<>();
-  protected final XYChart.Series humidSeries = new XYChart.Series<>();
-  protected final XYChart.Series co2Series = new XYChart.Series<>();
+  // For decrypting and encrypting
+  protected IvParameterSpec ivParameterSpec;
+
+  protected XYChart.Series tempSeries = new XYChart.Series<>();
+  protected XYChart.Series humidSeries = new XYChart.Series<>();
+  protected XYChart.Series co2Series = new XYChart.Series<>();
+  protected XYChart.Series overviewTempSeries = new XYChart.Series<>();
+  protected XYChart.Series overviewHumidSeries = new XYChart.Series<>();
+  protected XYChart.Series overviewCo2Series = new XYChart.Series<>();
   protected final ConcurrentLinkedQueue<Number> receivedTempMessages = new ConcurrentLinkedQueue<>();
   protected final ConcurrentLinkedQueue<Number> receivedHumidMessages = new ConcurrentLinkedQueue<>();
   protected final ConcurrentLinkedQueue<Number> receivedCo2Messages = new ConcurrentLinkedQueue<>();
@@ -74,6 +83,14 @@ public class WindowController {
   @FXML
   private BorderPane centerBorderPane;
   protected NumberAxis xAxis;
+  @FXML
+  protected LineChart<?, ?> dashboardLineChart;
+  @FXML
+  protected LineChart<?, ?> tempLineChart;
+  @FXML
+  protected LineChart<?, ?> humidityLineChart;
+  @FXML
+  protected LineChart<?, ?> co2LineChart;
 
   // Menu buttons
   @FXML
@@ -121,37 +138,37 @@ public class WindowController {
    * Starts connection between clients and MQTT broker
    */
   protected void startClients() {
-    this.tempClientHandler.startClient();
-    this.humidClientHandler.startClient();
-    this.co2ClientHandler.startClient();
-    this.clientOnlineStatus = true;
+    tempClientHandler.startClient();
+    humidClientHandler.startClient();
+    co2ClientHandler.startClient();
+    clientOnlineStatus = true;
   }
 
   /**
    * Starts connection between the sensor and MQTT broker.
    */
   protected void startSensors() {
-    this.temperatureSensor = new TemperatureSensor(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER,
-        LOGIC.TEMP_SENSOR, LOGIC.QOS, 27.5, 1);
-    this.humiditySensor = new HumiditySensor(LOGIC.HUMIDITY_TOPIC, LOGIC.BROKER, LOGIC.HUMID_SENSOR,
-        LOGIC.QOS, 50, 3);
-    this.co2Sensor = new Co2Sensor(LOGIC.CO2_TOPIC, LOGIC.BROKER, LOGIC.CO2_SENSOR, LOGIC.QOS, 100,
-        3);
+    temperatureSensor = new TemperatureSensor(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER,
+        LOGIC.TEMP_SENSOR, LOGIC.QOS, 27.5, 1, ivParameterSpec);
+    humiditySensor = new HumiditySensor(LOGIC.HUMIDITY_TOPIC, LOGIC.BROKER, LOGIC.HUMID_SENSOR,
+        LOGIC.QOS, 50, 3, ivParameterSpec);
+    co2Sensor = new Co2Sensor(LOGIC.CO2_TOPIC, LOGIC.BROKER, LOGIC.CO2_SENSOR, LOGIC.QOS, 100,
+        3, ivParameterSpec);
 
-    this.temperatureSensor.startConnection();
-    this.humiditySensor.startConnection();
-    this.co2Sensor.startConnection();
-    this.sensorOnlineStatus = true;
+    temperatureSensor.startConnection();
+    humiditySensor.startConnection();
+    co2Sensor.startConnection();
+    sensorOnlineStatus = true;
   }
 
   /**
    * Terminates connection from the sensor to the MQTT broker.
    */
   public void stopSensors() {
-    this.temperatureSensor.terminateConnection();
-    this.humiditySensor.terminateConnection();
-    this.co2Sensor.terminateConnection();
-    this.sensorOnlineStatus = false;
+    temperatureSensor.terminateConnection();
+    humiditySensor.terminateConnection();
+    co2Sensor.terminateConnection();
+    sensorOnlineStatus = false;
   }
 
   /**
@@ -159,10 +176,10 @@ public class WindowController {
    */
   public void disconnectClients() {
     try {
-      this.tempClientHandler.disconnectClient();
-      this.humidClientHandler.disconnectClient();
-      this.co2ClientHandler.disconnectClient();
-      this.clientOnlineStatus = false;
+      tempClientHandler.disconnectClient();
+      humidClientHandler.disconnectClient();
+      co2ClientHandler.disconnectClient();
+      clientOnlineStatus = false;
     } catch (MqttException e) {
       System.out.println("Disconnect failed: " + e);
     }
@@ -185,6 +202,7 @@ public class WindowController {
       ClientHandler client) {
     Double d = client.getMostRecentMessage();
     tree.insert(d);
+    queue.add(d);
     queue.add(d);
   }
 
@@ -289,23 +307,27 @@ public class WindowController {
    * href="https://stackoverflow.com/a/22093579">stackoverflow</a>
    */
   private void addDataToSeries() {
-//    for (int i = 0; i < 20; i++) { //-- add 20 numbers to the plot+
-//      if (receivedTempMessages.isEmpty()) {
-//        break; TODO: Remove this
-//      }
     if (!receivedTempMessages.isEmpty()) {
       tempSeries.getData().add(
+          new XYChart.Data<>("" + xSeriesData * (LINECHART_UPDATE_INTERVAL / 1000),
+              receivedTempMessages.remove()));
+      overviewTempSeries.getData().add(
           new XYChart.Data<>("" + xSeriesData * (LINECHART_UPDATE_INTERVAL / 1000),
               receivedTempMessages.remove()));
       humidSeries.getData().add(
           new XYChart.Data<>("" + xSeriesData * (LINECHART_UPDATE_INTERVAL / 1000),
               receivedHumidMessages.remove()));
+      overviewHumidSeries.getData().add(
+          new XYChart.Data<>("" + xSeriesData * (LINECHART_UPDATE_INTERVAL / 1000),
+              receivedHumidMessages.remove()));
       co2Series.getData().add(
+          new XYChart.Data<>("" + xSeriesData * (LINECHART_UPDATE_INTERVAL / 1000),
+              receivedCo2Messages.remove()));
+      overviewCo2Series.getData().add(
           new XYChart.Data<>("" + xSeriesData * (LINECHART_UPDATE_INTERVAL / 1000),
               receivedCo2Messages.remove()));
       xSeriesData++;
     }
-//    } TODO: Remove this too
     // remove points to keep us at no more than MAX_DATA_POINTS
     if (tempSeries.getData().size() > MAX_DATA_POINTS) {
       tempSeries.getData().remove(0, tempSeries.getData().size() - MAX_DATA_POINTS);
@@ -319,5 +341,74 @@ public class WindowController {
     // update
     xAxis.setLowerBound(xSeriesData - MAX_DATA_POINTS);
     xAxis.setUpperBound(xSeriesData - 1);
+  }
+
+  // For modifying other Linecharts
+  public void setTempLineChart(LineChart tempLineChart) {
+    this.tempLineChart = tempLineChart;
+  }
+
+  public void setHumidityLineChart(LineChart humidityLineChart) {
+    this.humidityLineChart = humidityLineChart;
+  }
+
+  public void setCo2LineChart(LineChart co2LineChart) {
+    this.co2LineChart = co2LineChart;
+  }
+
+  public void setdDashboardLineChart(LineChart dashboardLineChart) {
+    this.dashboardLineChart = dashboardLineChart;
+  }
+
+  public void setIvParameterSpec(IvParameterSpec ivParameterSpec) {
+    this.ivParameterSpec = ivParameterSpec;
+  }
+
+  public IvParameterSpec getIvParameterSpec() {
+    return this.ivParameterSpec;
+  }
+
+  public void setTempClientHandler(ClientHandler tempClientHandler) {
+    this.tempClientHandler = tempClientHandler;
+  }
+
+  public void setHumidClientHandler(ClientHandler humidClientHandler) {
+    this.humidClientHandler = humidClientHandler;
+  }
+
+  public void setCo2ClientHandler(ClientHandler co2ClientHandler) {
+    this.co2ClientHandler = co2ClientHandler;
+  }
+
+  public Series getTempSeries() {
+    return tempSeries;
+  }
+
+  public Series getHumidSeries() {
+    return humidSeries;
+  }
+
+  public Series getCo2Series() {
+    return co2Series;
+  }
+
+  public void setTempSeries(Series tempSeries) {
+    this.tempSeries = tempSeries;
+  }
+
+  public void setHumidSeries(Series humidSeries) {
+    this.humidSeries = humidSeries;
+  }
+
+  public void setCo2Series(Series co2Series) {
+    this.co2Series = co2Series;
+  }
+
+  public void setxAxis(NumberAxis xAxis) {
+    this.xAxis = xAxis;
+  }
+
+  public NumberAxis getxAxis() {
+    return xAxis;
   }
 }

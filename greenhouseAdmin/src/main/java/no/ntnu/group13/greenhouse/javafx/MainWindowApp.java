@@ -13,13 +13,22 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javax.crypto.spec.IvParameterSpec;
+import no.ntnu.group13.greenhouse.client.ClientHandler;
+import no.ntnu.group13.greenhouse.javafx.controllers.Co2WindowController;
+import no.ntnu.group13.greenhouse.javafx.controllers.HumidityWindowController;
+import no.ntnu.group13.greenhouse.javafx.controllers.OverviewWindowController;
+import no.ntnu.group13.greenhouse.javafx.controllers.TemperatureWindowController;
 import no.ntnu.group13.greenhouse.javafx.controllers.WindowController;
+import no.ntnu.group13.greenhouse.logic.EncryptAndDecryptMessage;
+import no.ntnu.group13.greenhouse.logic.LOGIC;
 
 public class MainWindowApp extends Application {
 
   private Stage primaryStage;
   private BorderPane mainBorderPane;
   private WindowController mainWindowController;
+  private OverviewWindowController overviewWindowController;
 
   // Different pages
   private Scene mainScene;
@@ -27,6 +36,11 @@ public class MainWindowApp extends Application {
   private Parent temperaturePane;
   private Parent humidityPane;
   private Parent co2Pane;
+
+  private ClientHandler tempClientHandler;
+  private ClientHandler humidClientHandler;
+  private ClientHandler co2ClientHandler;
+  private IvParameterSpec ivParameterSpec;
 
   public static void main(String[] args) {
     launch(args);
@@ -47,24 +61,24 @@ public class MainWindowApp extends Application {
     FXMLLoader overviewPageLoader = new FXMLLoader(
         getClass().getResource("gui/overviewWindow.fxml"));
     this.overviewPane = overviewPageLoader.load();
-    // OverviewWindowController overviewWindowController = overviewPageLoader.getController();
+    this.overviewWindowController = overviewPageLoader.getController();
 
     // Temperature page
     FXMLLoader temperaturePageLoader = new FXMLLoader(
         getClass().getResource("gui/tempWindow.fxml"));
     this.temperaturePane = temperaturePageLoader.load();
-    // TemperatureWindowController tempWindowController = temperaturePageLoader.getController();
+    TemperatureWindowController tempWindowController = temperaturePageLoader.getController();
 
     // Humidity page
     FXMLLoader humidityPageLoader = new FXMLLoader(
         getClass().getResource("gui/humidityWindow.fxml"));
     this.humidityPane = humidityPageLoader.load();
-    // HumidityWindowController humidWindowController = humidityPageLoader.getController();
+    HumidityWindowController humidWindowController = humidityPageLoader.getController();
 
     // Co2 page
     FXMLLoader co2PageLoader = new FXMLLoader(getClass().getResource("gui/co2Window.fxml"));
     this.co2Pane = co2PageLoader.load();
-    // Co2WindowController co2WindowController = co2PageLoader.getController();
+    Co2WindowController co2WindowController = co2PageLoader.getController();
 
     // Sets panes to mainController
     this.mainWindowController = mainPaneLoader.getController();
@@ -72,6 +86,44 @@ public class MainWindowApp extends Application {
     this.mainWindowController.setTemperaturePage(this.temperaturePane);
     this.mainWindowController.setHumidityPage(this.humidityPane);
     this.mainWindowController.setCo2Page(this.co2Pane);
+
+    // Connects the linecharts to overViewWindowController
+    this.mainWindowController.setCo2LineChart(co2WindowController.getCo2LineChart());
+    this.mainWindowController.setTempLineChart(tempWindowController.getTempLineChart());
+    this.mainWindowController.setHumidityLineChart(humidWindowController.getHumidityLineChart());
+    this.mainWindowController.setdDashboardLineChart(overviewWindowController.getDashboardLineChart());
+
+    // Generates initialization vector
+    this.ivParameterSpec = EncryptAndDecryptMessage.generateIv();
+    this.mainWindowController.setIvParameterSpec(ivParameterSpec);
+
+    // Clients
+    this.tempClientHandler = new ClientHandler(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER,
+        LOGIC.TEMP_CLIENT, LOGIC.QOS, ivParameterSpec);
+    this.humidClientHandler = new ClientHandler(LOGIC.HUMIDITY_TOPIC, LOGIC.BROKER,
+        LOGIC.HUMID_CLIENT, LOGIC.QOS, ivParameterSpec);
+    this.co2ClientHandler = new ClientHandler(LOGIC.CO2_TOPIC, LOGIC.BROKER, LOGIC.CO2_CLIENT,
+        LOGIC.QOS, ivParameterSpec);
+
+    this.overviewWindowController.setTempClientHandler(tempClientHandler);
+    this.overviewWindowController.setHumidClientHandler(humidClientHandler);
+    this.overviewWindowController.setCo2ClientHandler(co2ClientHandler);
+    this.overviewWindowController.setIvParameterSpec(ivParameterSpec);
+
+    // To modify other linecharts
+    this.overviewWindowController.setCo2LineChart(co2WindowController.getCo2LineChart());
+    this.overviewWindowController.setTempLineChart(tempWindowController.getTempLineChart());
+    this.overviewWindowController.setHumidityLineChart(humidWindowController.getHumidityLineChart());
+
+    // tempWindowController.setTempSeries(overviewWindowController.getTempSeries());
+    // humidWindowController.setHumidSeries(overviewWindowController.getHumidSeries());
+    // co2WindowController.setCo2Series(overviewWindowController.getCo2Series());
+
+    // tempWindowController.setxAxis(overviewWindowController.getxAxis());
+    // humidWindowController.setxAxis(overviewWindowController.getxAxis());
+    // co2WindowController.setxAxis(overviewWindowController.getxAxis());
+
+    // Applies initialization vector
 
     primaryStage.setTitle("Greenhouse Administrator");
     primaryStage.setScene(this.mainScene);
@@ -95,11 +147,11 @@ public class MainWindowApp extends Application {
     closeWindowAlert.initOwner(primaryStage);
 
     // Stops clients & sensors
-    if (mainWindowController.getClientOnlineStatus()) {
-      this.mainWindowController.disconnectClients();
+    if (overviewWindowController.getClientOnlineStatus()) {
+      this.overviewWindowController.disconnectClients();
     }
-    if (mainWindowController.getSensorOnlineStatus()) {
-      this.mainWindowController.stopSensors();
+    if (overviewWindowController.getSensorOnlineStatus()) {
+      this.overviewWindowController.stopSensors();
     }
 
     Optional<ButtonType> closeResponse = closeWindowAlert.showAndWait();

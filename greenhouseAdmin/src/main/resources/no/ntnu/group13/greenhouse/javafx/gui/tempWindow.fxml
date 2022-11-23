@@ -33,7 +33,6 @@
 -->
 
 <?import javafx.scene.chart.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
@@ -50,9 +49,7 @@
     <children>
       <AnchorPane prefHeight="200.0" prefWidth="640.0" GridPane.rowIndex="1">
         <children>
-          <Button id="startButton" fx:id="startButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#startRecordButton" prefHeight="50.0" prefWidth="150.0" text="START Sensor" />
-          <Button id="stopButton" fx:id="stopButton" disable="true" layoutX="180.0" layoutY="14.0" mnemonicParsing="false" onAction="#stopRecordButton" prefHeight="50.0" prefWidth="150.0" text="STOP Sensor" />
-          <AnchorPane id="tempPane" layoutX="360.0" layoutY="17.0" prefHeight="120.0" prefWidth="200.0">
+          <AnchorPane id="tempPane" layoutX="40.0" layoutY="17.0" prefHeight="120.0" prefWidth="200.0">
             <children>
               <Text layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Temperature">
                 <font>
