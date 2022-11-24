@@ -32,20 +32,13 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane minHeight="360.0" minWidth="600.0" prefWidth="560.0" style="-fx-background-color: #e0e0e0;" stylesheets="@../css/GUIstyle.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.group13.greenhouse.javafx.controllers.OverviewWindowController">
+<BorderPane minHeight="360.0" minWidth="600.0" prefWidth="560.0" style="-fx-background-color: #e0e0e0;" stylesheets="@../css/GUIstyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.group13.greenhouse.javafx.controllers.OverviewWindowController">
    <center>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -74,7 +67,7 @@
                               <Font size="24.0" />
                            </font>
                         </Text>
-                        <Text fx:id="textTempCurrent" layoutX="120.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                        <Text fx:id="textTempCurrentOverview" layoutX="120.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -89,12 +82,12 @@
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <Text fx:id="textTempHigh" layoutX="120.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                        <Text fx:id="textTempHighOverview" layoutX="120.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <Text fx:id="textTempLow" layoutX="120.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                        <Text fx:id="textTempLowOverview" layoutX="120.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -116,7 +109,7 @@
                               <Font size="24.0" />
                            </font>
                         </Text>
-                        <Text fx:id="textHumidCurrent" layoutX="120.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                        <Text fx:id="textHumidCurrentOverview" layoutX="120.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -131,12 +124,12 @@
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <Text fx:id="textHumidHigh" layoutX="120.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                        <Text fx:id="textHumidHighOverview" layoutX="120.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <Text fx:id="textHumidLow" layoutX="120.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                        <Text fx:id="textHumidLowOverview" layoutX="120.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -158,7 +151,7 @@
                               <Font size="24.0" />
                            </font>
                         </Text>
-                        <Text fx:id="textCo2Current" layoutX="120.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                        <Text fx:id="textCo2CurrentOverview" layoutX="120.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -173,12 +166,12 @@
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <Text fx:id="textCo2High" layoutX="120.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                        <Text fx:id="textCo2HighOverview" layoutX="120.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <Text fx:id="textCo2Low" layoutX="120.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                        <Text fx:id="textCo2LowOverview" layoutX="120.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                            <font>
                               <Font size="18.0" />
                            </font>

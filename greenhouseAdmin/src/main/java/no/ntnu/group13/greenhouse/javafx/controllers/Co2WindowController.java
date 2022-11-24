@@ -1,25 +1,10 @@
 package no.ntnu.group13.greenhouse.javafx.controllers;
 
-import java.util.concurrent.TimeUnit;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
 public class Co2WindowController extends WindowController {
-
-  @FXML
-  private Button stopButton;
-  @FXML
-  private Button startButton;
-  @FXML
-  private Text textCo2Current;
-  @FXML
-  private Text textCo2High;
-  @FXML
-  private Text textCo2Low;
 
   public void initialize() {
     xAxis = new NumberAxis(0, MAX_DATA_POINTS, MAX_DATA_POINTS / 10);
@@ -36,28 +21,10 @@ public class Co2WindowController extends WindowController {
     co2LineChart.setHorizontalGridLinesVisible(true);
 
     // Set Name for Series
-    co2Series.setName("co2");
+    // co2Series.setName("co2");
 
     // Add Chart Series
     // co2LineChart.getData().addAll(co2Series);
-  }
-
-  @FXML
-  public void startRecordButton(ActionEvent actionEvent) {
-    stopButton.setDisable(false);
-    startButton.setDisable(true);
-
-    startRecording();
-  }
-
-  @FXML
-  public void stopRecordButton(ActionEvent actionEvent) throws InterruptedException {
-    executor.awaitTermination(LINECHART_UPDATE_INTERVAL, TimeUnit.MILLISECONDS);
-    executor.shutdown();
-    stopSensors();
-
-    stopButton.setDisable(true);
-    startButton.setDisable(false);
   }
 
   /**
@@ -78,5 +45,17 @@ public class Co2WindowController extends WindowController {
 
   public LineChart<?, ?> getCo2LineChart() {
     return co2LineChart;
+  }
+
+  public Text getTextCo2Current() {
+    return textCo2Current;
+  }
+
+  public Text getTextCo2High() {
+    return textCo2High;
+  }
+
+  public Text getTextCo2Low() {
+    return textCo2Low;
   }
 }

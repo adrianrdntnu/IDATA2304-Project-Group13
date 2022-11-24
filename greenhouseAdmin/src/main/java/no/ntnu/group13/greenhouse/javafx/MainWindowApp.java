@@ -37,11 +37,6 @@ public class MainWindowApp extends Application {
   private Parent humidityPane;
   private Parent co2Pane;
 
-  private ClientHandler tempClientHandler;
-  private ClientHandler humidClientHandler;
-  private ClientHandler co2ClientHandler;
-  private IvParameterSpec ivParameterSpec;
-
   public static void main(String[] args) {
     launch(args);
   }
@@ -87,41 +82,19 @@ public class MainWindowApp extends Application {
     this.mainWindowController.setHumidityPage(this.humidityPane);
     this.mainWindowController.setCo2Page(this.co2Pane);
 
-    // Connects the linecharts to overViewWindowController
-    this.mainWindowController.setCo2LineChart(co2WindowController.getCo2LineChart());
-    this.mainWindowController.setTempLineChart(tempWindowController.getTempLineChart());
-    this.mainWindowController.setHumidityLineChart(humidWindowController.getHumidityLineChart());
-    this.mainWindowController.setdDashboardLineChart(overviewWindowController.getDashboardLineChart());
-
-    // Generates initialization vector
-    this.ivParameterSpec = EncryptAndDecryptMessage.generateIv();
-    this.mainWindowController.setIvParameterSpec(ivParameterSpec);
-
-    // Clients
-    this.tempClientHandler = new ClientHandler(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER,
-        LOGIC.TEMP_CLIENT, LOGIC.QOS, ivParameterSpec);
-    this.humidClientHandler = new ClientHandler(LOGIC.HUMIDITY_TOPIC, LOGIC.BROKER,
-        LOGIC.HUMID_CLIENT, LOGIC.QOS, ivParameterSpec);
-    this.co2ClientHandler = new ClientHandler(LOGIC.CO2_TOPIC, LOGIC.BROKER, LOGIC.CO2_CLIENT,
-        LOGIC.QOS, ivParameterSpec);
-
-    this.overviewWindowController.setTempClientHandler(tempClientHandler);
-    this.overviewWindowController.setHumidClientHandler(humidClientHandler);
-    this.overviewWindowController.setCo2ClientHandler(co2ClientHandler);
-    this.overviewWindowController.setIvParameterSpec(ivParameterSpec);
-
     // To modify other linecharts
     this.overviewWindowController.setCo2LineChart(co2WindowController.getCo2LineChart());
     this.overviewWindowController.setTempLineChart(tempWindowController.getTempLineChart());
-    this.overviewWindowController.setHumidityLineChart(humidWindowController.getHumidityLineChart());
+    this.overviewWindowController.setHumidityLineChart(
+        humidWindowController.getHumidityLineChart());
 
-    // tempWindowController.setTempSeries(overviewWindowController.getTempSeries());
-    // humidWindowController.setHumidSeries(overviewWindowController.getHumidSeries());
-    // co2WindowController.setCo2Series(overviewWindowController.getCo2Series());
-
-    // tempWindowController.setxAxis(overviewWindowController.getxAxis());
-    // humidWindowController.setxAxis(overviewWindowController.getxAxis());
-    // co2WindowController.setxAxis(overviewWindowController.getxAxis());
+    // To modify the detailed text-overview panes
+    this.overviewWindowController.setTempTexts(tempWindowController.getTextTempCurrent(),
+        tempWindowController.getTextTempHigh(), tempWindowController.getTextTempLow());
+    this.overviewWindowController.setHumidTexts(humidWindowController.getTextHumidCurrent(),
+        humidWindowController.getTextHumidHigh(), humidWindowController.getTextHumidLow());
+    this.overviewWindowController.setCo2Texts(co2WindowController.getTextCo2Current(),
+        co2WindowController.getTextCo2High(), co2WindowController.getTextCo2Low());
 
     // Applies initialization vector
 

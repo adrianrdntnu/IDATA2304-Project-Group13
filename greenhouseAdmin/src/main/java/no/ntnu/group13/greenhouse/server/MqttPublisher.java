@@ -107,10 +107,10 @@ public class MqttPublisher {
 
       // publish message
       client.publish(topic, m);
-      System.out.println("Message sent to topic: " + topic);
-      System.out.println("Message content: " + new String(m.getPayload()));
-      System.out.println("Original message: " + message);
-      System.out.println("----------------");
+//      System.out.println("Message sent to topic: " + topic);
+//      System.out.println("Message content: " + new String(m.getPayload()));
+//      System.out.println("Original message: " + message);
+//      System.out.println("----------------");
     } catch (MqttException e) {
       throw new RuntimeException(e);
     } catch (InvalidAlgorithmParameterException e) {
