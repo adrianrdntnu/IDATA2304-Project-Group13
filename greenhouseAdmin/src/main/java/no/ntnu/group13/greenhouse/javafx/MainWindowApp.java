@@ -104,8 +104,7 @@ public class MainWindowApp extends Application {
   }
 
   /**
-   * Presents user with an alert box when closing the program. Saves all tournaments when program is
-   * exited.
+   * Presents user with an alert box when closing the program.
    */
   private final EventHandler<WindowEvent> confirmCloseEventHandler = event -> {
     Alert closeWindowAlert = new Alert(

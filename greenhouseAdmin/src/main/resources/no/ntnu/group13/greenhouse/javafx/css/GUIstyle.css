@@ -99,7 +99,7 @@
   -fx-background-color: #3e3ead, #ffffff;
 }
 
-#cp2LineChart .default-color0.chart-series-line {
+#co2LineChart .default-color0.chart-series-line {
   -fx-stroke: orange;
 }
 
