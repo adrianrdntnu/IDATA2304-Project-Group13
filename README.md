@@ -1,12 +1,15 @@
 # IDATA2304-Project-Group13
 Group Project
  
-## General idea:
+## Abstract
 Creating an application that gets temperature inputs from a greenhouse, visualizes the data on a graph/timeline, and gives a response in case the temperature deviates to a harmful value for the plants in the greenhouse. 
 
 The application is intened to be used by an administrator over the greenhouse and monitor its values without having to be present at the greenhouse.
 
-## Methods used:
+## Introduction
+Here you introduce your project in more detail.
+
+## Theory and technology
 ### 1. MQTT broker
 - Stuff about MQTT broker
 
@@ -15,7 +18,7 @@ The application is intened to be used by an administrator over the greenhouse an
 
 ### 3. TCP? idk if we use this
 
-## Approach:
+## Approach
 ### 1. GitHub
 - (this)
 
@@ -28,7 +31,7 @@ The application is intened to be used by an administrator over the greenhouse an
 ### 3. Storing as a BST
 - Stuff about BST, realising it probably wasn't necessary
 
-## Additional Features:
+## Additional Features
 ### 1. JavaFx Interface
 Provides the user with an interface resembling an administrative application. The user can start and stop a temperature sensor, while getting *live** values vizualised on a linechart.
 
@@ -37,10 +40,16 @@ Provides the user with an interface resembling an administrative application. Th
 ### 2. Fake Value Generator
 - Stuff about how the generator works
 
-## Final Product:
+## Methodology
+
+## Results
 The final product is a JavaFX application mimicing an administrative program used to administrate a Greenhouse and its sensors.
 
 Because the program uses fake sensors, it both sends and retreives data from an MQTT broker.
 
-## Future Development:
+## Discussion
+
+## Conclusion and future work
 - Future ideas
+
+## References
