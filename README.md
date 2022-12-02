@@ -12,7 +12,7 @@ The application is intened to be used by an administrator over the greenhouse an
 ## Introduction
 This solution can be used by both professional greenhouse farmers, and private hobbyists. Constantly keeping track of the temperature, humidity and co2 levels can prove to be tiresome work. With this solution you can keep track of the temperature remotely, and could keep track of several different greenhouses.
 
-In [Theory and technology](https://github.com/adrianrdntnu/IDATA2304-Project-Group13/edit/main/README.md/Theory_and_technology) we go through the theory and technologies we used to implement this solution. We then describe our work proccess in "link to methodology", and our result in "link". In the end we discuss our result in "link" and reflect over possible improvements and future work, in "link".
+In [Theory and technology](https://github.com/adrianrdntnu/IDATA2304-Project-Group13/blob/main/README.md#theory-and-technology) we go through the theory and technologies we used to implement this solution. We then describe our work proccess in "link to methodology", and our result in "link". In the end we discuss our result in "link" and reflect over possible improvements and future work, in "link".
 
 ## Theory and technology
 
