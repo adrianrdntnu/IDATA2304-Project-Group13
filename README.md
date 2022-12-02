@@ -15,6 +15,10 @@ This solution can be used by both professional greenhouse farmers, and private h
 In "link to theory" we go through the theory and technologies we used to implement this solution. We then describe our work proccess in "link to methodology", and our result in "link". In the end we discuss our result in "link" and reflect over possible improvements and future work, in "link".
 
 ## Theory and technology
+
+* For data simulation we have used the java class Random. Here we use the method nextGaussian, to get a random normal distributed number. This way we can create some randomness/deviation to the "sensor reading" without changing the mean (actual temp/humidity/co2 value). To process the data we chose to store the data in a BST, which we added methods for extracting highest and lowest values. We have used JavaFX for our application and LineChart for visualization.
+* Storing values in a BST is something we learned in IDATA2302 Algorithms and datastructures. This tree structure makes the runtime of finding the lowest and highest value shorter. Using nextGaussian has a slight connection to what we learn in ISTA1003 Statistics, as we learn to work with normal distributed data.
+
 ### 1. MQTT broker
 - Stuff about MQTT broker
 
