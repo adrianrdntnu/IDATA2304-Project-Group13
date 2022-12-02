@@ -1,13 +1,18 @@
 # IDATA2304-Project-Group13
-Group Project
+This is a school group project for the course IDATA2304 Computer networks.
  
 ## Abstract
+In a greenhouse it is important that the temperature, humidity and co2 levels constantly stay the same correct value. Monitoring these values is therefore very important, so that we can adjust the values if they are wrong. This is why we made a program that keeps a live feed of the temperatures, so that you can keep track of these values, and notice any irregularities. We constantly evaluated our solution ourselves, and came up with ideas of improvement that we deemed necessary. 
+
+
 Creating an application that gets temperature inputs from a greenhouse, visualizes the data on a graph/timeline, and gives a response in case the temperature deviates to a harmful value for the plants in the greenhouse. 
 
 The application is intened to be used by an administrator over the greenhouse and monitor its values without having to be present at the greenhouse.
 
 ## Introduction
-Here you introduce your project in more detail.
+This solution can be used by both professional greenhouse farmers, and private hobbyists. Constantly keeping track of the temperature, humidity and co2 levels can prove to be tiresome work. With this solution you can keep track of the temperature remotely, and could keep track of several different greenhouses.
+
+In "link to theory" we go through the theory and technologies we used to implement this solution. We then describe our work proccess in "link to methodology", and our result in "link". In the end we discuss our result in "link" and reflect over possible improvements and future work, in "link".
 
 ## Theory and technology
 ### 1. MQTT broker
