@@ -50,6 +50,7 @@ Provides the user with an interface resembling an administrative application. Th
 - Stuff about how the generator works
 
 ## Methodology
+* Diagram?
 
 ## Results
 The final product is a JavaFX application mimicing an administrative program used to administrate a Greenhouse and its sensors.
