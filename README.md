@@ -60,9 +60,10 @@ Because the program uses fake sensors, it both sends to and retreives data from 
 ## Discussion
 
 ## Conclusion and future work
-* Storing and loading data.
+* Storing and loading data
 * Individually start and stop sensors
 * Login page with username and password
-* Modify fake value generator to include time of day as a variable.
+* Modify fake value generator to include time of day as a variable
+* Add mechanism to detect if any values are out of the ordinary
 
 ## References
