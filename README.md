@@ -54,11 +54,14 @@ Provides the user with an interface resembling an administrative application. Th
 ## Results
 The final product is a JavaFX application mimicing an administrative program used to administrate a Greenhouse and its sensors.
 
-Because the program uses fake sensors, it both sends and retreives data from an MQTT broker.
+Because the program uses fake sensors, it both sends to and retreives data from an MQTT broker.
 
 ## Discussion
 
 ## Conclusion and future work
-- Future ideas
+* Storing and loading data.
+* Individually start and stop sensors
+* Login page with username and password
+* Modify fake value generator to include time of day as a variable.
 
 ## References
