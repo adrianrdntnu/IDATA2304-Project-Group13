@@ -30,6 +30,10 @@ public class OverviewWindowController extends WindowController {
   @FXML
   private Button startButton;
   @FXML
+  public Button heaterOnButton;
+  @FXML
+  public Button heaterOffButton;
+  @FXML
   private Text textTempCurrentOverview;
   @FXML
   private Text textTempHighOverview;
@@ -102,6 +106,22 @@ public class OverviewWindowController extends WindowController {
 
     stopButton.setDisable(true);
     startButton.setDisable(false);
+  }
+
+  @FXML
+  public void startHeaterButton(ActionEvent actionEvent) {
+    heaterOffButton.setDisable(false);
+    heaterOnButton.setDisable(true);
+    this.temperatureSensor.setNewMean(this.temperatureSensor.getMean() + 5
+        , 1);
+  }
+
+  @FXML
+  public void stopHeaterButton(ActionEvent actionEvent) {
+    heaterOnButton.setDisable(false);
+    heaterOffButton.setDisable(true);
+    this.temperatureSensor.setNewMean(this.temperatureSensor.getMean() - 5
+        , 1);
   }
 
   /**

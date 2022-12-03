@@ -247,6 +247,14 @@ public abstract class Sensor extends MqttPublisher {
   }
 
   /**
+   * Returns this sensor's mean.
+   * @return mean of this sensor
+   */
+  public double getMean() {
+    return this.mean;
+  }
+
+  /**
    * Returns the BinarySearchTree of the sensor containing observed values.
    *
    * @return The BinarySearchTree of the sensor
