@@ -20,12 +20,19 @@ In [Theory and technology](https://github.com/adrianrdntnu/IDATA2304-Project-Gro
 * Storing values in a BST is something we learned in IDATA2302 Algorithms and datastructures. This tree structure makes the runtime of finding the lowest and highest value shorter. Using nextGaussian has a slight connection to what we learn in ISTA1003 Statistics, as we learn to work with normal distributed data.
 
 ### 1. MQTT broker
-- Stuff about MQTT broker
+* Stuff about MQTT broker. The way an MQTT broker knows where to distribute data is trough "topics", in our case the sensor node publishes to the topic "group13/greenhouse/sensors/#", where the # could be "temperature", "humidity" or "co2" depending on the sensor, and the visualization node subscribes to the same topic to receive data. The MQTT broker uses a TCP connection to create a connection between the sensor-nodes and the MQTT broker and visialization-nodes and the MQTT broker.
 
-### 2. JavaFX
-- Stuff about JavaFX features used
+// source: https://www.emqx.com/en/blog/how-to-use-mqtt-in-java 
 
-### 3. TCP? idk if we use this
+### 2. TCP/IP
+* A TCP (Transmission Control Protocol) and IP (Internet Protocol) are two protocols that is used to establish a connection between servers. TCP is a connection-oriented protocol which means it makes sure to establish a connection before the data actually starts transmitting. The IP is used as an identifier to know where to send the data to and where it came from. The most important feature of the TCP/IP protocols is that it ensures reliable transfer of data.
+
+// source: https://snl.no/TCP/IP
+
+### 3. JavaFX
+* To visualize the data for the user we chose to create a JavaFX application that will function as the user interface between the user and the data received from the different sensors. Within the JavaFX applicaiton a line chart is used to display the data as a linear timeline. To design the application Scene Builder was used to create FXML files. *more about how fxml is implemented*
+
+// https://docs.oracle.com/javase/8/javafx/get-started-tutorial/jfx-overview.htm#JFXST784
 
 ## Approach
 ### 1. GitHub
