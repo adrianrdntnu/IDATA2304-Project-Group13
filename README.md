@@ -36,7 +36,7 @@ In [Theory and technology](https://github.com/adrianrdntnu/IDATA2304-Project-Gro
 
 ## Approach
 ### 1. GitHub
-- (this)
+* For collaboration and to get an overview over the project, GitHub has been used to plan sprints, issues and store commits.
 
 ### 2. Maven
 - Stuff about maven / file structure
