@@ -1,20 +1,12 @@
 package no.ntnu.group13.greenhouse.javafx.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutorService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
-import javax.crypto.spec.IvParameterSpec;
-import no.ntnu.group13.greenhouse.client.ClientHandler;
-import no.ntnu.group13.greenhouse.sensors.Sensor;
 
 /**
  * Responsible for controlling the start-page in the JavaFX application.
@@ -27,8 +19,6 @@ public class WindowController {
   protected Parent tempPane;
   protected Parent humidityPane;
   protected Parent co2Pane;
-  @FXML
-  private BorderPane centerBorderPane;
   protected NumberAxis xAxis;
   @FXML
   protected LineChart<?, ?> dashboardLineChart;
@@ -56,6 +46,8 @@ public class WindowController {
   protected Text textTempHigh;
   @FXML
   protected Text textTempLow;
+  @FXML
+  private BorderPane centerBorderPane;
   @FXML
   protected BorderPane sideMenuBorderPane;
 
