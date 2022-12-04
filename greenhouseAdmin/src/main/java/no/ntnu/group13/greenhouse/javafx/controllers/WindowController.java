@@ -2,30 +2,23 @@ package no.ntnu.group13.greenhouse.javafx.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Series;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javax.crypto.spec.IvParameterSpec;
 import no.ntnu.group13.greenhouse.client.ClientHandler;
-import no.ntnu.group13.greenhouse.logic.BinarySearchTree;
-import no.ntnu.group13.greenhouse.logic.LOGIC;
-import no.ntnu.group13.greenhouse.sensors.Co2Sensor;
-import no.ntnu.group13.greenhouse.sensors.HumiditySensor;
 import no.ntnu.group13.greenhouse.sensors.Sensor;
-import no.ntnu.group13.greenhouse.sensors.TemperatureSensor;
-import org.eclipse.paho.client.mqttv3.MqttException;
 
+/**
+ * Responsible for controlling the start-page in the JavaFX application.
+ */
 public class WindowController {
 
   protected ExecutorService executor;
@@ -39,10 +32,6 @@ public class WindowController {
   protected final List<Double> temperatureValues = new ArrayList<>();
   protected final List<Double> humidityValues = new ArrayList<>();
   protected final List<Double> co2Values = new ArrayList<>();
-  protected final BinarySearchTree bstTemperatureTree = new BinarySearchTree();
-  protected final BinarySearchTree bstHumidityTree = new BinarySearchTree();
-  protected final BinarySearchTree bstCo2Tree = new BinarySearchTree();
-
   // Value trackers
   protected Double lowTemp = 0.0;
   protected Double highTemp = 0.0;
@@ -76,9 +65,12 @@ public class WindowController {
   protected XYChart.Series overviewTempSeries = new XYChart.Series<>();
   protected XYChart.Series overviewHumidSeries = new XYChart.Series<>();
   protected XYChart.Series overviewCo2Series = new XYChart.Series<>();
-  protected final ConcurrentLinkedQueue<Number> receivedTempMessages = new ConcurrentLinkedQueue<>();
-  protected final ConcurrentLinkedQueue<Number> receivedHumidMessages = new ConcurrentLinkedQueue<>();
-  protected final ConcurrentLinkedQueue<Number> receivedCo2Messages = new ConcurrentLinkedQueue<>();
+  protected final ConcurrentLinkedQueue<Number> receivedTempMessages =
+      new ConcurrentLinkedQueue<>();
+  protected final ConcurrentLinkedQueue<Number> receivedHumidMessages =
+      new ConcurrentLinkedQueue<>();
+  protected final ConcurrentLinkedQueue<Number> receivedCo2Messages =
+      new ConcurrentLinkedQueue<>();
 
   protected Parent overviewPage;
   protected Parent tempPane;

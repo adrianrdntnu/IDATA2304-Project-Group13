@@ -9,33 +9,22 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javax.crypto.spec.IvParameterSpec;
-import no.ntnu.group13.greenhouse.client.ClientHandler;
 import no.ntnu.group13.greenhouse.javafx.controllers.Co2WindowController;
 import no.ntnu.group13.greenhouse.javafx.controllers.HumidityWindowController;
 import no.ntnu.group13.greenhouse.javafx.controllers.OverviewWindowController;
 import no.ntnu.group13.greenhouse.javafx.controllers.TemperatureWindowController;
 import no.ntnu.group13.greenhouse.javafx.controllers.WindowController;
-import no.ntnu.group13.greenhouse.logic.EncryptAndDecryptMessage;
-import no.ntnu.group13.greenhouse.logic.LOGIC;
 
+/**
+ * Responsible for starting the JavaFX application.
+ */
 public class MainWindowApp extends Application {
 
   private Stage primaryStage;
-  private BorderPane mainBorderPane;
-  private WindowController mainWindowController;
   private OverviewWindowController overviewWindowController;
-
-  // Different pages
-  private Scene mainScene;
-  private Parent overviewPane;
-  private Parent temperaturePane;
-  private Parent humidityPane;
-  private Parent co2Pane;
 
   public static void main(String[] args) {
     launch(args);
@@ -50,37 +39,38 @@ public class MainWindowApp extends Application {
     FXMLLoader mainPaneLoader = new FXMLLoader(
         getClass().getResource("gui/mainApplicationWindow.fxml"));
     Parent mainPane = mainPaneLoader.load();
-    this.mainScene = new Scene(mainPane, 1000, 730);
+    // Different pages
+    Scene mainScene = new Scene(mainPane, 1000, 730);
 
     // Getting loader and pane for the main window.
     FXMLLoader overviewPageLoader = new FXMLLoader(
         getClass().getResource("gui/overviewWindow.fxml"));
-    this.overviewPane = overviewPageLoader.load();
+    Parent overviewPane = overviewPageLoader.load();
     this.overviewWindowController = overviewPageLoader.getController();
 
     // Temperature page
     FXMLLoader temperaturePageLoader = new FXMLLoader(
         getClass().getResource("gui/tempWindow.fxml"));
-    this.temperaturePane = temperaturePageLoader.load();
+    Parent temperaturePane = temperaturePageLoader.load();
     TemperatureWindowController tempWindowController = temperaturePageLoader.getController();
 
     // Humidity page
     FXMLLoader humidityPageLoader = new FXMLLoader(
         getClass().getResource("gui/humidityWindow.fxml"));
-    this.humidityPane = humidityPageLoader.load();
+    Parent humidityPane = humidityPageLoader.load();
     HumidityWindowController humidWindowController = humidityPageLoader.getController();
 
     // Co2 page
     FXMLLoader co2PageLoader = new FXMLLoader(getClass().getResource("gui/co2Window.fxml"));
-    this.co2Pane = co2PageLoader.load();
+    Parent co2Pane = co2PageLoader.load();
     Co2WindowController co2WindowController = co2PageLoader.getController();
 
     // Sets panes to mainController
-    this.mainWindowController = mainPaneLoader.getController();
-    this.mainWindowController.setOverviewPage(this.overviewPane);
-    this.mainWindowController.setTemperaturePage(this.temperaturePane);
-    this.mainWindowController.setHumidityPage(this.humidityPane);
-    this.mainWindowController.setCo2Page(this.co2Pane);
+    WindowController mainWindowController = mainPaneLoader.getController();
+    mainWindowController.setOverviewPage(overviewPane);
+    mainWindowController.setTemperaturePage(temperaturePane);
+    mainWindowController.setHumidityPage(humidityPane);
+    mainWindowController.setCo2Page(co2Pane);
 
     // To modify other linecharts
     this.overviewWindowController.setCo2LineChart(co2WindowController.getCo2LineChart());
@@ -99,7 +89,7 @@ public class MainWindowApp extends Application {
     // Applies initialization vector
 
     primaryStage.setTitle("Greenhouse Administrator");
-    primaryStage.setScene(this.mainScene);
+    primaryStage.setScene(mainScene);
     primaryStage.show();
   }
 

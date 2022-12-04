@@ -9,7 +9,6 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
-import no.ntnu.group13.greenhouse.logic.BinarySearchTree;
 import no.ntnu.group13.greenhouse.logic.EncryptAndDecryptMessage;
 import no.ntnu.group13.greenhouse.server.MqttSubscriber;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -19,7 +18,6 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
  */
 public class ClientHandler extends MqttSubscriber {
 
-  BinarySearchTree tree = new BinarySearchTree();
   Double mostRecentMessage;
 
   /**
@@ -47,22 +45,15 @@ public class ClientHandler extends MqttSubscriber {
     String plainText = EncryptAndDecryptMessage.decrypt(algorithm, message, key,
         ivParameterSpec);
 
-    double finalMessage = Double.parseDouble(plainText);
-
-//    System.out.println("Received from topic: " + topic);
-//    System.out.println("Message: " + message);
-//    System.out.println("----------------");
+    // System.out.println("Received from topic: " + topic);
+    // System.out.println("Message: " + message);
+    // System.out.println("----------------");
 
     // **Do something with the message**
-    this.mostRecentMessage = finalMessage;
-    this.tree.insert(finalMessage);
+    this.mostRecentMessage = Double.parseDouble(plainText);
   }
 
   public Double getMostRecentMessage() {
     return mostRecentMessage;
-  }
-
-  public BinarySearchTree getTree() {
-    return tree;
   }
 }

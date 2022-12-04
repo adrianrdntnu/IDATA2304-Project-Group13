@@ -13,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javax.crypto.spec.IvParameterSpec;
 import no.ntnu.group13.greenhouse.client.ClientHandler;
-import no.ntnu.group13.greenhouse.logic.BinarySearchTree;
 import no.ntnu.group13.greenhouse.logic.EncryptAndDecryptMessage;
 import no.ntnu.group13.greenhouse.logic.LOGIC;
 import no.ntnu.group13.greenhouse.sensors.Co2Sensor;
@@ -21,9 +20,12 @@ import no.ntnu.group13.greenhouse.sensors.HumiditySensor;
 import no.ntnu.group13.greenhouse.sensors.TemperatureSensor;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
+/**
+ * Responsible for controlling the overview-page in the JavaFX application.
+ */
 public class OverviewWindowController extends WindowController {
 
-  private int updatecounter = 0;
+  private int updateCounter = 0;
 
   @FXML
   private Button stopButton;
@@ -112,20 +114,20 @@ public class OverviewWindowController extends WindowController {
   public void startHeaterButton(ActionEvent actionEvent) {
     heaterOffButton.setDisable(false);
     heaterOnButton.setDisable(true);
-    this.temperatureSensor.setNewMean(this.temperatureSensor.getMean() + 5
-        , 1);
+    this.temperatureSensor.setNewMean(
+        this.temperatureSensor.getMean() + 5, 1);
   }
 
   @FXML
   public void stopHeaterButton(ActionEvent actionEvent) {
     heaterOnButton.setDisable(false);
     heaterOffButton.setDisable(true);
-    this.temperatureSensor.setNewMean(this.temperatureSensor.getMean() - 5
-        , 1);
+    this.temperatureSensor.setNewMean(
+        this.temperatureSensor.getMean() - 5, 1);
   }
 
   /**
-   * Starts connection between clients and MQTT broker
+   * Starts connection between clients and MQTT broker.
    */
   protected void startClients() {
     tempClientHandler.startClient();
@@ -188,10 +190,9 @@ public class OverviewWindowController extends WindowController {
   /**
    * Receives and stores message from sensor.
    */
-  public void receiveMessageFromSensor(BinarySearchTree tree, Queue<Number> queue,
+  public void receiveMessageFromSensor(Queue<Number> queue,
       ClientHandler client) {
     Double d = client.getMostRecentMessage();
-    tree.insert(d);
     queue.add(d);
     // Adds value twice because the value is removed after it's applied to a LineChart.
     queue.add(d);
@@ -242,9 +243,9 @@ public class OverviewWindowController extends WindowController {
         // Waits for and HOPEFULLY the message has arrived by then.
         Thread.sleep(LINECHART_UPDATE_INTERVAL);
 
-        receiveMessageFromSensor(bstTemperatureTree, receivedTempMessages, tempClientHandler);
-        receiveMessageFromSensor(bstHumidityTree, receivedHumidMessages, humidClientHandler);
-        receiveMessageFromSensor(bstCo2Tree, receivedCo2Messages, co2ClientHandler);
+        receiveMessageFromSensor(receivedTempMessages, tempClientHandler);
+        receiveMessageFromSensor(receivedHumidMessages, humidClientHandler);
+        receiveMessageFromSensor(receivedCo2Messages, co2ClientHandler);
 
         // update
         xAxis.setLowerBound(xSeriesData - MAX_DATA_POINTS);
@@ -294,7 +295,7 @@ public class OverviewWindowController extends WindowController {
 
   /**
    * Adds Part of code adapted from: <a
-   * href="https://stackoverflow.com/a/22093579">stackoverflow</a>
+   * href="https://stackoverflow.com/a/22093579">stackoverflow</a>.
    */
   private void addDataToSeries() {
     if (!receivedTempMessages.isEmpty()) {
@@ -363,9 +364,9 @@ public class OverviewWindowController extends WindowController {
       lowText.setText(currentValue + symbol);
     }
 
-    updatecounter++;
+    updateCounter++;
 
-    if (updatecounter % 2 == 0) {
+    if (updateCounter % 2 == 0) {
       switch (symbol) {
         case TEMP_SYMBOL:
           if (currentValue > highTemp) {
@@ -406,26 +407,6 @@ public class OverviewWindowController extends WindowController {
 
   public void setCo2LineChart(LineChart co2LineChart) {
     this.co2LineChart = co2LineChart;
-  }
-
-  public void setIvParameterSpec(IvParameterSpec ivParameterSpec) {
-    this.ivParameterSpec = ivParameterSpec;
-  }
-
-  public IvParameterSpec getIvParameterSpec() {
-    return this.ivParameterSpec;
-  }
-
-  public void setTempClientHandler(ClientHandler tempClientHandler) {
-    this.tempClientHandler = tempClientHandler;
-  }
-
-  public void setHumidClientHandler(ClientHandler humidClientHandler) {
-    this.humidClientHandler = humidClientHandler;
-  }
-
-  public void setCo2ClientHandler(ClientHandler co2ClientHandler) {
-    this.co2ClientHandler = co2ClientHandler;
   }
 
   public void setTempTexts(Text textTempCurrent, Text textTempHigh, Text textTempLow) {

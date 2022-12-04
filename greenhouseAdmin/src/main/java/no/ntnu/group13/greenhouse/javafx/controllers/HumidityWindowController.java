@@ -4,6 +4,9 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.text.Text;
 
+/**
+ * Responsible for controlling the humidity-page in the JavaFX application.
+ */
 public class HumidityWindowController extends WindowController {
 
   public void initialize() {
@@ -25,22 +28,6 @@ public class HumidityWindowController extends WindowController {
 
     // Add Chart Series
     // humidityLineChart.getData().addAll(humidSeries);
-  }
-
-  /**
-   * Updates detailed values.
-   */
-  public void updateHumidityDetailedValues() {
-    textHumidCurrent.setText(currentHumid + "%");
-
-    if (currentHumid > highHumid) {
-      highHumid = currentHumid;
-      textHumidHigh.setText(currentHumid + "%");
-    }
-    if (currentHumid < lowHumid || lowHumid == 0.0) {
-      lowHumid = currentHumid;
-      textHumidLow.setText(currentHumid + "%");
-    }
   }
 
   public LineChart<?, ?> getHumidityLineChart() {

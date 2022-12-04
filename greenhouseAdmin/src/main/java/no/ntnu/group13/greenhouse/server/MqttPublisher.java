@@ -24,7 +24,7 @@ public class MqttPublisher {
 
   private final String topic;
   private final String broker;
-  private final String sensorID;
+  private final String sensorId;
   private final int qos;
   private MqttClient client;
 
@@ -36,13 +36,13 @@ public class MqttPublisher {
    *
    * @param topic    The topic to upload to.
    * @param broker   The broker to connect to.
-   * @param sensorID The client id.
+   * @param sensorId The client id.
    * @param qos      The "Quality of Service"
    */
-  public MqttPublisher(String topic, String broker, String sensorID, int qos) {
+  public MqttPublisher(String topic, String broker, String sensorId, int qos) {
     this.topic = topic;
     this.broker = broker;
-    this.sensorID = sensorID;
+    this.sensorId = sensorId;
     this.qos = qos;
   }
 
@@ -51,15 +51,15 @@ public class MqttPublisher {
    *
    * @param topic           The topic to upload to.
    * @param broker          The broker to connect to.
-   * @param sensorID        The client id.
+   * @param sensorId        The client id.
    * @param qos             The "Quality of Service"
    * @param ivParameterSpec Initialization vector of the publisher
    */
-  public MqttPublisher(String topic, String broker, String sensorID, int qos,
+  public MqttPublisher(String topic, String broker, String sensorId, int qos,
       IvParameterSpec ivParameterSpec) {
     this.topic = topic;
     this.broker = broker;
-    this.sensorID = sensorID;
+    this.sensorId = sensorId;
     this.qos = qos;
     this.ivParameterSpec = ivParameterSpec;
   }
@@ -69,7 +69,7 @@ public class MqttPublisher {
    */
   public void startConnection() {
     try {
-      this.client = new MqttClient(broker, sensorID, new MemoryPersistence());
+      this.client = new MqttClient(broker, sensorId, new MemoryPersistence());
 
       // connect options
       MqttConnectOptions options = new MqttConnectOptions();
@@ -111,21 +111,9 @@ public class MqttPublisher {
 //      System.out.println("Message content: " + new String(m.getPayload()));
 //      System.out.println("Original message: " + message);
 //      System.out.println("----------------");
-    } catch (MqttException e) {
-      throw new RuntimeException(e);
-    } catch (InvalidAlgorithmParameterException e) {
-      throw new RuntimeException(e);
-    } catch (NoSuchPaddingException e) {
-      throw new RuntimeException(e);
-    } catch (IllegalBlockSizeException e) {
-      throw new RuntimeException(e);
-    } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException(e);
-    } catch (BadPaddingException e) {
-      throw new RuntimeException(e);
-    } catch (InvalidKeyException e) {
-      throw new RuntimeException(e);
-    } catch (InvalidKeySpecException e) {
+    } catch (MqttException | InvalidAlgorithmParameterException | NoSuchPaddingException
+             | IllegalBlockSizeException | NoSuchAlgorithmException | BadPaddingException
+             | InvalidKeyException | InvalidKeySpecException e) {
       throw new RuntimeException(e);
     }
   }

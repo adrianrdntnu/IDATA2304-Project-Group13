@@ -2,6 +2,9 @@ package no.ntnu.group13.greenhouse.sensors;
 
 import javax.crypto.spec.IvParameterSpec;
 
+/**
+ * Responsible for replicating a co2 sensor.
+ */
 public class Co2Sensor extends Sensor {
 
   /**
@@ -12,7 +15,8 @@ public class Co2Sensor extends Sensor {
    * @param sensorId the sensor id
    * @param qos      qos value
    */
-  public Co2Sensor(String topic, String broker, String sensorId, int qos, IvParameterSpec ivParameterSpec) {
+  public Co2Sensor(String topic, String broker, String sensorId, int qos,
+      IvParameterSpec ivParameterSpec) {
     super(topic, broker, sensorId, qos, 300, 5, ivParameterSpec);
   }
 
@@ -30,10 +34,4 @@ public class Co2Sensor extends Sensor {
       double standardDeviation, IvParameterSpec ivParameterSpec) {
     super(topic, broker, sensorId, qos, mean, standardDeviation, ivParameterSpec);
   }
-
-  @Override
-  public double realisticNextNumber(double lastValue) {
-    return rndd.getRandomGaussian(lastValue, 1);
-  }
-
 }

@@ -25,23 +25,6 @@ public class EncryptAndDecryptMessage {
 
   public static final String algorithm = "AES/CBC/PKCS5Padding";
 
-  public static void main(String[] args)
-      throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidAlgorithmParameterException,
-      NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
-    String input = "baeldung";
-
-    SecretKey key = EncryptAndDecryptMessage.getKeyFromPassword("group13", "12345678");
-    IvParameterSpec ivParameterSpec = EncryptAndDecryptMessage.generateIv();
-
-    String algorithm = EncryptAndDecryptMessage.algorithm;
-    String cipherText = EncryptAndDecryptMessage.encrypt(algorithm, input, key, ivParameterSpec);
-    String plainText = EncryptAndDecryptMessage.decrypt(algorithm, cipherText, key,
-        ivParameterSpec);
-
-    System.out.println(cipherText);
-    System.out.println(plainText);
-  }
-
   public static String encrypt(String algorithm, String input, SecretKey key, IvParameterSpec iv)
       throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException,
       InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
@@ -67,10 +50,10 @@ public class EncryptAndDecryptMessage {
       throws NoSuchAlgorithmException, InvalidKeySpecException {
 
     SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-    KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), 65536, 256);
-    SecretKey secret = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
+    KeySpec spec = new PBEKeySpec(
+        password.toCharArray(), salt.getBytes(), 65536, 256);
 
-    return secret;
+    return new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
   }
 
   public static IvParameterSpec generateIv() {

@@ -4,6 +4,9 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.text.Text;
 
+/**
+ * Responsible for controlling the temperature-page in the JavaFX application.
+ */
 public class TemperatureWindowController extends WindowController {
 
   public void initialize() {

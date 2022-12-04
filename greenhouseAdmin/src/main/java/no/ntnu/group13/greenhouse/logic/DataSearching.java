@@ -4,7 +4,7 @@ import java.security.InvalidParameterException;
 import java.util.List;
 
 /**
- * Class that can perform multiple operations on a list
+ * Class that can perform multiple operations on a list.
  *
  * @deprecated This class has been superseded by the BinarySearchTree class
  */
@@ -12,7 +12,7 @@ import java.util.List;
 public class DataSearching {
 
   /**
-   * Returns the highest value in the list
+   * Returns the highest value in the list.
    *
    * @param list the list to search through
    * @return The highest value
@@ -33,7 +33,7 @@ public class DataSearching {
   }
 
   /**
-   * Returns the lowest value in the list
+   * Returns the lowest value in the list.
    *
    * @param list the list to search through
    * @return The lowest value
@@ -55,7 +55,7 @@ public class DataSearching {
   }
 
   /**
-   * Returns the average value of the list
+   * Returns the average value of the list.
    *
    * @param list list to search through
    * @return The average value
@@ -66,8 +66,7 @@ public class DataSearching {
       for (int i = 0; i < list.size(); i++) {
         sum += list.get(i);
       }
-      double average = sum / list.size();
-      return average;
+      return sum / list.size();
     } else {
       throw new InvalidParameterException("List doesn't contain any elements");
     }

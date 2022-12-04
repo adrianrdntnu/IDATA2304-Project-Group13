@@ -10,12 +10,13 @@ import java.util.List;
  * <a href="https://www.geeksforgeeks.org/binary-search-tree-set-1-search-and-insertion/">
  * geeksforgeeks.org</a>
  */
+@Deprecated
 public class BinarySearchTree {
 
   /**
-   * Node class holding information about current node's value, left and right children
+   * Node class holding information about current node's value, left and right children.
    */
-  class Node {
+  static class Node {
 
     double key;
     Node left;
@@ -44,7 +45,7 @@ public class BinarySearchTree {
   }
 
   /**
-   * Recursive method for inserting a new node to the BST
+   * Recursive method for inserting a new node to the BST.
    *
    * @param root Current node being recursed
    * @param key  New node's value
@@ -52,8 +53,8 @@ public class BinarySearchTree {
    */
   public Node insertRec(Node root, double key) {
 
-        /* If the tree is empty,
-           return a new node */
+    /* If the tree is empty,
+    return a new node */
     if (root == null) {
       root = new Node(key);
       return root;
@@ -73,7 +74,7 @@ public class BinarySearchTree {
   /**
    * Returns the average value of the binary search tree using morris traversal. Some code copied
    * from:
-   * https://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/
+   * <a href="https://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/">geeksforgeeks</a>
    *
    * @return The average value
    */
@@ -94,27 +95,26 @@ public class BinarySearchTree {
         count++;
         current = current.right;
       } else {
-                /* Find the inorder
-                    predecessor of current
-                 */
+        /* Find the inorder
+        predecessor of current */
         pre = current.left;
         while (pre.right != null && pre.right != current) {
           pre = pre.right;
         }
 
-                /* Make current as right
-                   child of its
-                 * inorder predecessor */
+        /* Make current as right
+        child of its
+        * inorder predecessor */
         if (pre.right == null) {
           pre.right = current;
           current = current.left;
         }
 
-                /* Revert the changes made
-                   in the 'if' part
-                   to restore the original
-                   tree i.e., fix
-                   the right child of predecessor*/
+        /* Revert the changes made
+        in the 'if' part
+        to restore the original
+        tree i.e., fix
+        the right child of predecessor*/
         else {
           pre.right = null;
           sum += current.key;
@@ -131,7 +131,7 @@ public class BinarySearchTree {
   }
 
   /**
-   * Returns the max value in the binary search tree
+   * Returns the max value in the binary search tree.
    *
    * @return The max value
    */
@@ -144,7 +144,7 @@ public class BinarySearchTree {
   }
 
   /**
-   * Returns the min value in the binary search tree
+   * Returns the min value in the binary search tree.
    *
    * @return The min value
    */
@@ -249,7 +249,7 @@ public class BinarySearchTree {
   public static void main(String[] args) {
     BinarySearchTree tree = new BinarySearchTree();
 
-        /* Let us create following BST
+    /* Let us create following BST
               50
            /     \
           30      70

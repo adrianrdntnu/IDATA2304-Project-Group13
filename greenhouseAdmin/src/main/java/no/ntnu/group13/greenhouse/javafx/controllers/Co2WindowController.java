@@ -4,6 +4,9 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.text.Text;
 
+/**
+ * Responsible for controlling the co2-page in the JavaFX application.
+ */
 public class Co2WindowController extends WindowController {
 
   public void initialize() {
@@ -25,22 +28,6 @@ public class Co2WindowController extends WindowController {
 
     // Add Chart Series
     // co2LineChart.getData().addAll(co2Series);
-  }
-
-  /**
-   * Updates detailed values.
-   */
-  public void updateCo2DetailedValues() {
-    textCo2Current.setText(currentCo2 + "ppm");
-
-    if (currentCo2 > highCo2) {
-      highCo2 = currentCo2;
-      textCo2High.setText(currentCo2 + "ppm");
-    }
-    if (currentCo2 < lowCo2 || lowCo2 == 0.0) {
-      lowCo2 = currentCo2;
-      textCo2Low.setText(currentCo2 + "ppm");
-    }
   }
 
   public LineChart<?, ?> getCo2LineChart() {

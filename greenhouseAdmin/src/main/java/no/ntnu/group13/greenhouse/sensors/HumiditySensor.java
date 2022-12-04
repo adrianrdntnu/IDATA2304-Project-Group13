@@ -2,6 +2,9 @@ package no.ntnu.group13.greenhouse.sensors;
 
 import javax.crypto.spec.IvParameterSpec;
 
+/**
+ * Responsible for replicating a humidity sensor.
+ */
 public class HumiditySensor extends Sensor {
 
   /**
@@ -12,7 +15,8 @@ public class HumiditySensor extends Sensor {
    * @param sensorId the sensor id
    * @param qos      qos value
    */
-  public HumiditySensor(String topic, String broker, String sensorId, int qos, IvParameterSpec ivParameterSpec) {
+  public HumiditySensor(String topic, String broker, String sensorId, int qos,
+      IvParameterSpec ivParameterSpec) {
     super(topic, broker, sensorId, qos, 100, 1, ivParameterSpec);
   }
 
@@ -29,10 +33,5 @@ public class HumiditySensor extends Sensor {
   public HumiditySensor(String topic, String broker, String sensorId, int qos, double mean,
       double standardDeviation, IvParameterSpec ivParameterSpec) {
     super(topic, broker, sensorId, qos, mean, standardDeviation, ivParameterSpec);
-  }
-
-  @Override
-  public double realisticNextNumber(double lastValue) {
-    return rndd.getRandomGaussian(lastValue, 1);
   }
 }

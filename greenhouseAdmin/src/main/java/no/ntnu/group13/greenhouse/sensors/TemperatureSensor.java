@@ -3,7 +3,7 @@ package no.ntnu.group13.greenhouse.sensors;
 import javax.crypto.spec.IvParameterSpec;
 
 /**
- * Represents a temperature sensor that records temperature each interval.
+ * Responsible for replicating a temperature sensor.
  */
 public class TemperatureSensor extends Sensor {
 
@@ -16,7 +16,8 @@ public class TemperatureSensor extends Sensor {
    * @param sensorId the sensor id
    * @param qos      qos value
    */
-  public TemperatureSensor(String topic, String broker, String sensorId, int qos, IvParameterSpec ivParameterSpec) {
+  public TemperatureSensor(String topic, String broker, String sensorId, int qos,
+      IvParameterSpec ivParameterSpec) {
     super(topic, broker, sensorId, qos, 38, 0.1, ivParameterSpec);
   }
 
@@ -33,10 +34,5 @@ public class TemperatureSensor extends Sensor {
   public TemperatureSensor(String topic, String broker, String sensorId, int qos, double mean,
       double standardDeviation, IvParameterSpec ivParameterSpec) {
     super(topic, broker, sensorId, qos, mean, standardDeviation, ivParameterSpec);
-  }
-
-  @Override
-  public double realisticNextNumber(double lastValue) {
-    return rndd.getRandomGaussian(lastValue, 0.1);
   }
 }

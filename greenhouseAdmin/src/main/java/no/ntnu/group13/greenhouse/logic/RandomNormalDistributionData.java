@@ -7,18 +7,14 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Keeps a list of random temperatures and humidity values
+ * Keeps a list of random temperatures and humidity values.
  */
 public class RandomNormalDistributionData {
 
   private final Random rng = new Random();
 
-  public RandomNormalDistributionData() {
-    // this.values = new ArrayList<>();
-  }
-
   /**
-   * Returns a random value from a normal distribution with mean, and standard deviation values
+   * Returns a random value from a normal distribution with mean, and standard deviation values.
    *
    * @param mean              The mean of the normal distribution
    * @param standardDeviation The standard deviation of the normal distribution

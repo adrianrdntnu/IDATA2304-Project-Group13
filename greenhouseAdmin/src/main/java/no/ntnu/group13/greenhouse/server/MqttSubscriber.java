@@ -28,7 +28,7 @@ public class MqttSubscriber implements MqttCallback {
 
   // Topic to receive data from
   private final String topic;
-  private List<Double> data;
+  private final List<Double> data;
   private final String broker;
   private final String clientId;
   private final int qos;
@@ -100,10 +100,6 @@ public class MqttSubscriber implements MqttCallback {
     System.out.println("Connection lost. " + throwable);
   }
 
-  public void setIvParameterSpec(IvParameterSpec ivParameterSpec) {
-    this.ivParameterSpec = ivParameterSpec;
-  }
-
   @Override
   public void messageArrived(String topic, MqttMessage mqttMessage)
       throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidAlgorithmParameterException,
@@ -116,10 +112,10 @@ public class MqttSubscriber implements MqttCallback {
     String plainText = EncryptAndDecryptMessage.decrypt(algorithm, message, key,
         ivParameterSpec);
 
-    System.out.println("Received from topic: " + topic);
-    System.out.println("Message: " + message);
-    System.out.println("Message decrypted: " + plainText);
-    System.out.println("----------------");
+//    System.out.println("Received from topic: " + topic);
+//    System.out.println("Message: " + message);
+//    System.out.println("Message decrypted: " + plainText);
+//    System.out.println("----------------");
 
     // **Do something with the message**
     this.data.add(Double.parseDouble(plainText));
