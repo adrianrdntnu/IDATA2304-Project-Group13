@@ -32,58 +32,75 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
-<BorderPane minHeight="270.0" minWidth="600.0" prefWidth="560.0" style="-fx-background-color: #e0e0e0;" stylesheets="@../css/GUIstyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.group13.greenhouse.javafx.controllers.HumidityWindowController">
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<BorderPane minHeight="270.0" minWidth="600.0" prefWidth="560.0"
+  style="-fx-background-color: #e0e0e0;" stylesheets="@../css/GUIstyle.css"
+  xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="no.ntnu.group13.greenhouse.javafx.controllers.HumidityWindowController">
   <center>
     <GridPane BorderPane.alignment="CENTER">
       <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="180.0" prefWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="180.0" prefWidth="100.0"/>
       </columnConstraints>
       <rowConstraints>
-        <RowConstraints maxHeight="408.0" minHeight="10.0" prefHeight="342.0" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="215.0" minHeight="10.0" prefHeight="148.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="408.0" minHeight="10.0" prefHeight="342.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="215.0" minHeight="10.0" prefHeight="148.0" vgrow="SOMETIMES"/>
       </rowConstraints>
       <children>
         <AnchorPane prefHeight="200.0" prefWidth="640.0" GridPane.rowIndex="1">
           <children>
-            <AnchorPane id="humidPane" layoutX="40.0" layoutY="17.0" prefHeight="120.0" prefWidth="200.0">
+            <AnchorPane id="humidPane" layoutX="40.0" layoutY="17.0" prefHeight="120.0"
+              prefWidth="200.0">
               <children>
-                <Text layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Humidity">
+                <Text layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="Humidity">
                   <font>
-                    <Font size="24.0" />
+                    <Font size="24.0"/>
                   </font>
                 </Text>
-                <Text fx:id="textHumidCurrent" layoutX="120.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                <Text fx:id="textHumidCurrent" layoutX="120.0" layoutY="60.0" strokeType="OUTSIDE"
+                  strokeWidth="0.0" text="-">
                   <font>
-                    <Font size="18.0" />
+                    <Font size="18.0"/>
                   </font>
                 </Text>
-                <Text layoutX="14.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="High:">
+                <Text layoutX="14.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="High:">
                   <font>
-                    <Font size="18.0" />
+                    <Font size="18.0"/>
                   </font>
                 </Text>
-                <Text layoutX="14.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Low:">
+                <Text layoutX="14.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="Low:">
                   <font>
-                    <Font size="18.0" />
+                    <Font size="18.0"/>
                   </font>
                 </Text>
-                <Text fx:id="textHumidHigh" layoutX="120.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                <Text fx:id="textHumidHigh" layoutX="120.0" layoutY="80.0" strokeType="OUTSIDE"
+                  strokeWidth="0.0" text="-">
                   <font>
-                    <Font size="18.0" />
+                    <Font size="18.0"/>
                   </font>
                 </Text>
-                <Text fx:id="textHumidLow" layoutX="120.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                <Text fx:id="textHumidLow" layoutX="120.0" layoutY="100.0" strokeType="OUTSIDE"
+                  strokeWidth="0.0" text="-">
                   <font>
-                    <Font size="18.0" />
+                    <Font size="18.0"/>
                   </font>
                 </Text>
-                <Text layoutX="14.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current">
+                <Text layoutX="14.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="Current">
                   <font>
-                    <Font size="18.0" />
+                    <Font size="18.0"/>
                   </font>
                 </Text>
               </children>
@@ -92,10 +109,10 @@
         </AnchorPane>
         <LineChart id="humidLineChart" fx:id="humidityLineChart" prefWidth="640.0">
           <xAxis>
-            <CategoryAxis side="BOTTOM" />
+            <CategoryAxis side="BOTTOM"/>
           </xAxis>
           <yAxis>
-            <NumberAxis side="LEFT" />
+            <NumberAxis side="LEFT"/>
           </yAxis>
         </LineChart>
       </children>

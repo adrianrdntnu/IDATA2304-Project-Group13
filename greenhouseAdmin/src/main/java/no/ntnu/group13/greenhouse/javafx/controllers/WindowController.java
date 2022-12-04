@@ -21,56 +21,7 @@ import no.ntnu.group13.greenhouse.sensors.Sensor;
  */
 public class WindowController {
 
-  protected ExecutorService executor;
-
-  // For Linechart
-  protected int xSeriesData = 0;
   protected static final int MAX_DATA_POINTS = 100;
-  protected static final int LINECHART_UPDATE_INTERVAL = 3000;
-
-  // Sensor-client communication
-  protected final List<Double> temperatureValues = new ArrayList<>();
-  protected final List<Double> humidityValues = new ArrayList<>();
-  protected final List<Double> co2Values = new ArrayList<>();
-  // Value trackers
-  protected Double lowTemp = 0.0;
-  protected Double highTemp = 0.0;
-  protected Double lowHumid = 0.0;
-  protected Double highHumid = 0.0;
-  protected Double lowCo2 = 0.0;
-  protected Double highCo2 = 0.0;
-  protected Double currentTemp;
-  protected Double currentHumid;
-  protected Double currentCo2;
-  protected static final String TEMP_SYMBOL = "°C";
-  protected static final String HUMID_SYMBOL = "%";
-  protected static final String CO2_SYMBOL = "ppm";
-
-  protected boolean clientOnlineStatus = false;
-  protected boolean sensorOnlineStatus = false;
-
-  protected Sensor temperatureSensor;
-  protected Sensor humiditySensor;
-  protected Sensor co2Sensor;
-  protected ClientHandler tempClientHandler;
-  protected ClientHandler humidClientHandler;
-  protected ClientHandler co2ClientHandler;
-
-  // For decrypting and encrypting
-  protected IvParameterSpec ivParameterSpec;
-
-  protected XYChart.Series tempSeries = new XYChart.Series<>();
-  protected XYChart.Series humidSeries = new XYChart.Series<>();
-  protected XYChart.Series co2Series = new XYChart.Series<>();
-  protected XYChart.Series overviewTempSeries = new XYChart.Series<>();
-  protected XYChart.Series overviewHumidSeries = new XYChart.Series<>();
-  protected XYChart.Series overviewCo2Series = new XYChart.Series<>();
-  protected final ConcurrentLinkedQueue<Number> receivedTempMessages =
-      new ConcurrentLinkedQueue<>();
-  protected final ConcurrentLinkedQueue<Number> receivedHumidMessages =
-      new ConcurrentLinkedQueue<>();
-  protected final ConcurrentLinkedQueue<Number> receivedCo2Messages =
-      new ConcurrentLinkedQueue<>();
 
   protected Parent overviewPage;
   protected Parent tempPane;
@@ -105,6 +56,8 @@ public class WindowController {
   protected Text textTempHigh;
   @FXML
   protected Text textTempLow;
+  @FXML
+  protected BorderPane sideMenuBorderPane;
 
   // Menu buttons
   @FXML
@@ -130,6 +83,7 @@ public class WindowController {
   @FXML
   public void startProgram(ActionEvent actionEvent) {
     this.centerBorderPane.setCenter(overviewPage);
+    this.sideMenuBorderPane.setVisible(true);
   }
 
   public void setOverviewPage(Parent overviewPage) {

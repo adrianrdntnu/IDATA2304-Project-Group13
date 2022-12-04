@@ -1,6 +1,10 @@
 package no.ntnu.group13.greenhouse.javafx.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import javafx.animation.AnimationTimer;
@@ -17,6 +21,7 @@ import no.ntnu.group13.greenhouse.logic.EncryptAndDecryptMessage;
 import no.ntnu.group13.greenhouse.logic.LOGIC;
 import no.ntnu.group13.greenhouse.sensors.Co2Sensor;
 import no.ntnu.group13.greenhouse.sensors.HumiditySensor;
+import no.ntnu.group13.greenhouse.sensors.Sensor;
 import no.ntnu.group13.greenhouse.sensors.TemperatureSensor;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
@@ -26,6 +31,59 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 public class OverviewWindowController extends WindowController {
 
   private int updateCounter = 0;
+  private final ConcurrentLinkedQueue<Number> receivedTempMessages =
+      new ConcurrentLinkedQueue<>();
+  private final ConcurrentLinkedQueue<Number> receivedHumidMessages =
+      new ConcurrentLinkedQueue<>();
+  private final ConcurrentLinkedQueue<Number> receivedCo2Messages =
+      new ConcurrentLinkedQueue<>();
+
+  private ExecutorService executor;
+
+  // For Linechart
+  private int xSeriesData = 0;
+  private static final int LINECHART_UPDATE_INTERVAL = 3000;
+
+  private XYChart.Series tempSeries = new XYChart.Series<>();
+  private XYChart.Series humidSeries = new XYChart.Series<>();
+  private XYChart.Series co2Series = new XYChart.Series<>();
+  private XYChart.Series overviewTempSeries = new XYChart.Series<>();
+  private XYChart.Series overviewHumidSeries = new XYChart.Series<>();
+  private XYChart.Series overviewCo2Series = new XYChart.Series<>();
+
+  private final List<Double> temperatureValues = new ArrayList<>();
+  private final List<Double> humidityValues = new ArrayList<>();
+  private final List<Double> co2Values = new ArrayList<>();
+
+  private boolean clientOnlineStatus = false;
+  private boolean sensorOnlineStatus = false;
+
+  // For decrypting and encrypting
+  private IvParameterSpec ivParameterSpec;
+
+  // Sensors
+  private Sensor temperatureSensor;
+  private Sensor humiditySensor;
+  private Sensor co2Sensor;
+
+  // Clients
+  private ClientHandler tempClientHandler;
+  private ClientHandler humidClientHandler;
+  private ClientHandler co2ClientHandler;
+
+  // Value trackers
+  private Double lowTemp = 0.0;
+  private Double highTemp = 0.0;
+  private Double lowHumid = 0.0;
+  private Double highHumid = 0.0;
+  private Double lowCo2 = 0.0;
+  private Double highCo2 = 0.0;
+  private Double currentTemp;
+  private Double currentHumid;
+  private Double currentCo2;
+  private final String TEMP_SYMBOL = "°C";
+  private final String HUMID_SYMBOL = "%";
+  private final String CO2_SYMBOL = "ppm";
 
   @FXML
   private Button stopButton;
@@ -95,6 +153,7 @@ public class OverviewWindowController extends WindowController {
   public void startRecordButton(ActionEvent actionEvent) {
     stopButton.setDisable(false);
     startButton.setDisable(true);
+    heaterOnButton.setDisable(false);
 
     initializeLineCharts();
     startRecording();
