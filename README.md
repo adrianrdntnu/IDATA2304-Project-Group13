@@ -59,7 +59,7 @@ Because the program uses fake sensors, it both sends to and retreives data from 
 
 ## Discussion
 #### What works well:
-* It's clear what is going on.
+* It's clear what is going on. When you press buttons or change tabs for example.
 * Hard for the user to "misuse" the program (For example inputting data that is not valid).
 * Different chart pages allow for better visibility and understanding of the graph data.
 
