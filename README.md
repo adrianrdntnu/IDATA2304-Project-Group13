@@ -58,6 +58,14 @@ The final product is a JavaFX application mimicing an administrative program use
 Because the program uses fake sensors, it both sends to and retreives data from an MQTT broker.
 
 ## Discussion
+#### What works well:
+* It's clear what is going on.
+* Hard for the user to "misuse" the program (For example inputting data that is not valid).
+* Different chart pages allow for better visibility and understanding of the graph data.
+
+#### What doesn't work as well:
+* Program lags a bit, when you start and stop the sensor. 
+* Using JavaFX might not be very beneficial in the long run.
 
 ## Conclusion and future work
 * Storing and loading data
@@ -65,5 +73,6 @@ Because the program uses fake sensors, it both sends to and retreives data from 
 * Login page with username and password
 * Modify fake value generator to include time of day as a variable
 * Add mechanism to detect if any values are out of the ordinary
+* Use real-life sensors stationed in a real-life greenhouse instead of fake numbers.
 
 ## References
