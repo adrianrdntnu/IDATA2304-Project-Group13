@@ -108,8 +108,9 @@ In [Theory and technology](https://github.com/adrianrdntnu/IDATA2304-Project-Gro
 * The data is encrypted and decrypted using a symmetric key, this means that both the sensor and client uses the same key to decrypt and encrypt data. The data is sent to the MQTT broker as unreadable encrypted ciphertext, and then decrypted when it arrives at the client so it can be used by the application. This is to ensure the data is secure from unauthorized users since anyone connected to the MQTT broker can read the data sent to it.
 
 ## Methodology
-* Diagram?
-* 
+The project was split into three sprints, the first focused on the backend where the priority was to connect the client and sensors trough the MQTT broker, the second focused on visualizing the data with JavaFX, and the third focused on adding extra features and cleaning up the project code.
+
+*more about methodology*
 
 ## Results
 The final product is a JavaFX application mimicking an administrative program used to administrate a Greenhouse and its sensors.
