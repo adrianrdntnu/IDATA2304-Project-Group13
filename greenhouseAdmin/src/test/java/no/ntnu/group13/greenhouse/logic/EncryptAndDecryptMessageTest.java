@@ -18,13 +18,15 @@ public class EncryptAndDecryptMessageTest {
   public void givenString_whenEncrypt_thenSuccess()
       throws NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException,
       BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException, InvalidKeySpecException {
+    // Test adapted from: https://www.baeldung.com/java-aes-encryption-decryption
 
-    String input = "baeldung";
+    String input = "group13greenhouseEncryptionTest";
     SecretKey key = EncryptAndDecryptMessage.getKeyFromPassword("group13", "123");
     IvParameterSpec ivParameterSpec = EncryptAndDecryptMessage.generateIv();
     String algorithm = "AES/CBC/PKCS5Padding";
     String cipherText = EncryptAndDecryptMessage.encrypt(algorithm, input, key, ivParameterSpec);
     String plainText = EncryptAndDecryptMessage.decrypt(algorithm, cipherText, key, ivParameterSpec);
+
     Assertions.assertEquals(input, plainText);
   }
 }
