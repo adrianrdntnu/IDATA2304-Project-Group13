@@ -99,9 +99,8 @@ public abstract class Sensor extends MqttPublisher {
   }
 
   /**
-   * Sets the new mean of this sensor, changes the increment so that it takes the same amount of
-   * values to get to the new mean as difference in the new and old mean. (value lowers/ increases
-   * by roughly roughIncrement per value)
+   * Sets new mean of this sensor. Uses roughIncrement to increase the value by roughly this value
+   * each increment.
    *
    * @param newMean        New mean of this sensor
    * @param roughIncrement Roughly how much the value should change every time it increments
