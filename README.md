@@ -66,7 +66,7 @@ In [Theory and technology](https://github.com/adrianrdntnu/IDATA2304-Project-Gro
 * For collaboration and to get an overview over the project, GitHub has been used to plan sprints, issues and store commits.
 
 ### Maven
-- Stuff about maven / file structure
+* Maven is used as a project management tool and to easily download dependencies for the project.
 
 ### Google checkstyle
 * For code consistency the Google Checkstyle to structure code. The Google checkstyle uses the Google coding conventions
