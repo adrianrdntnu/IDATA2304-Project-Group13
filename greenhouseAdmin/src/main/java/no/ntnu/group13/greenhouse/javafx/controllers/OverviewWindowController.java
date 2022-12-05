@@ -42,7 +42,7 @@ public class OverviewWindowController extends WindowController {
 
   // For Linechart
   private int xSeriesData = 0;
-  private static final int LINECHART_UPDATE_INTERVAL = 3000;
+  private static final int LINECHART_UPDATE_INTERVAL = 1000;
 
   private XYChart.Series tempSeries = new XYChart.Series<>();
   private XYChart.Series humidSeries = new XYChart.Series<>();
