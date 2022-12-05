@@ -44,206 +44,174 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<BorderPane minHeight="360.0" minWidth="600.0" prefWidth="560.0"
-  style="-fx-background-color: #e0e0e0;" stylesheets="@../css/GUIstyle.css"
-  xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="no.ntnu.group13.greenhouse.javafx.controllers.OverviewWindowController">
+
+<BorderPane minHeight="360.0" minWidth="600.0" prefWidth="560.0" style="-fx-background-color: #e0e0e0;" stylesheets="@../css/GUIstyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.group13.greenhouse.javafx.controllers.OverviewWindowController">
   <center>
     <GridPane BorderPane.alignment="CENTER">
       <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="180.0" prefWidth="100.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="180.0" prefWidth="100.0" />
       </columnConstraints>
       <rowConstraints>
-        <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="176.0" minHeight="0.0" prefHeight="110.0" vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="90.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="176.0" minHeight="0.0" prefHeight="110.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="90.0" vgrow="SOMETIMES" />
       </rowConstraints>
       <children>
         <GridPane GridPane.rowIndex="1">
           <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="180.0"/>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="180.0"/>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="180.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="180.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="180.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="180.0" />
           </columnConstraints>
           <rowConstraints>
-            <RowConstraints minHeight="100.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="100.0" vgrow="SOMETIMES" />
           </rowConstraints>
           <children>
             <AnchorPane id="tempPane" prefHeight="200.0" prefWidth="200.0">
               <children>
-                <Text layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="Temperature">
+                <Text layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Temperature">
                   <font>
-                    <Font size="24.0"/>
+                    <Font size="24.0" />
                   </font>
                 </Text>
-                <Text fx:id="textTempCurrentOverview" layoutX="120.0" layoutY="60.0"
-                  strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                <Text fx:id="textTempCurrentOverview" layoutX="120.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                   <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                   </font>
                 </Text>
-                <Text layoutX="14.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="High:">
+                <Text layoutX="14.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="High:">
                   <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                   </font>
                 </Text>
-                <Text layoutX="14.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="Low:">
+                <Text layoutX="14.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Low:">
                   <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                   </font>
                 </Text>
-                <Text fx:id="textTempHighOverview" layoutX="120.0" layoutY="80.0"
-                  strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                <Text fx:id="textTempHighOverview" layoutX="120.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                   <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                   </font>
                 </Text>
-                <Text fx:id="textTempLowOverview" layoutX="120.0" layoutY="100.0"
-                  strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                <Text fx:id="textTempLowOverview" layoutX="120.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                   <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                   </font>
                 </Text>
-                <Text layoutX="14.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="Current">
+                <Text layoutX="14.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current">
                   <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                   </font>
                 </Text>
               </children>
               <GridPane.margin>
-                <Insets bottom="10.0" left="5.0" right="5.0" top="10.0"/>
+                <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
               </GridPane.margin>
             </AnchorPane>
-            <AnchorPane id="humidPane" prefHeight="200.0" prefWidth="200.0"
-              GridPane.columnIndex="1">
+            <AnchorPane id="humidPane" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
               <children>
-                <Text layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="Humidity">
+                <Text layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Humidity">
                   <font>
-                    <Font size="24.0"/>
+                    <Font size="24.0" />
                   </font>
                 </Text>
-                <Text fx:id="textHumidCurrentOverview" layoutX="120.0" layoutY="60.0"
-                  strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                <Text fx:id="textHumidCurrentOverview" layoutX="120.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                   <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                   </font>
                 </Text>
-                <Text layoutX="14.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="High:">
+                <Text layoutX="14.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="High:">
                   <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                   </font>
                 </Text>
-                <Text layoutX="14.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="Low:">
+                <Text layoutX="14.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Low:">
                   <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                   </font>
                 </Text>
-                <Text fx:id="textHumidHighOverview" layoutX="120.0" layoutY="80.0"
-                  strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                <Text fx:id="textHumidHighOverview" layoutX="120.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                   <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                   </font>
                 </Text>
-                <Text fx:id="textHumidLowOverview" layoutX="120.0" layoutY="100.0"
-                  strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                <Text fx:id="textHumidLowOverview" layoutX="120.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                   <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                   </font>
                 </Text>
-                <Text layoutX="14.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="Current">
+                <Text layoutX="14.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current">
                   <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                   </font>
                 </Text>
               </children>
               <GridPane.margin>
-                <Insets bottom="10.0" left="5.0" right="5.0" top="10.0"/>
+                <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
               </GridPane.margin>
             </AnchorPane>
             <AnchorPane id="co2Pane" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
               <children>
-                <Text layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="Co2">
+                <Text layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Co2/10">
                   <font>
-                    <Font size="24.0"/>
+                    <Font size="24.0" />
                   </font>
                 </Text>
-                <Text fx:id="textCo2CurrentOverview" layoutX="120.0" layoutY="60.0"
-                  strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                <Text fx:id="textCo2CurrentOverview" layoutX="120.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                   <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                   </font>
                 </Text>
-                <Text layoutX="14.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="High:">
+                <Text layoutX="14.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="High:">
                   <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                   </font>
                 </Text>
-                <Text layoutX="14.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="Low:">
+                <Text layoutX="14.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Low:">
                   <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                   </font>
                 </Text>
-                <Text fx:id="textCo2HighOverview" layoutX="120.0" layoutY="80.0"
-                  strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                <Text fx:id="textCo2HighOverview" layoutX="120.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                   <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                   </font>
                 </Text>
-                <Text fx:id="textCo2LowOverview" layoutX="120.0" layoutY="100.0"
-                  strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+                <Text fx:id="textCo2LowOverview" layoutX="120.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                   <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                   </font>
                 </Text>
-                <Text layoutX="14.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="Current">
+                <Text layoutX="14.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current">
                   <font>
-                    <Font size="18.0"/>
+                    <Font size="18.0" />
                   </font>
                 </Text>
               </children>
               <GridPane.margin>
-                <Insets bottom="10.0" left="5.0" right="5.0" top="10.0"/>
+                <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
               </GridPane.margin>
             </AnchorPane>
           </children>
           <GridPane.margin>
-            <Insets left="5.0" right="5.0"/>
+            <Insets left="5.0" right="5.0" />
           </GridPane.margin>
         </GridPane>
         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
           <children>
-            <Button id="startButton" fx:id="startButton" layoutX="14.0" mnemonicParsing="false"
-              onAction="#startRecordButton" prefHeight="50.0" prefWidth="150.0"
-              text="START Sensors"/>
-            <Button id="stopButton" fx:id="stopButton" disable="true" layoutX="179.0"
-              mnemonicParsing="false" onAction="#stopRecordButton" prefHeight="50.0"
-              prefWidth="150.0" text="STOP Sensors"/>
-            <Button id="stopButton" fx:id="heaterOffButton" layoutX="179.0" layoutY="64.0"
-              mnemonicParsing="false" onAction="#stopHeaterButton" prefHeight="40.0"
-              prefWidth="150.0" text="Turn off heater" disable="true"/>
-            <Button id="startButton" fx:id="heaterOnButton" layoutX="14.0" layoutY="64.0"
-              mnemonicParsing="false" onAction="#startHeaterButton" prefHeight="40.0"
-              prefWidth="150.0" text="Turn on heater" disable="true"/>
+            <Button id="startButton" fx:id="startButton" layoutX="14.0" mnemonicParsing="false" onAction="#startRecordButton" prefHeight="50.0" prefWidth="150.0" text="START Sensors" />
+            <Button id="stopButton" fx:id="stopButton" disable="true" layoutX="179.0" mnemonicParsing="false" onAction="#stopRecordButton" prefHeight="50.0" prefWidth="150.0" text="STOP Sensors" />
+            <Button id="stopButton" fx:id="heaterOffButton" disable="true" layoutX="179.0" layoutY="64.0" mnemonicParsing="false" onAction="#stopHeaterButton" prefHeight="40.0" prefWidth="150.0" text="Turn off heater" />
+            <Button id="startButton" fx:id="heaterOnButton" disable="true" layoutX="14.0" layoutY="64.0" mnemonicParsing="false" onAction="#startHeaterButton" prefHeight="40.0" prefWidth="150.0" text="Turn on heater" />
           </children>
         </AnchorPane>
         <LineChart fx:id="dashboardLineChart">
           <xAxis>
-            <CategoryAxis side="BOTTOM"/>
+            <CategoryAxis side="BOTTOM" />
           </xAxis>
           <yAxis>
-            <NumberAxis side="LEFT"/>
+            <NumberAxis side="LEFT" />
           </yAxis>
         </LineChart>
       </children>

@@ -132,7 +132,7 @@ public class OverviewWindowController extends WindowController {
     // Set Name for Series
     overviewTempSeries.setName("Temperature");
     overviewHumidSeries.setName("Humidity");
-    overviewCo2Series.setName("Co2");
+    overviewCo2Series.setName("Co2/10");
 
     // Generates initialization vector for encryption and decryption
     this.ivParameterSpec = EncryptAndDecryptMessage.generateIv();
@@ -200,9 +200,9 @@ public class OverviewWindowController extends WindowController {
    */
   protected void startSensors() {
     temperatureSensor = new TemperatureSensor(LOGIC.TEMPERATURE_TOPIC, LOGIC.BROKER,
-        LOGIC.TEMP_SENSOR, LOGIC.QOS, 27.5, 1, ivParameterSpec);
+        LOGIC.TEMP_SENSOR, LOGIC.QOS, 20, 1, ivParameterSpec);
     humiditySensor = new HumiditySensor(LOGIC.HUMIDITY_TOPIC, LOGIC.BROKER, LOGIC.HUMID_SENSOR,
-        LOGIC.QOS, 50, 3, ivParameterSpec);
+        LOGIC.QOS, 80, 2, ivParameterSpec);
     co2Sensor = new Co2Sensor(LOGIC.CO2_TOPIC, LOGIC.BROKER, LOGIC.CO2_SENSOR, LOGIC.QOS, 100,
         3, ivParameterSpec);
 
