@@ -117,11 +117,11 @@ The final product is a JavaFX application mimicking an administrative program us
 
 Because the program uses fake sensors, it both sends to and retrieves data from an MQTT broker.
 
-![image](https://user-images.githubusercontent.com/98705814/205758934-64f85789-645e-4338-a4ae-bcb9aa37e040.png)
+![image](https://user-images.githubusercontent.com/98705814/205764228-be2ea608-600d-4e61-9047-81780d870c40.png)
 Here you can see how the overview page looks. On the left is the sidebar for changing between the different charts. Buttons for starting/stopping the sensor and buttons for turning on/off the heater. The linechart updates with new values every second. More detailed information for each factor is also included. Co2 values are divided by 10 so that we can show all three values in the same linechart. 
 
-![image](https://user-images.githubusercontent.com/98705814/205760541-828d74bf-fe2c-4ad0-baea-8296cfb5645c.png)
-This is how one of the specific pages look. 
+![image](https://user-images.githubusercontent.com/98705814/205764277-b51b7ae5-32f5-42b5-9eae-7222beac005a.png)
+This is how one of the specific pages look. Here you can more clearly see what happens when you turn on the heater 10 seconds after starting the sensor. The mean of the temperature value is increased by 5 degrees.
 
 ## Discussion
 #### What works well:
