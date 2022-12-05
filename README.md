@@ -120,6 +120,9 @@ Because the program uses fake sensors, it both sends to and retrieves data from 
 ![image](https://user-images.githubusercontent.com/98705814/205758934-64f85789-645e-4338-a4ae-bcb9aa37e040.png)
 Here you can see how the overview page looks. On the left is the sidebar for changing between the different charts. Buttons for starting/stopping the sensor and buttons for turning on/off the heater. The linechart updates with new values every second. More detailed information for each factor is also included. Co2 values are divided by 10 so that we can show all three values in the same linechart. 
 
+![image](https://user-images.githubusercontent.com/98705814/205760541-828d74bf-fe2c-4ad0-baea-8296cfb5645c.png)
+This is how one of the specific pages look. 
+
 ## Discussion
 #### What works well:
 * It's clear what is going on. When you press buttons or change tabs for example.
