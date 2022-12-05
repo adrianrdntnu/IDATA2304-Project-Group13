@@ -53,26 +53,16 @@ In [Theory and technology](https://github.com/adrianrdntnu/IDATA2304-Project-Gro
 * Storing values in a BST is something we learned in IDATA2302 Algorithms and datastructures. This tree structure makes the runtime of finding the lowest and highest value shorter. Using nextGaussian has a slight connection to what we learn in ISTA1003 Statistics, as we learn to work with normal distributed data.
 
 ### MQTT broker
-* An MQTT broker is a simple server that retrieves and sends data trough publishing and subscribing to different topics. In our case the sensor node publishes to the topic "group13/greenhouse/sensors/#", where the # could be "temperature", "humidity" or "co2" depending on the sensor, and the visualization node subscribes to the same topic to receive data. The MQTT broker uses a TCP connection to create a connection between the sensor-nodes and the MQTT broker and visualization-nodes and the MQTT broker.
-
-// source: https://www.emqx.com/en/blog/how-to-use-mqtt-in-java 
-
-// source 2: https://mqtt.org/
+* An MQTT broker is a simple server that retrieves and sends data trough publishing and subscribing to different topics. In our case the sensor node publishes to the topic "group13/greenhouse/sensors/#", where the # could be "temperature", "humidity" or "co2" depending on the sensor, and the visualization node subscribes to the same topic to receive data. The MQTT broker uses a TCP connection to create a connection between the sensor-nodes and the MQTT broker and visualization-nodes and the MQTT broker. [[1]](https://www.hivemq.com/mqtt-essentials/) [[2]](https://www.emqx.com/en/blog/how-to-use-mqtt-in-java)
 
 ### TCP/IP
-* A TCP (Transmission Control Protocol) and IP (Internet Protocol) are two protocols that is used to establish a connection between servers. TCP is a connection-oriented protocol which means it makes sure to establish a connection before the data starts transmitting. The IP is used as an identifier to know where to send the data to and where it came from. The most important feature of the TCP/IP protocols is that it ensures reliable transfer of data.
-
-// source: https://snl.no/TCP/IP
+* A TCP (Transmission Control Protocol) and IP (Internet Protocol) are two protocols that is used to establish a connection between servers. TCP is a connection-oriented protocol which means it makes sure to establish a connection before the data starts transmitting. The IP is used as an identifier to know where to send the data to and where it came from. The most important feature of the TCP/IP protocols is that it ensures reliable transfer of data. [[1]](https://snl.no/TCP/IP)
 
 ### JavaFX
-* To visualize the data for the user we chose to create a JavaFX application that will function as the user interface between the user and the data received from the different sensors. To design the application Scene Builder was used to create FXML files which could be implemented to the application.
+* To visualize the data for the user we chose to create a JavaFX application that will function as the user interface between the user and the data received from the different sensors. To design the application Scene Builder was used to create FXML files which could be implemented to the application. [[1]](https://docs.oracle.com/javase/8/javafx/get-started-tutorial/jfx-overview.htm#JFXST784)
 
 ### AES Symmetric key cryptography
-* Symmetric key cryptography is when the same key is used for both encryption and decryption. The way the data is encrypted is with the Advanced Encryption Standard (AES) algorithm which transforms the data to 128-bit block ciphers that can only be encrypted and decrypted with the same key. [1](https://www.baeldung.com/java-aes-encryption-decryption)
-
-// Source: https://www.baeldung.com/java-aes-encryption-decryption
-
-// https://docs.oracle.com/javase/8/javafx/get-started-tutorial/jfx-overview.htm#JFXST784
+* Symmetric key cryptography is when the same key is used for both encryption and decryption. The way the data is encrypted is with the Advanced Encryption Standard (AES) algorithm which transforms the data to 128-bit block ciphers that can only be encrypted and decrypted with the same key. [[1]](https://www.baeldung.com/java-aes-encryption-decryption)
 
 ### Domain knowledge
 
@@ -146,3 +136,8 @@ Because the program uses fake sensors, it both sends to and retrieves data from 
 * A better method to decrypt the data would be to implement public-key cryptography instead of symmetric key, where the sensors encrypt the data using the greenhouse-applications public key, and is decrypted using the greenhouse-applications private key.
 
 ## References
+* The HiveMQ Team (2015, Janary 12). *hivemq*. Retrieved from MQTT Essentials: https://www.hivemq.com/mqtt-essentials/
+* Yu, Zhiwei (2022, August 31). *emqx*. Retrieved from How to use MQTT in Java: https://www.emqx.com/en/blog/how-to-use-mqtt-in-java
+* Baeldung (2021, November 14), *baeldung*. Retrieved from Java AES Encryption and Decryption: https://www.baeldung.com/java-aes-encryption-decryption
+* Oracle (unknown date). *Oracle Java SE Documentation*. Retrieved from JavaFX: Getting started with JavaFX: https://docs.oracle.com/javase/8/javafx/get-started-tutorial/jfx-overview.htm#JFXST784
+* Øverby, Harald (2021, Desember 14). *Store Norske Leksikon*. Retrieved from TCP/IP: https://snl.no/TCP/IP
