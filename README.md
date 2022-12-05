@@ -127,16 +127,22 @@ Because the program uses fake sensors, it both sends to and retrieves data from 
 * Using JavaFX might not be very beneficial in the long run.
 
 ## Conclusion and future work
-To conclude the application provides the user with an overview over different sensors within a greenhouse. The application makes it possible to both manually start and stop the sensors as well as adjust the received data by turning on and off a heater. The data is then displayed on a Line Chart
+To conclude the application provides the user with an overview over different sensors within a greenhouse. The application makes it possible to both manually start and stop the sensors as well as adjust the received data by turning on and off a heater. To ensure that the data is safe from snooping eyes, it is encrypted before it's sent, and then decrypted at arrival to display it on a LineChart and show the lowest and highest recorded values.
 
 ### Future work
-* Storing and loading data.
-* Individually start and stop sensors.
-* Login page with username and password.
-* If you were to continue with providing values trough a fake sensor, you could enhance it by adjusting the temperatures based on time of day as a variable.
-* Add mechanism to detect if any values are out of the ordinary
-* Use real-life sensors stationed in a real-life greenhouse instead of fake numbers.
-* A better method to decrypt the data would be to implement public-key cryptography instead of symmetric key, where the sensors encrypt the data using the greenhouse-applications public key, and is decrypted using the greenhouse-applications private key.
+* The data sent to the client isn't stored locally, so when the application closes, the data is destroyed. So, an important feature to add would be to store the data sent to the client. By storing the data, you could also modify the application to show and visualize previous recordings.
+
+* As it stands all sensors start and stop at the same time, but a way makes the application more flexible, buttons could be added to individually start sensors in case you, for example, only want to monitor the temperature values.
+
+* Currently, all you need to do is start the application and the data is displayed, but to ensure more security a login page with username and password to prevent unwanted users to use the application should be added.
+
+* If you were to continue with providing values trough a fake sensor, a way to enhance it would be by adjusting the temperatures based on time of day as a variable.
+
+* The intention of the application would be for actual real-life sensors stationed in a real-life greenhouse, which could be implemented and modified to send data to the different MQTT topics.
+
+* In case of anomalies and/or faults with the greenhouse, a mechanism to detect if any values are out of the ordinary could be added to notify the user.
+
+* A better method to decrypt the data would be to implement public-key cryptography instead of symmetric key, where the sensors encrypt the data using the greenhouse-applications public key and is decrypted using the greenhouse-applications private key.
 
 ## References
 * The HiveMQ Team (2015, Janary 12). *HiveMQ*. Retrieved from MQTT Essentials: https://www.hivemq.com/mqtt-essentials/
