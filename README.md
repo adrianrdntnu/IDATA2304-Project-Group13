@@ -22,6 +22,22 @@ In [Theory and technology](https://github.com/adrianrdntnu/IDATA2304-Project-Gro
 ### Connections to other subjects
 * Storing values in a BST is something we learned in IDATA2302 Algorithms and datastructures. This tree structure makes the runtime of finding the lowest and highest value shorter. Using nextGaussian has a slight connection to what we learn in ISTA1003 Statistics, as we learn to work with normal distributed data.
 
+### MQTT broker
+* An MQTT broker is a simple server that retrieves and sends data trough publishing and subscribing to different topics. In our case the sensor node publishes to the topic "group13/greenhouse/sensors/#", where the # could be "temperature", "humidity" or "co2" depending on the sensor, and the visualization node subscribes to the same topic to receive data. The MQTT broker uses a TCP connection to create a connection between the sensor-nodes and the MQTT broker and visialization-nodes and the MQTT broker.
+
+// source: https://www.emqx.com/en/blog/how-to-use-mqtt-in-java 
+// source 2: https://mqtt.org/
+
+### TCP/IP
+* A TCP (Transmission Control Protocol) and IP (Internet Protocol) are two protocols that is used to establish a connection between servers. TCP is a connection-oriented protocol which means it makes sure to establish a connection before the data actually starts transmitting. The IP is used as an identifier to know where to send the data to and where it came from. The most important feature of the TCP/IP protocols is that it ensures reliable transfer of data.
+
+// source: https://snl.no/TCP/IP
+
+### JavaFX
+* To visualize the data for the user we chose to create a JavaFX application that will function as the user interface between the user and the data received from the different sensors. Within the JavaFX applicaiton a line chart is used to display the data as a linear timeline. To design the application Scene Builder was used to create FXML files. *more about how fxml is implemented*
+
+// https://docs.oracle.com/javase/8/javafx/get-started-tutorial/jfx-overview.htm#JFXST784
+
 ### Domain knowledge
 
 #### Temperature
@@ -42,42 +58,32 @@ In [Theory and technology](https://github.com/adrianrdntnu/IDATA2304-Project-Gro
 
 // Sources: ...
 
-### 1. MQTT broker
-* Stuff about MQTT broker. The way an MQTT broker knows where to distribute data is trough "topics", in our case the sensor node publishes to the topic "group13/greenhouse/sensors/#", where the # could be "temperature", "humidity" or "co2" depending on the sensor, and the visualization node subscribes to the same topic to receive data. The MQTT broker uses a TCP connection to create a connection between the sensor-nodes and the MQTT broker and visialization-nodes and the MQTT broker.
-
-// source: https://www.emqx.com/en/blog/how-to-use-mqtt-in-java 
-
-### 2. TCP/IP
-* A TCP (Transmission Control Protocol) and IP (Internet Protocol) are two protocols that is used to establish a connection between servers. TCP is a connection-oriented protocol which means it makes sure to establish a connection before the data actually starts transmitting. The IP is used as an identifier to know where to send the data to and where it came from. The most important feature of the TCP/IP protocols is that it ensures reliable transfer of data.
-
-// source: https://snl.no/TCP/IP
-
-### 3. JavaFX
-* To visualize the data for the user we chose to create a JavaFX application that will function as the user interface between the user and the data received from the different sensors. Within the JavaFX applicaiton a line chart is used to display the data as a linear timeline. To design the application Scene Builder was used to create FXML files. *more about how fxml is implemented*
-
-// https://docs.oracle.com/javase/8/javafx/get-started-tutorial/jfx-overview.htm#JFXST784
+### 4. Symmetric key cryptography
+* Symmetric key cryptography is 
 
 ## Approach
-### 1. GitHub
+### GitHub
 * For collaboration and to get an overview over the project, GitHub has been used to plan sprints, issues and store commits.
 
-### 2. Maven
+### Maven
 - Stuff about maven / file structure
 
-### 3. Google checkstyle
-- Why google checkstyle was chosen
+### Google checkstyle
+* For code consistency the Google Checkstyle to structure code. The Google checkstyle uses the Google coding conventions
 
-### 3. Storing as a BST
-- Stuff about BST, realising it probably wasn't necessary
+### Storing as a BST
+* The original idea was to store all the data received from the sensors in a BST to quickly retrieve the smallest and highest values in case we wanted a better summary of the data. The reason we wanted to get the lowest and highest values was in case we wanted to get an overveiw over the values of different days and present a high-low difference between days. As the project went on we realised a major flaw with the BST is that it doesn't store input order, so if we wanted to present the data as a linear graph, the better approach was to just store the data as a List and update and store the high and low values as they are retrieved from the sensors. Because of this the BST was deprecated.
 
 ## Additional Features
-### 1. JavaFx Interface
-Provides the user with an interface resembling an administrative application. The user can start and stop a temperature sensor, while getting *live** values vizualised on a linechart.
+### JavaFx Interface
+* Provides the user with an interface resembling an administrative application. The user can start and stop a temperature sensor, while getting *live** values vizualised on a linechart.
 
-*The live values are generated by a fake value generator providing "realistic" values immitating the given sensor.
 
-### 2. Fake Value Generator
-- Stuff about how the generator works
+### Fake Value Generator
+* The values received from the sensors are generated by a fake value generator providing close to realistic values immitating the given sensor. The reason we did this was for simplicity, because the main feature of the application is to retrieve and visualize values from a server and not to create an actual greenhouse.
+
+### Encrypted data
+* The data is encrypted and decrypted using a symmetric key, this means that both the sensor and client uses the same key to decrypt and encrypt data. The data is sent to the MQTT broker as unreadable encrypted ciphertext, and then decrypted when it arrives at the client so it can be used by the application. This is to ensure the data is secure from unauthorized users since anyone connected to the MQTT broker can read the data sent to it.
 
 ## Methodology
 * Diagram?
@@ -104,5 +110,6 @@ Because the program uses fake sensors, it both sends to and retreives data from 
 * Modify fake value generator to include time of day as a variable
 * Add mechanism to detect if any values are out of the ordinary
 * Use real-life sensors stationed in a real-life greenhouse instead of fake numbers.
+* A better method to decrypt the data would be to implement public-key cryptography instead of symmetric key, where the sensors encrypt the data using the greenhouse-applications public key, and is decrypted using the greenhouse-applications private key.
 
 ## References
