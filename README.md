@@ -1,5 +1,36 @@
 # IDATA2304-Project-Group13
 This is a school group project for the course IDATA2304 Computer networks.
+
+## Table of contents
+* [Abstract](#abstract)
+* [Introduction](#introduction)
+* [Theory and technology](#theory-and-technology)
+    * [Data simulation, processing, and visualization](#data-simulation-processing-and-visualization)
+    * [Connections to other subjects](#connections-to-other-subjects)
+    * [MQTT broker](#mqtt-broker)
+    * [TCP/IP](#tcpip)
+    * [JavaFX](#javafx)
+    * [AES Symmetric key cryptography](#aes-symmetric-key-cryptography)
+    * [Domain knowledge](#domain-knowledge)
+        * [Temperature](#temperature)
+        * [Humidity](#humidity)
+        * [Co2](#co2)
+* [Approach](#approach)
+    * [GitHub](#github)
+    * [Mave](#maven)
+    * [Google checkstyle](#google-checkstyle)
+    * [Storing as a BST](#storing-as-a-bst)
+* [Additional features](#additional-features)
+    * [JavaFX interface](#javafx-interface)
+    * [Fake Value Generator](#fake-value-generator)
+    * [Encryption](#encrypted-data)
+* [Methodology](#methodology)
+* [Results](#results)
+* [Discussion](#discussion)
+    * [What works well](#what-works-well)
+    * [What doesn't work as well](#what-doesnt-work-as-well)
+* [Conclusion and future work](#conclusion-and-future-work)
+* [References](#references)
  
 ## Abstract
 In a greenhouse it is important that the temperature, humidity and co2 levels constantly stay the same correct value. Monitoring these values is therefore very important, so that we can adjust the values if they are wrong. Therefore we made a program that keeps a live feed of the temperatures, so that you can keep track of these values, and notice any irregularities. We constantly evaluated our solution ourselves and came up with ideas of improvement that we deemed necessary. 
@@ -37,7 +68,7 @@ In [Theory and technology](https://github.com/adrianrdntnu/IDATA2304-Project-Gro
 * To visualize the data for the user we chose to create a JavaFX application that will function as the user interface between the user and the data received from the different sensors. To design the application Scene Builder was used to create FXML files which could be implemented to the application.
 
 ### AES Symmetric key cryptography
-* Symmetric key cryptography is when the same key is used for both encryption and decryption. The way the data is encrypted is with the Advanced Encryption Standard (AES) algorithm which transforms the data to 128-bit block ciphers that can only be encrypted and decrypted with the same key.
+* Symmetric key cryptography is when the same key is used for both encryption and decryption. The way the data is encrypted is with the Advanced Encryption Standard (AES) algorithm which transforms the data to 128-bit block ciphers that can only be encrypted and decrypted with the same key. [1](https://www.baeldung.com/java-aes-encryption-decryption)
 
 // Source: https://www.baeldung.com/java-aes-encryption-decryption
 
