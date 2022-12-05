@@ -127,17 +127,20 @@ Because the program uses fake sensors, it both sends to and retrieves data from 
 * Using JavaFX might not be very beneficial in the long run.
 
 ## Conclusion and future work
-* Storing and loading data
-* Individually start and stop sensors
-* Login page with username and password
-* Modify fake value generator to include time of day as a variable
+To conclude the application provides the user with an overview over different sensors within a greenhouse. The application makes it possible to both manually start and stop the sensors as well as adjust the received data by turning on and off a heater. The data is then displayed on a Line Chart
+
+### Future work
+* Storing and loading data.
+* Individually start and stop sensors.
+* Login page with username and password.
+* If you were to continue with providing values trough a fake sensor, you could enhance it by adjusting the temperatures based on time of day as a variable.
 * Add mechanism to detect if any values are out of the ordinary
 * Use real-life sensors stationed in a real-life greenhouse instead of fake numbers.
 * A better method to decrypt the data would be to implement public-key cryptography instead of symmetric key, where the sensors encrypt the data using the greenhouse-applications public key, and is decrypted using the greenhouse-applications private key.
 
 ## References
-* The HiveMQ Team (2015, Janary 12). *hivemq*. Retrieved from MQTT Essentials: https://www.hivemq.com/mqtt-essentials/
-* Yu, Zhiwei (2022, August 31). *emqx*. Retrieved from How to use MQTT in Java: https://www.emqx.com/en/blog/how-to-use-mqtt-in-java
+* The HiveMQ Team (2015, Janary 12). *HiveMQ*. Retrieved from MQTT Essentials: https://www.hivemq.com/mqtt-essentials/
+* Yu, Zhiwei (2022, August 31). *EMQX*. Retrieved from How to use MQTT in Java: https://www.emqx.com/en/blog/how-to-use-mqtt-in-java
 * Baeldung (2021, November 14), *baeldung*. Retrieved from Java AES Encryption and Decryption: https://www.baeldung.com/java-aes-encryption-decryption
 * Oracle (unknown date). *Oracle Java SE Documentation*. Retrieved from JavaFX: Getting started with JavaFX: https://docs.oracle.com/javase/8/javafx/get-started-tutorial/jfx-overview.htm#JFXST784
 * Øverby, Harald (2021, Desember 14). *Store Norske Leksikon*. Retrieved from TCP/IP: https://snl.no/TCP/IP
