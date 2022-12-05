@@ -88,6 +88,7 @@ In [Theory and technology](https://github.com/adrianrdntnu/IDATA2304-Project-Gro
 
 ## Methodology
 * Diagram?
+* 
 
 ## Results
 The final product is a JavaFX application mimicking an administrative program used to administrate a Greenhouse and its sensors.

@@ -25,7 +25,7 @@ public class LOGIC {
   public static final String HUMIDITY_TOPIC = "group13/greenhouse/sensors/humidity";
   public static final String CO2_TOPIC = "group13/greenhouse/sensors/co2";
   public static final String SENSORS_TOPIC = "group13/greenhouse/sensors/#";
-  public static final String ALL_TOPIC = "group13/#";
+  public static final String ALL_TOPICS = "group13/#";
 
   /**
    * Rounds a double to the given decimal.
