@@ -71,7 +71,7 @@ In [Theory and technology](https://github.com/adrianrdntnu/IDATA2304-Project-Gro
 * Maven is used as a project management tool and to easily download dependencies for the project.
 
 ### Google checkstyle
-* For code consistency the Google Checkstyle to structure code. The Google checkstyle uses the Google coding conventions
+* For code consistency the Google Checkstyle which follows the Google coding conventions to structure code.
 
 ### Storing as a BST
 * The original idea was to store all the data received from the sensors in a BST to quickly retrieve the smallest and highest values in case we wanted a better summary of the data. The reason we wanted to get the lowest and highest values was in case we wanted to get an overview over the values of different days and present a high-low difference between days. As the project went on we realised a major flaw with the BST is that it doesn't store input order, so if we wanted to present the data as a linear graph, the better approach was to just store the data as a List and update and store the high and low values as they are retrieved from the sensors. Because of this the BST was deprecated.
