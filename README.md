@@ -23,21 +23,24 @@ In [Theory and technology](https://github.com/adrianrdntnu/IDATA2304-Project-Gro
 * Storing values in a BST is something we learned in IDATA2302 Algorithms and datastructures. This tree structure makes the runtime of finding the lowest and highest value shorter. Using nextGaussian has a slight connection to what we learn in ISTA1003 Statistics, as we learn to work with normal distributed data.
 
 ### Domain knowledge
+
+#### Temperature
 * Optimal temperature for a greenhouse is around 18-24 degrees celsius
 * Easiest ways to regulate temperature for a greenhouse is using fans, heaters, shading and natural ventilation.
 
+#### Humidity
 * Humidity should be around 80%
 * If the humidity is too high bacterial and fungal infections can harm the plants. 
 * If it is too low, the plants will evaporate their water and be unable to grow and perform photosyntesis.
 * One could mist the plants by using a spray bottle, or use an air humidifier to increase the humidity. Planting plants closer together also help the plants trap the water between them.
 * To decrease the humidity one could use a fan or simply open windows/doors to ventilate it.
 
+#### Co2
 * Natural concentration of co2 in the air is around 340 ppm, but most crops grow better with a concentration around 1000 ppm
 * Supplementation of co2 is not necessary at night, since photosyntesis normally only occurs when daylight is present.
 * Too low of a concentration reduces the rate of photosyntesis drastically, while having a co2 level too high not only is a waste of money, it can also damage the plants.
 
-
-* Sources ...
+// Sources: ...
 
 ### 1. MQTT broker
 * Stuff about MQTT broker. The way an MQTT broker knows where to distribute data is trough "topics", in our case the sensor node publishes to the topic "group13/greenhouse/sensors/#", where the # could be "temperature", "humidity" or "co2" depending on the sensor, and the visualization node subscribes to the same topic to receive data. The MQTT broker uses a TCP connection to create a connection between the sensor-nodes and the MQTT broker and visialization-nodes and the MQTT broker.
