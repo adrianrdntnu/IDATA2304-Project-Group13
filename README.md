@@ -110,6 +110,8 @@ In [Theory and technology](https://github.com/adrianrdntnu/IDATA2304-Project-Gro
 ## Methodology
 The project was split into three sprints, the first focused on the backend where the priority was to connect the client and sensors trough the MQTT broker, the second focused on visualizing the data with JavaFX, and the third focused on adding extra features and cleaning up the project code.
 
+We unfortunately lost one of our group members before the end of the first sprint, resulting in a group consisting of only 2 people.
+
 ## Results
 The final product is a JavaFX application mimicking an administrative program used to administrate a Greenhouse and its sensors.
 
