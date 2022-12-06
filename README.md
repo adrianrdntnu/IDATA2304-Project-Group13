@@ -17,7 +17,7 @@ This is a school group project for the course IDATA2304 Computer networks.
         * [Co2](#co2)
 * [Approach](#approach)
     * [GitHub](#github)
-    * [Mave](#maven)
+    * [Maven](#maven)
     * [Google checkstyle](#google-checkstyle)
     * [Storing as a BST](#storing-as-a-bst)
 * [Additional features](#additional-features)
@@ -47,7 +47,7 @@ In [Theory and technology](https://github.com/adrianrdntnu/IDATA2304-Project-Gro
 ## Theory and technology
 
 ### Data simulation, processing, and visualization
-* For data simulation we have used the java class Random. Here we use the method nextGaussian, to get a random normal distributed number. This way we can create some randomness/deviation to the "sensor reading" without changing the mean (actual temp/humidity/co2 value). To process the data, we chose to store the data in a BST, which we added methods for extracting highest and lowest values. We have used JavaFX for our application and Line Chart for visualization.
+* For data simulation we have used the java class Random. Here we use the method nextGaussian, to get a random normal distributed number. This way we can create some randomness/deviation to the "sensor reading" without changing the mean (actual temp/humidity/co2 value). To process the data, we chose to store the data in a BST, which we added methods for extracting highest and lowest values. This was later changed to a List. We have used JavaFX for our application and Line Chart for visualization.
 
 ### Connections to other subjects
 * Storing values in a BST is something we learned in IDATA2302 Algorithms and datastructures. This tree structure makes the runtime of finding the lowest and highest value shorter. Using nextGaussian has a slight connection to what we learn in ISTA1003 Statistics, as we learn to work with normal distributed data.
@@ -68,19 +68,19 @@ In [Theory and technology](https://github.com/adrianrdntnu/IDATA2304-Project-Gro
 
 #### Temperature
 * Optimal temperature for a greenhouse is around 18-24 degrees Celsius
-* Easiest ways to regulate temperature for a greenhouse is using fans, heaters, shading and natural ventilation.
+* Easiest ways to regulate temperature for a greenhouse is using fans, heaters, shading and natural ventilation. [[1]](https://atlas-scientific.com/blog/ideal-greenhouse-temperature-and-humidity/)
 
 #### Humidity
 * Humidity should be around 80%
 * If the humidity is too high bacterial and fungal infections can harm the plants. 
 * If it is too low, the plants will evaporate their water and be unable to grow and perform photosynthesis.
-* One could mist the plants by using a spray bottle or use an air humidifier to increase the humidity. Planting plants closer together also help the plants trap the water between them.
+* One could mist the plants by using a spray bottle or use an air humidifier to increase the humidity. Planting plants closer together also help the plants trap the water between them. [[1]](https://atlas-scientific.com/blog/ideal-greenhouse-temperature-and-humidity/)
 * To decrease the humidity, one could use a fan or simply open windows/doors to ventilate it.
 
 #### Co2
 * Natural concentration of co2 in the air is around 340 ppm, but most crops grow better with a concentration around 1000 ppm
 * Supplementation of co2 is not necessary at night, since photosynthesis normally only occurs when daylight is present.
-* Too low of a concentration reduces the rate of photosynthesis drastically, while having a co2 level too high not only is a waste of money, it can also damage the plants.
+* Too low of a concentration reduces the rate of photosynthesis drastically, while having a co2 level too high not only is a waste of money, it can also damage the plants. [[1]](https://extension.okstate.edu/fact-sheets/greenhouse-carbon-dioxide-supplementation.html)
 
 // Sources: ...
 
@@ -110,12 +110,19 @@ In [Theory and technology](https://github.com/adrianrdntnu/IDATA2304-Project-Gro
 ## Methodology
 The project was split into three sprints, the first focused on the backend where the priority was to connect the client and sensors trough the MQTT broker, the second focused on visualizing the data with JavaFX, and the third focused on adding extra features and cleaning up the project code.
 
-*more about methodology*
-
 ## Results
 The final product is a JavaFX application mimicking an administrative program used to administrate a Greenhouse and its sensors.
 
 Because the program uses fake sensors, it both sends to and retrieves data from an MQTT broker.
+
+![image](https://i.imgur.com/X32eyDh.png)
+This is the class diagram.
+* Sensor classes are responsible for "acting like a real sensor" by providing fake values etc. 
+* Controller classes are responsible for handling the logic behind JavaFX pages
+* RandomNormalDistributionData has methods for generating normal distributed data.
+* LOGIC holds onto a bunch of constants
+* EncryptAndDecryptMessage allows for encrypting a decrypting messages
+* MainWindowApp sets up the stage and starts the application
 
 ![image](https://i.imgur.com/DzKgOce.png)
 Here you can see how the overview page looks. On the left is the sidebar for changing between the different charts. Buttons for starting/stopping the sensor and buttons for turning on/off the heater. The linechart updates with new values every second. More detailed information for each factor is also included. Co2 values are divided by 10 so that we can show all three values in the same linechart. 
@@ -159,3 +166,5 @@ The application is by no means flawless and there are a lot of room for improvem
 * Baeldung (2021, November 14), *baeldung*. Retrieved from Java AES Encryption and Decryption: https://www.baeldung.com/java-aes-encryption-decryption
 * Oracle (unknown date). *Oracle Java SE Documentation*. Retrieved from JavaFX: Getting started with JavaFX: https://docs.oracle.com/javase/8/javafx/get-started-tutorial/jfx-overview.htm#JFXST784
 * Øverby, Harald (2021, Desember 14). *Store Norske Leksikon*. Retrieved from TCP/IP: https://snl.no/TCP/IP
+* (2022, July 28). *AtlasScientific*. Retrieved from Ideal Greenhouse Temperature And Humidity: https://atlas-scientific.com/blog/ideal-greenhouse-temperature-and-humidity/
+* Poudel, M. Dunn, B. (2017). *Oklahoma state university*. Retrieved from Greenhouse Carbon Dioxide Supplementation: https://extension.okstate.edu/fact-sheets/greenhouse-carbon-dioxide-supplementation.html
