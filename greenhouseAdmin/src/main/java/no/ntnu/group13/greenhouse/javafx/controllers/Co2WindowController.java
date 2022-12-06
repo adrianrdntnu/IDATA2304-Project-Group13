@@ -20,7 +20,7 @@ public class Co2WindowController extends WindowController {
     co2LineChart.getXAxis().setLabel("Time (seconds)");
     co2LineChart.getYAxis().setLabel("Value");
     co2LineChart.setAnimated(false);
-    co2LineChart.setTitle("Animated Line Chart");
+    co2LineChart.setTitle("Co2 Sensor Values");
     co2LineChart.setHorizontalGridLinesVisible(true);
 
     // Set Name for Series

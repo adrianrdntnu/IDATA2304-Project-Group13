@@ -126,7 +126,7 @@ public class OverviewWindowController extends WindowController {
     dashboardLineChart.getXAxis().setLabel("Time (seconds)");
     dashboardLineChart.getYAxis().setLabel("Value");
     dashboardLineChart.setAnimated(false);
-    dashboardLineChart.setTitle("Animated Line Chart");
+    dashboardLineChart.setTitle("Greenhouse Sensor Values");
     dashboardLineChart.setHorizontalGridLinesVisible(true);
 
     // Set Name for Series

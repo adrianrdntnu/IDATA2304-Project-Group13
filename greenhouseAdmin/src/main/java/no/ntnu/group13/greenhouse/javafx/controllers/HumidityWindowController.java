@@ -20,7 +20,7 @@ public class HumidityWindowController extends WindowController {
     humidityLineChart.getXAxis().setLabel("Time (seconds)");
     humidityLineChart.getYAxis().setLabel("Value");
     humidityLineChart.setAnimated(false);
-    humidityLineChart.setTitle("Animated Line Chart");
+    humidityLineChart.setTitle("Humidity Sensor Values");
     humidityLineChart.setHorizontalGridLinesVisible(true);
 
     // Set Name for Series

@@ -20,7 +20,7 @@ public class TemperatureWindowController extends WindowController {
     tempLineChart.getXAxis().setLabel("Time (seconds)");
     tempLineChart.getYAxis().setLabel("Value");
     tempLineChart.setAnimated(false);
-    tempLineChart.setTitle("Animated Line Chart");
+    tempLineChart.setTitle("Temperature Sensor Values");
     tempLineChart.setHorizontalGridLinesVisible(true);
 
     // Set Name for Series
