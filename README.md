@@ -74,15 +74,13 @@ In [Theory and technology](https://github.com/adrianrdntnu/IDATA2304-Project-Gro
 * Humidity should be around 80%
 * If the humidity is too high bacterial and fungal infections can harm the plants. 
 * If it is too low, the plants will evaporate their water and be unable to grow and perform photosynthesis.
-* One could mist the plants by using a spray bottle or use an air humidifier to increase the humidity. Planting plants closer together also help the plants trap the water between them. [[1]](https://atlas-scientific.com/blog/ideal-greenhouse-temperature-and-humidity/)
-* To decrease the humidity, one could use a fan or simply open windows/doors to ventilate it.
+* One could mist the plants by using a spray bottle or use an air humidifier to increase the humidity. Planting plants closer together also help the plants trap the water between them.
+* To decrease the humidity, one could use a fan or simply open windows/doors to ventilate it. [[1]](https://atlas-scientific.com/blog/ideal-greenhouse-temperature-and-humidity/)
 
 #### Co2
 * Natural concentration of co2 in the air is around 340 ppm, but most crops grow better with a concentration around 1000 ppm
 * Supplementation of co2 is not necessary at night, since photosynthesis normally only occurs when daylight is present.
 * Too low of a concentration reduces the rate of photosynthesis drastically, while having a co2 level too high not only is a waste of money, it can also damage the plants. [[1]](https://extension.okstate.edu/fact-sheets/greenhouse-carbon-dioxide-supplementation.html)
-
-// Sources: ...
 
 ## Approach
 ### GitHub
