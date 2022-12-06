@@ -45,9 +45,10 @@ public class ClientHandler extends MqttSubscriber {
     String plainText = EncryptAndDecryptMessage.decrypt(algorithm, message, key,
         ivParameterSpec);
 
-    // System.out.println("Received from topic: " + topic);
-    // System.out.println("Message: " + message);
-    // System.out.println("----------------");
+    System.out.println("Received from topic: " + topic);
+    System.out.println("Message: " + message);
+    System.out.println("Decrypted message: " + plainText);
+    System.out.println("----------------");
 
     // **Do something with the message**
     this.mostRecentMessage = Double.parseDouble(plainText);

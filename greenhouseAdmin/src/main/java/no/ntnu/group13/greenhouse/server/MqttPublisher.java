@@ -69,7 +69,7 @@ public class MqttPublisher {
    */
   public void startConnection() {
     try {
-      this.client = new MqttClient(broker, sensorId, new MemoryPersistence());
+      client = new MqttClient(broker, sensorId, new MemoryPersistence());
 
       // connect options
       MqttConnectOptions options = new MqttConnectOptions();
@@ -101,16 +101,17 @@ public class MqttPublisher {
       String cipherText = EncryptAndDecryptMessage.encrypt(algorithm, message, key,
           ivParameterSpec);
 
-      // create message and setup QoS
+      // create mqtt message and setup QoS
       MqttMessage m = new MqttMessage(cipherText.getBytes());
       m.setQos(this.qos);
 
       // publish message
       client.publish(topic, m);
-//      System.out.println("Message sent to topic: " + topic);
-//      System.out.println("Message content: " + new String(m.getPayload()));
-//      System.out.println("Original message: " + message);
-//      System.out.println("----------------");
+      // System.out.println("Message sent to topic: " + topic);
+      // System.out.println("Message content: " + new String(m.getPayload()));
+      // System.out.println("Original message: " + message);
+      // System.out.println("----------------");
+
     } catch (MqttException | InvalidAlgorithmParameterException | NoSuchPaddingException
              | IllegalBlockSizeException | NoSuchAlgorithmException | BadPaddingException
              | InvalidKeyException | InvalidKeySpecException e) {

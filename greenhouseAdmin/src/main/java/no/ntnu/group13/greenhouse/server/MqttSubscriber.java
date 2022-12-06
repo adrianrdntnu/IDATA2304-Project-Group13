@@ -90,8 +90,8 @@ public class MqttSubscriber implements MqttCallback {
 
       client.connect(options);
       client.subscribe(this.topic, this.qos);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (MqttException e) {
+      throw new RuntimeException(e);
     }
   }
 
