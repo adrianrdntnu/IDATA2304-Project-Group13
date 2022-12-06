@@ -117,10 +117,10 @@ The final product is a JavaFX application mimicking an administrative program us
 
 Because the program uses fake sensors, it both sends to and retrieves data from an MQTT broker.
 
-![image](https://user-images.githubusercontent.com/98705814/205764228-be2ea608-600d-4e61-9047-81780d870c40.png)
+![image](https://i.imgur.com/DzKgOce.png)
 Here you can see how the overview page looks. On the left is the sidebar for changing between the different charts. Buttons for starting/stopping the sensor and buttons for turning on/off the heater. The linechart updates with new values every second. More detailed information for each factor is also included. Co2 values are divided by 10 so that we can show all three values in the same linechart. 
 
-![image](https://user-images.githubusercontent.com/98705814/205764277-b51b7ae5-32f5-42b5-9eae-7222beac005a.png)
+![image](https://i.imgur.com/fws26Dn.png)
 This is how one of the specific pages look. Here you can more clearly see what happens when you turn on the heater 10 seconds after starting the sensor. The mean of the temperature value is increased by 5 degrees.
 
 ## Discussion
@@ -137,6 +137,8 @@ This is how one of the specific pages look. Here you can more clearly see what h
 To conclude the application provides the user with an overview over different sensors within a greenhouse. The application makes it possible to both manually start and stop the sensors as well as adjust the received data by turning on and off a heater. To ensure that the data is safe from snooping eyes, it is encrypted before it's sent, and then decrypted at arrival to display it on a LineChart and show the lowest and highest recorded values.
 
 ### Future work
+The application is by no means flawless and there are a lot of room for improvement, if someone were to continue developing the application, here are some ideas for future development:
+
 * The data sent to the client isn't stored locally, so when the application closes, the data is destroyed. So, an important feature to add would be to store the data sent to the client. By storing the data, you could also modify the application to show and visualize previous recordings.
 
 * As it stands all sensors start and stop at the same time, but a way makes the application more flexible, buttons could be added to individually start sensors in case you, for example, only want to monitor the temperature values.
